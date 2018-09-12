@@ -1,0 +1,12 @@
+<!--index.wxml-->
+<view class="container">
+
+    <view class="page-section">
+    <view class="weui-cells__title">Math Score</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" type="number" placeholder="Input your score here..." />
+      </view>
+    </view>
+  </view>
+</view>

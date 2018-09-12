@@ -1,0 +1,24 @@
+<view class="page-body">
+ 
+  
+ 
+  <view class="page-section">
+  <view name = "Math Section">
+    <view class="weui-cells__title">Math Score</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getMathScore" name = "MathScore"/>
+      </view>
+    </view>
+    </view>
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{level}}">
+    <view class="picker">
+      Your level is {{level[index]}}
+    </view>
+  </picker>
+    </view>
+
+ 
+
+<button bindtap = "Submit">Submit</button>
+</view>
