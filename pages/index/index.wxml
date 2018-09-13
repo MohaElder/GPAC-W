@@ -1,13 +1,20 @@
 <!--index.wxml-->
+
+      <van-notice-bar left-icon="https://img.yzcdn.cn/1.png"text="这里以后可以拉广告赞助"/>
 <view class="container">
-  <view class="userinfo">
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">Welcome! {{userInfo.nickName}}</text>
-  </view>
-  <view class="usermotto">
-    <van-button bindtap = "To8">8th</van-button>
-     <van-button bindtap = "To9">9th</van-button>
-      <van-button bindtap = "To10">10th</van-button>
-       <van-button bindtap = "To11">11th</van-button>
-  </view>
+<text>\n</text>
+<text>\n</text>
+<text>\n</text>
+ 
+  <van-button bindtap = "To8" type="primary" plain>8th</van-button>
+    <text>\n</text>
+  <van-button bindtap = "To9" type="primary" plain>9th</van-button>
+    <text>\n</text>
+  <van-button bindtap = "To10" type="primary" plain>10th</van-button>
+    <text>\n</text>
+  <van-button bindtap = "To11" type="primary" plain>11th</van-button>
+
+
+ 
+  
 </view>

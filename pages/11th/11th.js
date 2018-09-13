@@ -34,7 +34,7 @@ Page({
     this.setData({
       [formatter]:e.detail.value
     })
-   //console.log(this.data.pScore[0])
+   //console.log(e.detail.value)
   },
 
   getMathLevel: function (e) {

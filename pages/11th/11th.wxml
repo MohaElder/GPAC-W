@@ -3,7 +3,14 @@
   
 
   <view class="page-section">
-  
+  <van-cell-group>
+  <van-field
+    value="{{ value }}"
+    placeholder="请输入用户名"
+    border="{{ false }}"
+    bind:change="getMathScore"
+  />
+</van-cell-group>
    <!--MathSection-->
   <view name = "Math Section">
     <view class="weui-cells__title">Math Score</view>
