@@ -10,12 +10,36 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   To8:function(){
-wx.redirectTo({
-  url: '',
+wx.navigateTo({
+  url: '/pages/8th/8th?',
   success: function(res) {},
   fail: function(res) {},
   complete: function(res) {},
 })
+  },
+  To9: function () {
+    wx.navigateTo({
+      url: '/pages/9th/9th?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
+  To10: function () {
+    wx.navigateTo({
+      url: '/pages/10th/10th?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
+  To11: function () {
+    wx.navigateTo({
+      url: '/pages/11th/11th?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
   },
   //事件处理函数
   bindViewTap: function () {
@@ -24,6 +48,7 @@ wx.redirectTo({
     })
   },
   onLoad: function () {
+    
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -35,7 +60,8 @@ wx.redirectTo({
       app.userInfoReadyCallback = res => {
         this.setData({
           userInfo: res.userInfo,
-          hasUserInfo: true
+          hasUserInfo: true,
+          title: options.title
         })
       }
     } else {

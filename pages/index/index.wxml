@@ -1,16 +1,13 @@
 <!--index.wxml-->
 <view class="container">
   <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">Welcome! {{userInfo.nickName}}</text>
-    </block>
   </view>
   <view class="usermotto">
-    <button bindtap = "To8">8th</button>
-     <button bindtap = "To9">9th</button>
-      <button bindtap = "To10">10th</button>
-       <button bindtap = "Top11">11th</button>
+    <van-button bindtap = "To8">8th</van-button>
+     <van-button bindtap = "To9">9th</van-button>
+      <van-button bindtap = "To10">10th</van-button>
+       <van-button bindtap = "To11">11th</van-button>
   </view>
 </view>

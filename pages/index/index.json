@@ -1,1 +1,6 @@
-{}
+{
+"navigationBarTitleText": "Home",
+"usingComponents": {
+  "van-button": "/dist/btn/index"
+}
+}
