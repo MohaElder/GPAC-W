@@ -9,6 +9,14 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
+  To8:function(){
+wx.redirectTo({
+  url: '',
+  success: function(res) {},
+  fail: function(res) {},
+  complete: function(res) {},
+})
+  },
   //事件处理函数
   bindViewTap: function () {
     wx.navigateTo({
