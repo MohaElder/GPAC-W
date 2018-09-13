@@ -1,9 +1,1 @@
-@import "../lib/weui.wxss";
-
-.picker{
-    padding: 13px;
-    background-color: #FFFFFF;
-}
-.page-section{
-  margin-bottom: 20rpx;
-}
+/* index/index.wxss */

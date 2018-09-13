@@ -11,7 +11,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.2.5",
+	"libVersion": "2.3.0",
 	"appid": "wxf91954df06159a6d",
 	"projectname": "G-PAC_Miniprogram",
 	"isGameTourist": false,

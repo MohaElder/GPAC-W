@@ -1,8 +1,4 @@
 /**index.wxss**/
-@import "../lib/weui.wxss";
-.page-section{
-  margin-bottom: 20rpx;
-}
 .userinfo {
   display: flex;
   flex-direction: column;

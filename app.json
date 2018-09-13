@@ -1,11 +1,15 @@
 {
-  "pages":[
-    "index/index"
+  "pages": [
+    "pages/index/index",
+    "pages/8th/8th",
+    "pages/9th/9th",
+    "pages/10th/10th",
+    "pages/11th/11th"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F8F8F8",
     "navigationBarTitleText": "input",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }

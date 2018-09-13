@@ -1,4 +1,4 @@
-// index/index.js
+// 10th.js
 Page({
 
   /**
