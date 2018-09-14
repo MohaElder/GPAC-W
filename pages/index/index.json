@@ -1,9 +1,3 @@
 {
-"navigationBarTitleText": "Home",
-"usingComponents": {
-  "van-button": "/dist/btn/index",
-  "van-row": "/dist/row/index",
-  "van-col": "/dist/col/index",
-  "van-notice-bar": "/dist/noticebar/index"
-}
+"navigationBarTitleText": "Home"
 }

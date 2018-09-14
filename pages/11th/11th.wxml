@@ -1,27 +1,23 @@
 <view class="page-body">
  
-  
 
+ <view class="page__hd">
+        <view class="page__title">11TH GRADE</view>
+        <view class="page__desc">广告位招租（误）#PreAlpha Dev Placeholder, there might be element that will replace this text in the future.</view>
+    </view>
   <view class="page-section">
-  <van-cell-group>
-  <van-field
-    value="{{ value }}"
-    placeholder="请输入用户名"
-    border="{{ false }}"
-    bind:change="getMathScore"
-  />
-</van-cell-group>
+
    <!--MathSection-->
   <view name = "Math Section">
     <view class="weui-cells__title">Math Score</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getMathScore" name = "MathScore"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubAScore" name = "SubAScore"/>
         </view>
       </view>
-      <picker bindchange="getMathLevel"  value="{{Mathindex}}" range="{{level}}">
+      <picker bindchange="getSubALevel"  value="{{SubAindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Mathindex]}}
+          Level = {{level[SubAindex]}}
         </view>
       </picker>
         </view>
@@ -31,12 +27,12 @@
     <view class="weui-cells__title">Eng Score</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getEngScore" name = "EngScore"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubBScore" name = "SubBScore"/>
         </view>
       </view>
-      <picker bindchange="getEngLevel"  value="{{Engindex}}" range="{{level}}">
+      <picker bindchange="getSubBLevel"  value="{{SubBindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Engindex]}}
+          Level = {{level[SubBindex]}}
         </view>
       </picker>
         </view>
@@ -46,12 +42,12 @@
     <view class="weui-cells__title">Chi Score</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getChiScore" name = "ChiScore"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubCScore" name = "SubCScore"/>
         </view>
       </view>
-      <picker bindchange="getChiLevel"  value="{{Chiindex}}" range="{{level}}">
+      <picker bindchange="getSubCLevel"  value="{{SubCindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Chiindex]}}
+          Level = {{level[SubCindex]}}
         </view>
       </picker>
         </view>
@@ -61,12 +57,12 @@
     <view class="weui-cells__title">Physics/Chemistry</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getPhyScore" name = "PhyScore"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubDScore" name = "SubDScore"/>
         </view>
       </view>
-      <picker bindchange="getPhyLevel"  value="{{Phyindex}}" range="{{level}}">
+      <picker bindchange="getSubDLevel"  value="{{SubDindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Phyindex]}}
+          Level = {{level[SubDindex]}}
         </view>
       </picker>
         </view>
@@ -76,12 +72,12 @@
     <view class="weui-cells__title">SubjectE</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getChemScore" name = "ChemScore"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubEScore" name = "SubEScore"/>
         </view>
       </view>
-      <picker bindchange="getChemLevel"  value="{{Chemindex}}" range="{{level}}">
+      <picker bindchange="getSubELevel"  value="{{SubEindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Chemindex]}}
+          Level = {{level[SubEindex]}}
         </view>
       </picker>
         </view>
@@ -91,12 +87,12 @@
     <view class="weui-cells__title">SubjectF</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getHisScore" name = "HisScore"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubFScore" name = "SubFScore"/>
         </view>
       </view>
-      <picker bindchange="getHisLevel"  value="{{Hisindex}}" range="{{level}}">
+      <picker bindchange="getSubFLevel"  value="{{SubFindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Hisindex]}}
+          Level = {{level[SubFindex]}}
         </view>
       </picker>
         </view>
@@ -106,17 +102,16 @@
     <view class="weui-cells__title">SubjectG</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Input your score here..." bindinput = "getEle1Score" name = "Ele1Score"/>
+          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubGScore" name = "SubGScore"/>
         </view>
       </view>
-      <picker bindchange="getEle1Level"  value="{{Ele1index}}" range="{{level}}">
+      <picker bindchange="getSubGLevel"  value="{{SubGindex}}" range="{{level}}">
         <view class="picker">
-          Your level is {{level[Ele1index]}}
+          Level = {{level[SubGindex]}}
         </view>
       </picker>
         </view>
 
-
-<button bindtap = "Submit">Submit</button>
+<button class="weui-btn" type="secondary" bindtap='Submit'>Submit</button>
 </view>
 </view>

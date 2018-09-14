@@ -1,20 +1,19 @@
 <!--index.wxml-->
 
-      <van-notice-bar left-icon="https://img.yzcdn.cn/1.png"text="这里以后可以拉广告赞助"/>
+           <view class="page__hd">
+        <view class="page__title">GPAC W</view>
+        <view class="page__desc">A More Club Product</view>
+    </view>
 <view class="container">
-<text>\n</text>
-<text>\n</text>
-<text>\n</text>
- 
-  <van-button bindtap = "To8" type="primary" plain>8th</van-button>
-    <text>\n</text>
-  <van-button bindtap = "To9" type="primary" plain>9th</van-button>
-    <text>\n</text>
-  <van-button bindtap = "To10" type="primary" plain>10th</van-button>
-    <text>\n</text>
-  <van-button bindtap = "To11" type="primary" plain>11th</van-button>
-
-
- 
-  
+<view class="userinfo">
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">Welcome! {{userInfo.nickName}}</text>
+  </view>
+  <view name = "NavButtons">
+  <text>\n</text>
+        <button class="weui-btn" type="primary" bindtap='To8'>8TH GRADE</button>
+        <button class="weui-btn" type="primary" bindtap='To9'>9TH GRADE</button>
+        <button class="weui-btn" type="primary" bindtap='To10'>10TH GRADE</button>
+        <button class="weui-btn" type="primary" bindtap='To11'>11TH GRADE</button>
+        </view>
 </view>

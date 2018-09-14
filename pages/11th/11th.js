@@ -9,13 +9,13 @@ Page({
     level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
     pScore:[-1,-1,-1,-1,-1,-1,-1],
-    Mathindex: 0,
-    Engindex: 0,
-    Chiindex: 0,
-    PhyChemindex: 0,
-    Hisindex: 0,
-    Ele1Findex: 0,
-    Ele2index: 0,
+    SubAindex: 0,
+    SubBindex: 0,
+    SubCindex: 0,
+    SubDindex: 0,
+    SubEindex: 0,
+    SubFindex: 0,
+    SubGindex: 0,
     CreditList: ["5.5@0", "5.5@1", "3.0@1@", "4.0@0", "3.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
 
     NLAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
@@ -29,7 +29,7 @@ Page({
     LSList: [0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0], //Credits for Language S IN ORDER
   },
 
-  getMathScore: function (e) {
+  getSubAScore: function (e) {
     var formatter = "pScore[" + 0 + "]";
     this.setData({
       [formatter]:e.detail.value
@@ -37,11 +37,11 @@ Page({
    //console.log(e.detail.value)
   },
 
-  getMathLevel: function (e) {
+  getSubALevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 0 + "]";
     this.setData({
-      Mathindex: e.detail.value,//显示前端level
+      SubAindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level      
     })
     //console.log(this.data.index)
@@ -49,129 +49,129 @@ Page({
 
   },
 
-  getEngScore: function (e) {
+  getSubBScore: function (e) {
     var formatter = "pScore[" + 1 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getEngLevel: function (e) {
+  getSubBLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 1 + "]";
     this.setData({
-      Engindex: e.detail.value,//显示前端level
+      SubBindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
 
-  getChiScore: function (e) {
+  getSubCScore: function (e) {
     var formatter = "pScore[" + 2 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getChiLevel: function (e) {
+  getSubCLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 2 + "]";
     this.setData({
-      Chiindex: e.detail.value,//显示前端level
+      SubCindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
 
-  getPhyScore: function (e) {
+  getSubDScore: function (e) {
     var formatter = "pScore[" + 3 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getPhyLevel: function (e) {
+  getSubDLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 3 + "]";
     this.setData({
-      Phyindex: e.detail.value,//显示前端level
+      SubDindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level    
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
 
-  getChemScore: function (e) {
+  getSubEScore: function (e) {
     var formatter = "pScore[" + 4 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getChemLevel: function (e) {
+  getSubELevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 4 + "]";
     this.setData({
-      Chemindex: e.detail.value,//显示前端level
+      SubEindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
 
-  getHisScore: function (e) {
+  getSubFScore: function (e) {
     var formatter = "pScore[" + 5 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getHisLevel: function (e) {
+  getSubFLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 5 + "]";
     this.setData({
-      Hisindex: e.detail.value,//显示前端level
+     SubFindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level    
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
 
-  getEle1Score: function (e) {
+  getSubGScore: function (e) {
     var formatter = "pScore[" + 6 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getEle1Level: function (e) {
+  getSubGLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 6 + "]";
     this.setData({
-      Ele1index: e.detail.value,//显示前端level
+      SubFindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
 
-  getEle2Score: function (e) {
+  getSubHScore: function (e) {
     var formatter = "pScore[" + 7 + "]";
     this.setData({
       [formatter]: e.detail.value
     })
   },
-  getEle2Level: function (e) {
+  getSubHLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 7 + "]";
     this.setData({
-      Ele2index: e.detail.value,//显示前端level
+      SubHindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubALevel)
 
   },
   //StartUp Function 
@@ -195,10 +195,15 @@ Page({
     else if (GPAFinal >= 3) { rank = " Sweet!"; }
     else { rank = "Error!"; }
     //Present GPA
-
+    wx.showModal({
+      title: 'Result',
+      content: ("Your GPA is " + GPAFinal.toFixed(2) + "," + rank),
+      confirmText: "Confirm", 
+      cancelText: "OK"      
+    });
     console.log("Your GPA is " + GPAFinal.toFixed(2) + "," + rank);
-    //console.log(this.data.MathScore)
-    //console.log(this.data.MathLevel)
+    //console.log(this.data.SubAScore)
+    //console.log(this.data.SubALevel)
   },
 
   //Data Importation Function
