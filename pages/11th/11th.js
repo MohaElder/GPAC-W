@@ -6,7 +6,7 @@ Page({
    */
   data: {
     SubjectList: ["Math", "Eng", "Chi", "Phy/Chem", "SubE", "SubF", "SubG"],//Subjects (Not used in the following code, only to make the data readable)
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
+    level: ['S', 'S+', 'H', 'H+', 'AP/IB'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
     pScore:[-1,-1,-1,-1,-1,-1,-1],
     SubAindex: 0,
@@ -44,7 +44,7 @@ Page({
       SubAindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level      
     })
-    //console.log(this.data.index)
+    //console.log(this.dPta.index)
     //console.log(this.data.pLevel[0])
 
   },
@@ -225,7 +225,7 @@ Page({
   getNL: function (Level, Score) {
     console.log(Level);
     var that = this;
-    if (Level == "AP") {
+    if (Level == "AP/IB") {
       return that.NonLanguageAP(Score);
     }
     if (Level == "H+") {
@@ -245,7 +245,7 @@ Page({
   getL: function (Level, Score) {
     //console.log(Level + Score);
     var that = this
-    if (Level == "AP") {
+    if (Level == "AP/IB") {
       return that.LanguageAP(Score);
     }
     if (Level == "H+") {
@@ -265,7 +265,7 @@ Page({
   //Score Comparison Functions
   NonLanguageAP: function (Score) {
     var gpa = 0;
-    console.log("AP",Score)
+    //console.log("AP",Score)
     if (Score <= 59)
       gpa = this.data.NLAPList[0];
     if (Score > 59 && Score <= 67)

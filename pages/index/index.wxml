@@ -1,19 +1,19 @@
-<!--index.wxml-->
+  <!--index.wxml-->
 
-           <view class="page__hd">
-        <view class="page__title">GPAC W</view>
-        <view class="page__desc">A More Club Product</view>
-    </view>
+<view class="page__hd">
+  <view class="page__title">GPAC W</view>
+  <view class="page__desc">A More Club Product</view>
+</view>
 <view class="container">
-<view class="userinfo">
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">Welcome! {{userInfo.nickName}}</text>
+  <view class="userinfo">
+    <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text class="userinfo-nickname">Welcome! {{userInfo.nickName}}</text>
   </view>
-  <view name = "NavButtons">
-  <text>\n</text>
-        <button class="weui-btn" type="primary" bindtap='To8'>8TH GRADE</button>
-        <button class="weui-btn" type="primary" bindtap='To9'>9TH GRADE</button>
-        <button class="weui-btn" type="primary" bindtap='To10'>10TH GRADE</button>
-        <button class="weui-btn" type="primary" bindtap='To11'>11TH GRADE</button>
-        </view>
+  <view name="NavButtons">
+    <text>\n</text>
+    <button class="weui-btn" type="primary" bindtap='To8'>8TH GRADE</button>
+    <button class="weui-btn" type="primary" bindtap='To9'>9TH GRADE</button>
+    <button class="weui-btn" type="primary" bindtap='To10'>10TH GRADE</button>
+    <button class="weui-btn" type="primary" bindtap='To11'>11TH GRADE</button>
+  </view>
 </view>
