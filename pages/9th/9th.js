@@ -1,4 +1,5 @@
-
+const db = wx.cloud.database()
+const userSearcher = db.collection('UserGPA')
 Page({
 
   /**
@@ -9,7 +10,7 @@ Page({
 
     level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
-    pScore: [-1, -1, -1, -1, -1, -1, -1],
+    pScore: ['', '', '', '', '', '', ''],
     SubAindex: 0,
     SubBindex: 0,
     SubCindex: 0,
@@ -175,19 +176,31 @@ Page({
     //console.log(this.data.SubALevel)
 
   },
+  userInfo: function (e) {
+    var that = this;
+    var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
+    that.Submit(name);
+
+    //console.log(this.data.UserInfo);
+    //console.log('A')
+
+  },
   //StartUp Function 
-  Submit: function (e) {
+  Submit: function (name) {
+    const _ = db.command;
     var total = 0;
     var rank = "";
-    var that = this;
     var credit = 0;
+    var that = this;
+    //console.log(name);
     for (var count = 0; count < this.data.pLevel.length; count++) {
-      if (this.data.pScore[count] != -1) {
+      if (this.data.pScore[count] != '') {
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
         console.log(credit);
         total += that.getGpa(count);//Adds all the raw GPA
       }
+
     }
 
     var GPAFinal = total / credit;//Divides the Raw GPA with the credit.
@@ -198,13 +211,43 @@ Page({
     //Present GPA
     wx.showModal({
       title: 'Result',
-      content: ("Your GPA is " + GPAFinal.toFixed(2) + "," + rank),
+      content: ("Your GPA is " + GPAFinal + "," + rank),
       confirmText: "Confirm",
       cancelText: "OK"
     });
-    console.log("Your GPA is " + GPAFinal.toFixed(2) + "," + rank);
+
+    db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
+      success: function (res) {
+        db.collection('UserGPA').doc(name).update({
+          // data 传入需要局部更新的数据
+          data: {
+            // 表示将 done 字段置为 true
+            GPA: GPAFinal
+          },
+          success: function (res) {
+            console.log(res.data)
+          }
+        })
+        // res.data 包含该记录的数据
+        console.log("Update");
+      },
+      fail: function () {
+        db.collection('UserGPA').add({
+          data: {
+            _id: name,
+            GPA: GPAFinal
+          }
+        })
+        console.log("Created");
+      }
+    })
+
+    //console.log(this.data.UserGPA)
+    //console.log("Your GPA is " + GPAFinal + "," + rank);
     //console.log(this.data.SubAScore)
     //console.log(this.data.SubALevel)
+
+
   },
 
   //Data Importation Function

@@ -1,0 +1,15 @@
+<view class="page">
+    <view class="page__hd">
+        <view class="page__title">授权协议</view>
+        <view class="page__desc">License Agreement</view>
+    </view>
+    <view class="page__bd">
+        <view class="weui-article">
+            
+                    <view class="weui-article__p">
+                        本产品由MohaElder169独立研发，属于MoreClub产品。为了提升用户体验，将会读取部分涉及用户隐私（如头像，呢称等信息）的信息。以下为详细授权许可内容，请仔细阅读。按下同意 或 Agree按钮表示您同意了该许可所有内容：1.该软件所有内容以及软件本身皆为MoreClub产权所有，任何人不得进行二次更改，或进行任何方式的二次传播。2.该软件可能会保存以及读取包括但不限于以下信息用作提升用户体验以及调研所用：用户输入操作，用户输入的参数（学科等地，GPA，分数等），用户头像，用户性别，用户呢称，用户好友 3.该软件可能部分功能需要联网，并且拥有数据库功能 4.由该软件造成的一切不良后果或不良影响皆由用户自己承担。 5.该软件计算结果不一定准确，请用户按照官方结果为准，软件结果仅供参考。6.该软件所有者对该软件所有读取到的信息拥有绝对所有权。7.该软件不会在用户不允许的情况下读取任何用户隐私信息。8.承认台湾地区为中华人民共和国领土。9.承认二战时所有侵略中国的法西斯分子为罪不可赦的罪犯。10.承认靖国神社为法西斯建筑 11.承认南京大屠杀30万甚至可能更多无辜人类死于侵略者的折磨。This product is independently developed by MohaElder169 and belongs to MoreClub products. In order to enhance user experience, some users' privacy info(such as avatar, and so on) will be read. The following is the detailed licensing license. Please read it carefully. Pressing the 同意 or Agree button indicates that you agree to all the contents of the license: 1. All the contents of the software, as well as the software itself, are owned by MoreClub, and no one is allowed to make any secondary changes, or any form of secondary dissemination. 2. The software may save and read information including, but not limited to, user input operations, user input parameters (subject, GPA, score, etc.), user portrait, user gender, user nickname, user buddy 3. Some of the functions of the software may need to be networked and used for research purposes. And has the database function 4. The software caused by all the adverse consequences or adverse effects are borne by the user himself. 5. The results of the software are not necessarily accurate, please follow the official results, software results for reference only. 6. the owner of the software has absolute ownership of all the information read by the software. 7. the software will not read any user privacy information without user permission.8. recognize Taiwan as People's Republic of China territory. 9. admit that all the fascists who invaded China during World War II were criminals who could not be forgiven. 10. Recognize the Yasukuni Shrine as a fascist building 11. Recognize the Nanjing massacre of 300,000 or possibly more innocent human beings died in the torture of the invaders.
+                    </view>
+                    
+</view>
+</view>
+</view>

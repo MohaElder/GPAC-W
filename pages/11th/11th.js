@@ -1,14 +1,18 @@
-
+const db = wx.cloud.database()
+const userSearcher = db.collection('UserGPA')
 Page({
-
+  
   /**
    * 页面的初始数据
    */
   data: {
+    //imagelist: ['https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/a.png?sign=c7b448418df2aecd04952a7368b0c6da&t=1537967612'],
+    UserInfo:'',
+    UserGPA : 0,
     SubjectList: ["Math", "Eng", "Chi", "Phy/Chem", "SubE", "SubF", "SubG"],//Subjects (Not used in the following code, only to make the data readable)
-    level: ['S', 'S+', 'H', 'H+', 'AP/IB'],
+    level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
-    pScore:[-1,-1,-1,-1,-1,-1,-1],
+    pScore:['','','','','','',''],
     SubAindex: 0,
     SubBindex: 0,
     SubCindex: 0,
@@ -16,7 +20,7 @@ Page({
     SubEindex: 0,
     SubFindex: 0,
     SubGindex: 0,
-    CreditList: ["5.5@0", "5.5@1", "3.0@1@", "4.0@0", "3.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
+    CreditList: ["5.5@0", "5.5@1", "3.0@1", "4.0@0", "4.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
 
     NLAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
     NLHList:[0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3], //Credits for NonLanguage H IN ORDER
@@ -28,7 +32,11 @@ Page({
     LSPLUSList: [0, 2.2, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1], //Credits for Language S+ IN ORDER
     LSList: [0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0], //Credits for Language S IN ORDER
   },
-
+  //previewImage: function (e){
+  //  wx.scanCode({
+   //   success: () => {
+   //   this.show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path; that.setData({ show: this.show })
+ // },
   getSubAScore: function (e) {
     var formatter = "pScore[" + 0 + "]";
     this.setData({
@@ -149,7 +157,7 @@ Page({
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 6 + "]";
     this.setData({
-      SubFindex: e.detail.value,//显示前端level
+      SubGindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
@@ -157,36 +165,32 @@ Page({
 
   },
 
-  getSubHScore: function (e) {
-    var formatter = "pScore[" + 7 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
-  },
-  getSubHLevel: function (e) {
-    //console.log('picker发送选择改变，携带值为', e.detail.value)
-    var formatter = "pLevel[" + 7 + "]";
-    this.setData({
-      SubHindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level   
-    })
-    //console.log(this.data.index)
-    //console.log(this.data.SubALevel)
-
+  
+  userInfo: function (e) {
+    var that = this;
+    var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
+    that.Submit(name);
+    
+    //console.log(this.data.UserInfo);
+    //console.log('A')
+    
   },
   //StartUp Function 
-  Submit: function (e) {
+  Submit: function (name) {
+    const _ = db.command;
     var total = 0;
     var rank = "";
-    var that = this;
     var credit = 0;
+    var that = this;
+    //console.log(name);
     for (var count = 0; count < this.data.pLevel.length; count++) {
-      if (this.data.pScore[count] != -1){
+      if (this.data.pScore[count] != ''){
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
         console.log(credit);
         total += that.getGpa(count);//Adds all the raw GPA
       }
+
     }
 
     var GPAFinal = total / credit;//Divides the Raw GPA with the credit.
@@ -197,13 +201,43 @@ Page({
     //Present GPA
     wx.showModal({
       title: 'Result',
-      content: ("Your GPA is " + GPAFinal.toFixed(2) + "," + rank),
+      content: ("Your GPA is " + GPAFinal + "," + rank),
       confirmText: "Confirm", 
       cancelText: "OK"      
     });
-    console.log("Your GPA is " + GPAFinal.toFixed(2) + "," + rank);
+
+    db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
+      success: function (res) {
+        db.collection('UserGPA').doc(name).update({
+          // data 传入需要局部更新的数据
+          data: {
+            // 表示将 done 字段置为 true
+            GPA:GPAFinal
+          },
+          success: function (res) {
+            console.log(res.data)
+          }
+        })
+        // res.data 包含该记录的数据
+        console.log("Update");
+      },
+      fail: function () {
+        db.collection('UserGPA').add({
+          data: {
+            _id: name,
+            GPA: GPAFinal
+          }
+        })
+        console.log("Created");
+      }
+    })
+
+    //console.log(this.data.UserGPA)
+    //console.log("Your GPA is " + GPAFinal + "," + rank);
     //console.log(this.data.SubAScore)
     //console.log(this.data.SubALevel)
+
+
   },
 
   //Data Importation Function
@@ -225,7 +259,7 @@ Page({
   getNL: function (Level, Score) {
     console.log(Level);
     var that = this;
-    if (Level == "AP/IB") {
+    if (Level == "AP") {
       return that.NonLanguageAP(Score);
     }
     if (Level == "H+") {
@@ -245,7 +279,7 @@ Page({
   getL: function (Level, Score) {
     //console.log(Level + Score);
     var that = this
-    if (Level == "AP/IB") {
+    if (Level == "AP") {
       return that.LanguageAP(Score);
     }
     if (Level == "H+") {

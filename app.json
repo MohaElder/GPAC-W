@@ -4,7 +4,10 @@
     "pages/8th/8th",
     "pages/9th/9th",
     "pages/10th/10th",
-    "pages/11th/11th"
+    "pages/11th/11th",
+    "pages/rank/rank",
+    "pages/IB/IB",
+    "pages/Agreement/Agreement"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,4 +1,6 @@
 // index/index.js
+const db = wx.cloud.database()
+const userSearcher = db.collection('UserGPA')
 Page({
 
   /**
@@ -8,7 +10,7 @@ Page({
     SubjectList: ["Math", "Eng", "Chi", "Phy", "Chem", "His", "Ele1", "Ele2"],//Subjects
     level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'],
-    pScore: [-1, -1, -1, -1, -1, -1, -1, -1],
+    pScore: ['', '', '', '', '', '', '',''],
     SubAindex: 0,
     SubBindex: 0,
     SubCindex: 0,
@@ -23,11 +25,12 @@ Page({
     NLHList: new Array(0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3), //Credits for NonLanguage H IN ORDER
     NLSPlusList: new Array(0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15), //Credits for NonLanguage S+ IN ORDER
     NLSList: new Array(0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0), //Credits for NonLanguage S IN ORDER
-    LAPList: new Array(0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.1, 4.3), //Credits for Language AP IN ORDER
+    NLAPList: new Array(0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5), //Credits for Language AP IN ORDER
+    LAPList: new Array(0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5), //Credits for Language AP IN ORDER
     LHPLUSList: new Array(0, 2.5, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4), //Credits for Language H+ IN ORDER
     LHList: new Array(0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3), //Credits for Language H IN ORDER
-    LSPLUSList: new Array(0, 2.2, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1), //Credits for Language S+ IN ORDER
-    LSList: new Array(0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0), //Credits for Language S IN ORDER
+    LSPLUSList: new Array(0,2.2,2.6,2.9,3.2,3.5,3.8,4.1), //Credits for Language S+ IN ORDER
+    LSList: new Array(0,2.1,2.5,2.8,3.1,3.4,3.7,4.0), //Credits for Language S IN ORDER
   },
 
   getSubAScore: function (e) {
@@ -175,19 +178,31 @@ Page({
     //console.log(this.data.SubALevel)
 
   },
+  userInfo: function (e) {
+    var that = this;
+    var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
+    that.Submit(name);
+
+    //console.log(this.data.UserInfo);
+    //console.log('A')
+
+  },
   //StartUp Function 
-  Submit: function (e) {
+  Submit: function (name) {
+    const _ = db.command;
     var total = 0;
     var rank = "";
-    var that = this;
     var credit = 0;
+    var that = this;
+    //console.log(name);
     for (var count = 0; count < this.data.pLevel.length; count++) {
-      if (this.data.pScore[count] != -1) {
+      if (this.data.pScore[count] != '') {
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
         console.log(credit);
         total += that.getGpa(count);//Adds all the raw GPA
       }
+
     }
 
     var GPAFinal = total / credit;//Divides the Raw GPA with the credit.
@@ -198,13 +213,43 @@ Page({
     //Present GPA
     wx.showModal({
       title: 'Result',
-      content: ("Your GPA is " + GPAFinal.toFixed(2) + "," + rank),
+      content: ("Your GPA is " + GPAFinal + "," + rank),
       confirmText: "Confirm",
       cancelText: "OK"
     });
-    console.log("Your GPA is " + GPAFinal.toFixed(2) + "," + rank);
+
+    db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
+      success: function (res) {
+        db.collection('UserGPA').doc(name).update({
+          // data 传入需要局部更新的数据
+          data: {
+            // 表示将 done 字段置为 true
+            GPA: GPAFinal
+          },
+          success: function (res) {
+            console.log(res.data)
+          }
+        })
+        // res.data 包含该记录的数据
+        console.log("Update");
+      },
+      fail: function () {
+        db.collection('UserGPA').add({
+          data: {
+            _id: name,
+            GPA: GPAFinal
+          }
+        })
+        console.log("Created");
+      }
+    })
+
+    //console.log(this.data.UserGPA)
+    //console.log("Your GPA is " + GPAFinal + "," + rank);
     //console.log(this.data.SubAScore)
     //console.log(this.data.SubALevel)
+
+
   },
 
   //Data Importation Function

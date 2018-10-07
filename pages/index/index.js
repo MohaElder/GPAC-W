@@ -4,11 +4,10 @@ const app = getApp()
 
 Page({
   data: {
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+
   },
   To8:function(){
+  wx.getUserCloud
   wx.navigateTo({
   url: '/pages/8th/8th?',
   success: function(res) {},
@@ -40,6 +39,36 @@ Page({
       complete: function (res) { },
     })
   },
+  Torank: function () {
+    wx.navigateTo({
+      url: '/pages/rank/rank?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
+  ToIB: function () {
+    wx.navigateTo({
+      url: '/pages/IB/IB?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
+  ToAgreement: function () {
+    wx.navigateTo({
+      url: '/pages/Agreement/Agreement?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+  },
+  ToDonation: function () {
+    wx.navigateToMiniProgram({
+      appId: 'wx18a2ac992306a5a4',
+      path: 'pages/apps/largess/detail?accountId=5655567'
+    })
+  },
   //事件处理函数
   bindViewTap: function () {
     wx.navigateTo({
@@ -57,16 +86,8 @@ Page({
         [avatarUrl]: res.userInfo.avatarUrl,
         [nickName]: res.userInfo.nickName,
       })
-    }
+      }
+    })
 
-    })
-  },
-  getUserInfo: function (e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
   }
 })

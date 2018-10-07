@@ -3,20 +3,20 @@
 
  <view class="page__hd">
         <view class="page__title">9TH GRADE</view>
-        <view class="page__desc">Announcements: Have fun!</view>
+        <view class="page__desc">Announcements: Have fun! </view>
     </view>
   <view class="page-section">
 
    <!--MathSection-->
   <view name = "Math Section">
-    <view class="weui-cells__title">Math Score</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__bd">Math</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubAScore" name = "SubAScore"/>
         </view>
       </view>
       <picker bindchange="getSubALevel"  value="{{SubAindex}}" range="{{level}}">
-        <view class="picker">
+        <view class="picker enhanceView">
           Level = {{level[SubAindex]}}
         </view>
       </picker>
@@ -24,14 +24,14 @@
 
  <!--EngSection-->
   <view name = "Eng Section">
-    <view class="weui-cells__title">Eng Score</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">English</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubBScore" name = "SubBScore"/>
         </view>
       </view>
       <picker bindchange="getSubBLevel"  value="{{SubBindex}}" range="{{level}}">
-        <view class="picker">
+        <view class="picker enhanceView">
           Level = {{level[SubBindex]}}
         </view>
       </picker>
@@ -39,14 +39,14 @@
 
  <!--ChiSection-->
   <view name = "Chi Section">
-    <view class="weui-cells__title">Chi Score</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">Chinese</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubCScore" name = "SubCScore"/>
         </view>
       </view>
       <picker bindchange="getSubCLevel"  value="{{SubCindex}}" range="{{level}}">
-        <view class="picker">
+        <view class="picker enhanceView">
           Level = {{level[SubCindex]}}
         </view>
       </picker>
@@ -54,14 +54,14 @@
 
         <!--PhySection-->
   <view name = "Phy Section">
-    <view class="weui-cells__title">Physics</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">Physics</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubDScore" name = "SubDScore"/>
         </view>
       </view>
       <picker bindchange="getSubDLevel"  value="{{SubDindex}}" range="{{level}}">
-        <view class="picker">
+        <view class="picker enhanceView">
           Level = {{level[SubDindex]}}
         </view>
       </picker>
@@ -69,29 +69,32 @@
 
         <!--ChemSection-->
   <view name = "Chem Section">
-    <view class="weui-cells__title">Chemistry</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-          <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubEScore" name = "SubEScore"/>
+        <view class="weui-cell__bd">Chemistry</view>
+          <input class="weui-input"  type="number" placeholder="Score..." bindinput = "getSubEScore" name = "SubEScore"/>
         </view>
-      </view>
-      <picker bindchange="getSubELevel"  value="{{SubEindex}}" range="{{level}}">
-        <view class="picker">
+        </view>
+        <picker bindchange="getSubELevel"  value="{{SubEindex}}" range="{{level}}">
+        <view class="picker enhanceView">
           Level = {{level[SubEindex]}}
         </view>
-      </picker>
-        </view>
+        </picker>
+      </view>
+      
+      
+       
 
         <!--HisSection-->
   <view name = "His Section">
-    <view class="weui-cells__title">History</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">History</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubFScore" name = "SubFScore"/>
         </view>
       </view>
       <picker bindchange="getSubFLevel"  value="{{SubFindex}}" range="{{level}}">
-        <view class="picker">
+        <view class="picker enhanceView">
           Level = {{level[SubFindex]}}
         </view>
       </picker>
@@ -99,19 +102,22 @@
 
         <!--Ele1Section-->
   <view name = "Ele1 Section">
-    <view class="weui-cells__title">Elective</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">Elective</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubGScore" name = "SubGScore"/>
         </view>
       </view>
       <picker bindchange="getSubGLevel"  value="{{SubGindex}}" range="{{level}}">
-        <view class="picker">
+        <view class="picker enhanceView">
           Level = {{level[SubGindex]}}
         </view>
       </picker>
         </view>
 
-<button class="weui-btn" type="secondary" bindtap='Submit'>Submit</button>
+    
+
+<button class="weui-btn enhanceButton" type="secondary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+ <!--<image style="width: 200px; height: 200px; background-color: #eeeeee;" mode="{{item.mode}}" src="{{imagelist[0]}}" bindtap="previewImage"></image>-->
 </view>
 </view>

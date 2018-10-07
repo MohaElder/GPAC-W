@@ -1,0 +1,2 @@
+<!--rank.wxml-->
+<text>{{A}}</text>
