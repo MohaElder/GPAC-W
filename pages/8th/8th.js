@@ -181,7 +181,7 @@ Page({
       if (this.data.pScore[count] != '') {
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
-        console.log(credit);
+        //console.log(credit);
         total += that.getGpa(count);//Adds all the raw GPA
       }
 
@@ -199,7 +199,10 @@ Page({
       confirmText: "Confirm",
       cancelText: "OK"
     });
-
+    that.setData({
+      FinalGPA: GPAFinal
+    })
+    //console.log(this.data.FinalGPA);
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
         db.collection('UserGPA').doc(name).update({
@@ -209,7 +212,7 @@ Page({
             GPA: GPAFinal
           },
           success: function (res) {
-            console.log(res.data)
+            //console.log(res.data)
           }
         })
         // res.data 包含该记录的数据
@@ -250,11 +253,11 @@ Page({
 
   //Subject Categorization Functions
   getNL: function (Level, Score) {
-    console.log(Level);
+    //console.log(Level);
     var that = this;
     var calLevel;
     if (Level == "AP") {
-      calLevel = this.data.calLevel
+      calLevel = this.data.NLAPList
       return that.calGPA(Score, calLevel);
     }
     if (Level == "H") {
@@ -300,26 +303,26 @@ Page({
   calGPA: function (Score, calLevel) {
     //console.log(list);
     //console.log(listname);
-    //console.log(this.data.[listname])
+    //console.log(this.data.[listname])czcscszczdccscz
     var gpa = 0;
     //console.log("AP",Score)
     if (Score <= 59)
-      gpa = this.data.calLevel[0];
+      gpa = calLevel[0];
     if (Score > 59 && Score <= 67)
-      gpa = this.data.calLevel[1];
+      gpa = calLevel[1];
     if (Score > 67 && Score <= 72)
-      gpa = this.data.calLevel[2];
+      gpa = calLevel[2];
     if (Score > 72 && Score <= 77)
-      gpa = this.data.calLevel[3];
+      gpa = calLevel[3];
     if (Score > 77 && Score <= 82)
-      gpa = this.data.calLevel[4];
+      gpa = calLevel[4];
     if (Score > 82 && Score <= 87)
-      gpa = this.data.calLevel[5];
+      gpa = calLevel[5];
     if (Score > 87 && Score <= 92)
-      gpa = this.data.calLevel[6];
+      gpa = calLevel[6];
     if (Score > 92 && Score <= 100)
-      gpa = this.data.calLevel[7];
-    console.log(gpa)
+      gpa = calLevel[7];
+    //console.log(gpa)
     return gpa;
   },
 
@@ -371,11 +374,24 @@ Page({
   onReachBottom: function () {
 
   },
+  showShareMenu() {
 
+    wx.showShareMenu();
+
+    //console.log("显示了当前页面的转发按钮");
+
+  },
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    //console.log(this.data.FinalGPA)
+    return {
+      title: 'Wow! My GPA is ' + this.data.FinalGPA,
+      path: '/pages/index/index?',
+      imageUrl: "/images/1.jpg"
+    }
+
 
   }
 })

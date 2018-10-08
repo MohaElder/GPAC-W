@@ -7,7 +7,6 @@ Page({
 
   },
   To8:function(){
-  wx.getUserCloud
   wx.navigateTo({
   url: '/pages/8th/8th?',
   success: function(res) {},
@@ -76,18 +75,7 @@ Page({
     })
   },
   onLoad: function () {
-    var that = this
-    wx.getUserInfo({
-    success: function(res) {
-      console.log(res);
-      var avatarUrl = 'userInfo.avatarUrl';
-      var nickName = 'userInfo.nickName';
-      that.setData({
-        [avatarUrl]: res.userInfo.avatarUrl,
-        [nickName]: res.userInfo.nickName,
-      })
+    
       }
-    })
 
-  }
 })

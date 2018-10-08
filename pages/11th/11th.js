@@ -7,13 +7,26 @@ Page({
    */
   data: {
     //imagelist: ['https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/a.png?sign=c7b448418df2aecd04952a7368b0c6da&t=1537967612'],
-    FinalGPA:'',
-    UserInfo:'',
-    UserGPA : 0,
     SubjectList: ["Math", "Eng", "Chi", "Phy/Chem", "SubE", "SubF", "SubG"],//Subjects (Not used in the following code, only to make the data readable)
     level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
     pScore:['','','','','','',''],
+    CreditList: ["5.5@0", "5.5@1", "3.0@1", "4.0@0", "4.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
+    NLAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
+    NLHList: [0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3], //Credits for NonLanguage H IN ORDER
+    NLSPlusList: [0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15], //Credits for NonLanguage S+ IN ORDER
+    NLSList: [0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0], //Credits for NonLanguage S IN ORDER
+    LAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
+    LHPLUSList: [0, 2.5, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4], //Credits for Language H+ IN ORDER
+    LHList: [0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3], //Credits for Language H IN ORDER
+    LSPLUSList: [0, 2.2, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1], //Credits for Language S+ IN ORDER
+    LSList: [0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0], //Credits for Language S IN ORDER
+    /**
+     * If you change the part below, there might be problems
+     */
+    FinalGPA: '',
+    UserInfo: '',
+    UserGPA: 0,
     SubAindex: 0,
     SubBindex: 0,
     SubCindex: 0,
@@ -21,16 +34,7 @@ Page({
     SubEindex: 0,
     SubFindex: 0,
     SubGindex: 0,
-    CreditList: ["5.5@0", "5.5@1", "3.0@1", "4.0@0", "4.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
-      NLAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
-      NLHList: [0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3], //Credits for NonLanguage H IN ORDER
-      NLSPlusList: [0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15], //Credits for NonLanguage S+ IN ORDER
-      NLSList: [0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0], //Credits for NonLanguage S IN ORDER
-      LAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
-      LHPLUSList: [0, 2.5, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4], //Credits for Language H+ IN ORDER
-      LHList: [0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3], //Credits for Language H IN ORDER
-      LSPLUSList: [0, 2.2, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1], //Credits for Language S+ IN ORDER
-      LSList: [0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0], //Credits for Language S IN ORDER
+    
   },
   //previewImage: function (e){
   //  wx.scanCode({
@@ -187,7 +191,7 @@ Page({
       if (this.data.pScore[count] != ''){
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
-        console.log(credit);
+        //console.log(credit);
         total += that.getGpa(count);//Adds all the raw GPA
       }
 
@@ -205,9 +209,10 @@ Page({
       confirmText: "Confirm", 
       cancelText: "OK"      
     });
-    this.setData({
+    that.setData({
       FinalGPA: GPAFinal
     })
+    //console.log(this.data.FinalGPA);
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
         db.collection('UserGPA').doc(name).update({
@@ -217,7 +222,7 @@ Page({
             GPA:GPAFinal
           },
           success: function (res) {
-            console.log(res.data)
+            //console.log(res.data)
           }
         })
         // res.data 包含该记录的数据
@@ -328,7 +333,7 @@ Page({
       gpa = calLevel[6];
     if (Score > 92 && Score <= 100)
       gpa = calLevel[7];
-    console.log(gpa)
+    //console.log(gpa)
     return gpa;
   },
 
@@ -391,13 +396,11 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    console.log(this.data.FinalGPA)
+    //console.log(this.data.FinalGPA)
     return { 
-      title: 'Wow! My GPA is' + this.data.FinalGPA, 
+      title: 'Wow! My GPA is ' + this.data.FinalGPA, 
       path: '/pages/index/index?',
-      success: (res) => { console.log("转发成功", res); },
-      fail: (res) => { console.log("转发失败", res); } }
-
-   
+      imageUrl: "/images/1.jpg"
+  }
   }
 })
