@@ -46,7 +46,7 @@ Page({
       SubAindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level      
     })
-    //console.log(this.data.index)
+    //console.log(this.dPta.index)
     //console.log(this.data.pLevel[0])
 
   },
@@ -151,7 +151,7 @@ Page({
     //console.log('picker发送选择改变，携带值为', e.detail.value)
     var formatter = "pLevel[" + 6 + "]";
     this.setData({
-      SubFindex: e.detail.value,//显示前端level
+      SubGindex: e.detail.value,//显示前端level
       [formatter]: this.data.level[e.detail.value] //提取前端level   
     })
     //console.log(this.data.index)
@@ -159,23 +159,7 @@ Page({
 
   },
 
-  getSubHScore: function (e) {
-    var formatter = "pScore[" + 7 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
-  },
-  getSubHLevel: function (e) {
-    //console.log('picker发送选择改变，携带值为', e.detail.value)
-    var formatter = "pLevel[" + 7 + "]";
-    this.setData({
-      SubHindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level   
-    })
-    //console.log(this.data.index)
-    //console.log(this.data.SubALevel)
 
-  },
   userInfo: function (e) {
     var that = this;
     var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
@@ -211,7 +195,7 @@ Page({
     //Present GPA
     wx.showModal({
       title: 'Result',
-      content: ("Your GPA is " + GPAFinal + "," + rank),
+      content: ("Your GPA is " + GPAFinal.toFixed(2) + "," + rank),
       confirmText: "Confirm",
       cancelText: "OK"
     });
@@ -268,256 +252,74 @@ Page({
   getNL: function (Level, Score) {
     console.log(Level);
     var that = this;
+    var calLevel;
     if (Level == "AP") {
-      return that.NonLanguageAP(Score);
-    }
-    if (Level == "H+") {
-      return that.NonLanguageHPlus(Score);
+      calLevel = this.data.calLevel
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "H") {
-      return that.NonLanguageH(Score);
+      calLevel = this.data.NLHList
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "S+") {
-      return that.NonLanguageSPlus(Score);
+      calLevel = this.data.NLSPlusList
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "S") {
-      return that.NonLanguageS(Score);
+      calLevel = this.data.NLSList
+      return that.calGPA(Score, calLevel);
     }
   },
 
   getL: function (Level, Score) {
     //console.log(Level + Score);
+    var calLevel
     var that = this
     if (Level == "AP") {
-      return that.LanguageAP(Score);
+      calLevel = this.data.LAPList
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "H+") {
-      return that.LanguageHPlus(Score);
+      calLevel = this.data.LHPLusList
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "H") {
-      return that.LanguageH(Score);
+      calLevel = this.data.LHList
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "S+") {
-      return that.LanguageSPlus(Score);
+      calLevel = this.data.LSPlusList
+      return that.calGPA(Score, calLevel);
     }
     if (Level == "S") {
-      return that.LanguageS(Score);
+      calLevel = this.data.LSList
+      return that.calGPA(Score, calLevel);
     }
   },
 
-  //Score Comparison Functions
-  NonLanguageAP: function (Score) {
+  calGPA: function (Score, calLevel) {
+    //console.log(list);
+    //console.log(listname);
+    //console.log(this.data.[listname])
     var gpa = 0;
-    console.log("AP", Score)
+    //console.log("AP",Score)
     if (Score <= 59)
-      gpa = this.data.NLAPList[0];
+      gpa = this.data.calLevel[0];
     if (Score > 59 && Score <= 67)
-      gpa = this.data.NLAPList[1];
+      gpa = this.data.calLevel[1];
     if (Score > 67 && Score <= 72)
-      gpa = this.data.NLAPList[2];
+      gpa = this.data.calLevel[2];
     if (Score > 72 && Score <= 77)
-      gpa = this.data.NLAPList[3];
+      gpa = this.data.calLevel[3];
     if (Score > 77 && Score <= 82)
-      gpa = this.data.NLAPList[4];
+      gpa = this.data.calLevel[4];
     if (Score > 82 && Score <= 87)
-      gpa = this.data.NLAPList[5];
+      gpa = this.data.calLevel[5];
     if (Score > 87 && Score <= 92)
-      gpa = this.data.NLAPList[6];
+      gpa = this.data.calLevel[6];
     if (Score > 92 && Score <= 100)
-      gpa = this.data.NLAPList[7];
+      gpa = this.data.calLevel[7];
     console.log(gpa)
-    return gpa;
-  },
-
-  NonLanguageHPlus: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.NLHList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.NLHList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.NLHList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.NLHList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.NLHList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.NLHList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.NLHList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.NLHList[7];
-    return gpa;
-  },
-
-  NonLanguageH: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.NLHList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.NLHList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.NLHList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.NLHList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.NLHList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.NLHList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.NLHList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.NLHList[7];
-    return gpa;
-  },
-
-  NonLanguageSPlus: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.NLSPlusList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.NLSPlusList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.NLSPlusList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.NLSPlusList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.NLSPlusList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.NLSPlusList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.NLSPlusList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.NLSPlusList[7];
-    return gpa;
-  },
-
-  NonLanguageS: function (Score) {
-    console.log("S", Score);
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.NLSList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.NLSList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.NLSList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.NLSList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.NLSList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.NLSList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.NLSList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.NLSList[7];
-    console.log(gpa);
-    return gpa;
-  },
-
-  LanguageAP: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.LAPList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.LAPList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.LAPList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.LAPList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.LAPList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.LAPList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.LAPList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.LAPList[7];
-    return gpa;
-  },
-
-  LanguageHPlus: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.LAPList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.LAPList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.LAPList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.LAPList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.LAPList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.LAPList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.LAPList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.LAPList[7];
-    return gpa;
-  },
-
-  LanguageH: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.LHList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.LHList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.LHList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.LHList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.LHList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.LHList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.LHList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.LHList[7];
-    return gpa;
-  },
-
-  LanguageSPlus: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.LSPLUSList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.LSPLUSList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.LSPLUSList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.LSPLUSList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.LSPLUSList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.LSPLUSList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.LSPLUSList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.LSPLUSList[7];
-    return gpa;
-  },
-
-  LanguageS: function (Score) {
-    var gpa = 0;
-    if (Score <= 59)
-      gpa = this.data.LSList[0];
-    if (Score > 59 && Score <= 67)
-      gpa = this.data.LSList[1];
-    if (Score > 67 && Score <= 72)
-      gpa = this.data.LSList[2];
-    if (Score > 72 && Score <= 77)
-      gpa = this.data.LSList[3];
-    if (Score > 77 && Score <= 82)
-      gpa = this.data.LSList[4];
-    if (Score > 82 && Score <= 87)
-      gpa = this.data.LSList[5];
-    if (Score > 87 && Score <= 92)
-      gpa = this.data.LSList[6];
-    if (Score > 92 && Score <= 100)
-      gpa = this.data.LSList[7];
-    //console.log(gpa);
     return gpa;
   },
 

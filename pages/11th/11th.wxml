@@ -56,7 +56,7 @@
   <view name = "Phy Section">
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__bd">Physics/Chemistry</view>
+        <view class="weui-cell__bd">SubjectD</view>
           <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubDScore" name = "SubDScore"/>
         </view>
       </view>

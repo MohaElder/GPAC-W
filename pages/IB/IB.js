@@ -11,7 +11,7 @@ Page({
     SubjectList: ["TOK", "SUBA", "SUBB", "SUBC", "SUBD", "SUBE", "SUBF"],//Subjects (Not used in the following code, only to make the data readable)
     level: ['IB'],
     pLevel: ['IB', 'IB', 'IB', 'IB', 'IB', 'IB', 'IB'],
-    pScore: [-1, -1, -1, -1, -1, -1, -1],
+    pScore: [0, 0, 0, 0, 0, 0, 0],
     SubAindex: 0,
     SubBindex: 0,
     SubCindex: 0,
