@@ -21,9 +21,9 @@ Page({
     SubHindex: 0,
     CreditList: ["5.5@0", "5.5@1", "3.0@1@", "3.0@0", "3.0@0", "4.0@0", "3.0@0", "3.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
 
-
+    LHPLUSList: new Array(0, 2.5, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4), //Credits for Language H+ IN ORDERv
     NLHList: new Array(0, 2.4, 2.8, 3.1, 3.4, 3.7, 4.0, 4.3), //Credits for NonLanguage H IN ORDER
-    NLSPlusList: new Array(0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15), //Credits for NonLanguage S+ IN ORDER
+    NLSPLUSList: new Array(0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15), //Credits for NonLanguage S+ IN ORDER
     NLSList: new Array(0, 2.1, 2.5, 2.8, 3.1, 3.4, 3.7, 4.0), //Credits for NonLanguage S IN ORDER
     NLAPList: new Array(0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5), //Credits for Language AP IN ORDER
     LAPList: new Array(0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5), //Credits for Language AP IN ORDER
@@ -262,12 +262,16 @@ Page({
       calLevel = this.data.NLAPList
       return that.calGPA(Score, calLevel);
     }
+    if (Level == "H+") {
+      calLevel = this.data.NLHPLUSList
+      return that.calGPA(Score, calLevel);
+    }
     if (Level == "H") {
       calLevel = this.data.NLHList
       return that.calGPA(Score, calLevel);
     }
     if (Level == "S+") {
-      calLevel = this.data.NLSPlusList
+      calLevel = this.data.NLSPLUSList
       return that.calGPA(Score, calLevel);
     }
     if (Level == "S") {
@@ -285,7 +289,7 @@ Page({
       return that.calGPA(Score, calLevel);
     }
     if (Level == "H+") {
-      calLevel = this.data.LHPLusList
+      calLevel = this.data.LHPLUSList
       return that.calGPA(Score, calLevel);
     }
     if (Level == "H") {
@@ -293,7 +297,7 @@ Page({
       return that.calGPA(Score, calLevel);
     }
     if (Level == "S+") {
-      calLevel = this.data.LSPlusList
+      calLevel = this.data.LSPLUSList
       return that.calGPA(Score, calLevel);
     }
     if (Level == "S") {
@@ -391,9 +395,7 @@ Page({
     return {
       title: 'Wow! My GPA is ' + this.data.FinalGPA,
       path: '/pages/index/index?',
-      imageUrl: "/images/1.jpg"
+      //imageUrl: "/images/1.jpg"
     }
-
-
   }
 })
