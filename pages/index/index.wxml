@@ -20,6 +20,6 @@
     <button class="weui-btn enhanceButton" type="primary" bindtap='ToIB'>IB</button>
     <button class="weui-btn enhanceButton" type="secondary" bindtap='ToDonation'>支持我，给我打钱</button>
     <button class="weui-btn enhanceButton" type="secondary" bindtap='ToAgreement'>授权条款/Licsence Agreement</button>
-    <!--<button class="weui-btn" type="primary" bindtap='Torank'>RANK DEBUG</button>-->
+    <button class="weui-btn" type="primary" bindtap='Torank'>RANK DEBUG</button>
   </view>
 </view>

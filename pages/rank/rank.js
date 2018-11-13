@@ -14,8 +14,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-  },
+    wx.cloud.callFunction({
+      name: 'rankCloud'
+    })
+  .then(res => {
+    console.log(res.result); // 3
+    var arr = new Array();
+    arr[0] = res.result;
+    console.log(arr[0]);
+  })
+  .catch(console.error)
+},
 
   /**
    * 生命周期函数--监听页面初次渲染完成

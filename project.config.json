@@ -12,10 +12,11 @@
 		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.3.0",
+	"libVersion": "2.4.0",
 	"appid": "wxe5a716b55329bacf",
 	"projectname": "G-PACW",
 	"isGameTourist": false,
+	"cloudfunctionRoot": "cloud-functions/",
 	"condition": {
 		"search": {
 			"current": -1,

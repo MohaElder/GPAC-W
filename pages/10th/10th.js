@@ -160,6 +160,23 @@ Page({
     //console.log(this.data.SubALevel)
 
   },
+  getSubHScore: function (e) {
+    var formatter = "pScore[" + 7 + "]";
+    this.setData({
+      [formatter]: e.detail.value
+    })
+  },
+  getSubHLevel: function (e) {
+    //console.log('picker发送选择改变，携带值为', e.detail.value)
+    var formatter = "pLevel[" + 7 + "]";
+    this.setData({
+      SubHindex: e.detail.value,//显示前端level
+      [formatter]: this.data.level[e.detail.value] //提取前端level   
+    })
+    //console.log(this.data.index)
+    //console.log(this.data.SubALevel)
+
+  },
 
 
   userInfo: function (e) {
