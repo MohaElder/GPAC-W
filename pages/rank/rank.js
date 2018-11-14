@@ -1,29 +1,59 @@
 // rank.js
 const db = wx.cloud.database()
 const userSearcher = db.collection('UserGPA')
+var Max = 0
+var Temp = 0
+var Place = 0
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    A:'Anzhi'
+    A:'Anzhi',
+    userOpenId: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+   
     wx.cloud.callFunction({
       name: 'rankCloud'
     })
-  .then(res => {
-    console.log(res.result); // 3
-    var arr = new Array();
-    arr[0] = res.result;
-    console.log(arr[0]);
-  })
-  .catch(console.error)
+      .then(res => {
+        var GPAList = new Array(res.result.data.length);
+        var NameList = new Array(res.result.data.length);
+        for (var count = 0; count < res.result.data.length; count++) {
+        GPAList[count] = res.result.data[count].GPA;
+        NameList[count] = res.result.data[count]._id;
+        //console.log(res.result.data[count].GPA);
+        //console.log(res.result.data[count]._id);
+        }
+        Max = GPAList[0];
+        for (var i = 0; i < GPAList.length; i++){
+         for (var j = i; j < GPAList.length; j++){
+            if(GPAList[j] > Max){
+              Temp = Max;
+              Max = GPAList[j];
+              //Place = count;
+              Place = j;
+            }
+
+        }
+        GPAList[Place] = Temp;
+        GPAList[i] = Max;
+      }
+        for (var count = 0; count < GPAList.length; count++) {
+          console.log(GPAList[count]);
+
+        }
+      })
+      .catch(console.error)
+   
+    
+
 },
 
   /**
