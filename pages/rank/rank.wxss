@@ -1,1 +1,22 @@
 /* rank.wxss */
+.enhancedAvatar{
+  overflow:hidden;
+  display: block;
+  width: 160rpx;
+  height: 160rpx;
+  margin: 20rpx;
+  margin-top: 50rpx;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+.enhancedView{
+  margin-left: 130px;
+  margin-right: 130px;
+  margin-bottom:10px;
+  text-align: center;
+}
+
+.warning{
+  color: #ff0000
+}

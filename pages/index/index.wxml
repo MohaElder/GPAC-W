@@ -18,8 +18,10 @@
     <button class="weui-btn enhanceButton" type="primary" bindtap='To10'>10TH GRADE</button>
     <button class="weui-btn enhanceButton" type="primary" bindtap='To11'>11TH GRADE</button>
     <button class="weui-btn enhanceButton" type="primary" bindtap='ToIB'>IB</button>
+    <text>\n</text>
+    <button class="weui-btn enhanceButton" type="primary" bindtap='Torank'>My Ranking</button>
     <button class="weui-btn enhanceButton" type="secondary" bindtap='ToDonation'>支持我，给我打钱</button>
     <button class="weui-btn enhanceButton" type="secondary" bindtap='ToAgreement'>授权条款/Licsence Agreement</button>
-    <button class="weui-btn" type="primary" bindtap='Torank'>RANK DEBUG</button>
+
   </view>
 </view>

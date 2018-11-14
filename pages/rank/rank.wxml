@@ -1,2 +1,23 @@
 <!--rank.wxml-->
-<text>{{A}}</text>
+<view class="weui-panel weui-panel_access">
+            <view class="weui-panel__bd">
+                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                        <image class="weui-media-box__thumb" src="{{RankPic}}" />
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <view class="weui-media-box__title">Your rank is {{Rank}} out of {{Population}} users.</view>
+                        <view class="weui-media-box__title">Your defeated {{Defeat}}% of the users.</view>
+                        <view class="weui-media-box__desc">Your GPA: {{GPA}}</view>
+                        <view class="weui-media-box__title">You are qualified as {{RankName}}</view>
+                    </view>
+                </navigator>
+                
+            </view>
+ <text class="weui-media-box__desc">There will be more features avaliable in the future, they are gonna be right here below this cell.</text>
+ <text class="weui-media-box__desc">\n</text>
+        <text class="weui-media-box__desc warning">Warning: Since users can cheat on the ranking system simply by entering fake scores. The ranking system just serves as a reference.</text>      
+        </view>
+<text class="weui-media-box__desc">\n</text>
+        <text class="weui-media-box__desc">The ranking feature is currently facing a major problem: The Users are not being sorted by Grade. To solve this problem, The engineer(which is me typing this stuff right now lol(autism 100)) will have to do some major changes on the database, and things might get really complicated. So this problem will probably be solved after few updates instead of the next one. The next update after big versions usually comes with emergency patches.</text>
+      <image class= src="https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/profilepic.png?sign=9b6ade856986e07a10c6dc3067cc9091&t=1542202575" />
