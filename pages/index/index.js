@@ -38,7 +38,7 @@ Page({
       complete: function (res) { },
     })
   },
-  Torank: function () {
+  ToRank: function () {
     wx.navigateTo({
       url: '/pages/rank/rank?',
       success: function (res) { },
@@ -66,6 +66,14 @@ Page({
     wx.navigateToMiniProgram({
       appId: 'wx18a2ac992306a5a4',
       path: 'pages/apps/largess/detail?accountId=5655567'
+    })
+  },
+  ToDebug: function () {
+    wx.navigateTo({
+      url: '/pages/scatter/index?',
+      success: function (res) { },
+      fail: function (res) { },
+      complete: function (res) { },
     })
   },
   //事件处理函数

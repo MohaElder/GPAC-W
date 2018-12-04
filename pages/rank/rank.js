@@ -1,4 +1,9 @@
 // rank.js
+
+import * as echarts from '../../ec-canvas/echarts';
+import * as ecStat from '../../ec-canvas/ec-stat';
+import WxCanvas from '../../ec-canvas/wx-canvas';
+
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 var Max = 0;
@@ -6,12 +11,90 @@ var GPATemp = 0;
 var Place = 0;
 var NameTemp = 0;
 var nickName = '';
+
+const app = getApp();
+
+var height = [70, 65, 63, 72, 81, 83, 66, 75, 80, 75, 79, 76, 76, 69, 75, 74, 85, 86, 71, 64, 78, 80, 74, 72, 77, 81, 82, 80, 80, 80, 87];
+
+var bins = ecStat.histogram(height);
+
+function initChart(canvas, width, height) {
+  const chart = echarts.init(canvas, null, {
+    width: width,
+    height: height
+  });
+  canvas.setChart(chart);
+
+
+
+  var axisCommon = {
+    axisLabel: {
+      textStyle: {
+        color: '#C8C8C8'
+      }
+    },
+    axisTick: {
+      lineStyle: {
+        color: '#fff'
+      }
+    },
+    axisLine: {
+      lineStyle: {
+        color: '#C8C8C8'
+      }
+    },
+    splitLine: {
+      lineStyle: {
+        color: '#C8C8C8',
+        type: 'solid'
+      }
+    }
+  };
+
+  var option = {
+    color: ['rgb(25, 183, 207)'],
+    grid: {
+      left: '3%',
+      right: '3%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [{
+      type: 'value',
+      //这个一定要设，不然barWidth和bins对应不上
+      scale: true,
+    }],
+    yAxis: [{
+      type: 'value',
+    }],
+    series: [{
+      type: 'bar',
+      barWidth: '99.3%',
+      label: {
+        normal: {
+          show: true,
+          position: 'insideTop',
+          formatter: function (params) {
+            return params.value[1];
+          }
+        }
+      },
+      data: bins.data
+    }]
+  };
+
+
+  chart.setOption(option);
+  return chart;
+}
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    
     Name: 'Please Wait',
     Rank: 0,
     GPA: 0,
@@ -27,7 +110,10 @@ Page({
                     "GPA": 666
 
               }
-        ]
+        ],
+    ec: {
+      onInit: initChart
+    }
 
     
   },
@@ -50,6 +136,7 @@ Page({
         //console.log(res.result.data[count]._id);
         }
         Max = GPAList[0];
+        height = GPAList;
         for (var i = 0; i < GPAList.length; i++){
          for (var j = i; j < GPAList.length; j++){
             if(GPAList[j] > Max){
@@ -58,6 +145,7 @@ Page({
             }
 
         }
+
         GPATemp = GPAList[i];
         NameTemp = NameList[i];
         GPAList[i] = GPAList[Place];
@@ -65,6 +153,8 @@ Page({
         GPAList[Place] = GPATemp;
         NameList[Place] = NameTemp;
         Max = GPAList[i+1];
+        
+        
           
       }
         wx.getUserInfo({
@@ -200,49 +290,6 @@ Page({
     
 
 },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
   /**
    * 用户点击右上角分享
    */

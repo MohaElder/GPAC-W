@@ -10,7 +10,8 @@
     "pages/11th/11th",
     "pages/rank/rank",
     "pages/IB/IB",
-    "pages/Agreement/Agreement"
+    "pages/Agreement/Agreement",
+    "pages/scatter/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
