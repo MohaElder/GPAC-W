@@ -1,0 +1,23 @@
+<!--rank.wxml-->
+<view class="weui-panel weui-panel_access">
+            <view class="weui-panel__bd">
+                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                        <image class="weui-media-box__thumb" src="{{RankPic}}" />
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <view class="weui-media-box__title">Your rank is {{Rank}} out of {{Population}} users.</view>
+                        <view class="weui-media-box__title">Your defeated {{Defeat}}% of the users.</view>
+                        <view class="weui-media-box__desc">Your GPA: {{GPA}}</view>
+                        <view class="weui-media-box__title">You are qualified as {{RankName}}</view>
+                    </view>
+                </navigator>
+</view>
+
+            </view>
+
+
+    <view class="container">
+  <ec-canvas id="mychart-dom-scatter" canvas-id="mychart-scatter" ec="{{ ec }}"></ec-canvas>
+    </view>
+
