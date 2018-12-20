@@ -18,6 +18,6 @@
 
 
     <view class="container">
-  <ec-canvas id="mychart-dom-scatter" canvas-id="mychart-scatter" ec="{{ ec }}"></ec-canvas>
+  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-scatter" canvas-id="mychart-scatter" ec="{{ ec }}"></ec-canvas>
     </view>
 
