@@ -9,6 +9,7 @@
                         <view class="weui-media-box__title">Your rank is {{Rank}} out of {{Population}} users.</view>
                         <view class="weui-media-box__title">Your defeated {{Defeat}}% of the users.</view>
                         <view class="weui-media-box__desc">Your GPA: {{GPA}}</view>
+                        <view class="weui-media-box__desc">Your Grade Level: {{Grade}}</view>
                         <view class="weui-media-box__title">You are qualified as {{RankName}}</view>
                     </view>
                 </navigator>

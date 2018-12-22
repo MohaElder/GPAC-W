@@ -7,42 +7,17 @@ import WxCanvas from '../../ec-canvas/wx-canvas';
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 const app = getApp();
-
- /* function setOption(chart) {
-  const option = {
-    color: ['rgb(25, 183, 207)'],
-    grid: {
-      left: '3%',
-      right: '3%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [{
-      type: 'value',
-      //这个一定要设，不然barWidth和bins对应不上
-      scale: true,
-    }],
-    yAxis: [{
-      type: 'value',
-    }],
-    series: [{
-      type: 'bar',
-      barWidth: '99.3%',
-      label: {
-        normal: {
-          show: true,
-          position: 'insideTop',
-          formatter: function (params) {
-            return params.value[1];
-          }
-        }
-      },
-      data: Page.data.GPAs
-    }]
-  };
-  chart.setOption(option);
-} */
-
+var EGPAs = [];
+var NGPAs = [];
+var TGPAs = [];
+var ELEGPAs = [];
+var ENames = [];
+var NNames = [];
+var TNames = [];
+var ELENames = [];
+var GPAs = [];
+var Names = [];
+var Grades= [];
 
 Page({
 
@@ -55,25 +30,24 @@ Page({
     GPA: 0,
     Defeat: 0,
     Population: 0,
-    RankPic: 'https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/loading.png?sign=2e217944ae56ea6abaac195707c5455c&t=1542199997',
+    RankPic: 'cloud://gpacw-069de7.6770-gpacw-069de7/timg (2).gif',
     RankName: 'Please Wait',
+    Grade: 0,
+    finalGPA: [],
     ec: {
       lazyLoad: true
     },
-    isLoaded: false,  
-    isDisposed: false,
-    GPAs: [],
-    Names:[]
   },
-  onReady: function () {
+  onReady: function() {
     // 获取组件
-    this.ecComponent = this.selectComponent('#mychart-dom-bar');
+    this.ecComponent = this.selectComponent('#mychart-dom-scatter');
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log("Running OnLoad...")
     var that = this;
     wx.cloud.callFunction({
         name: 'rankCloud'
@@ -81,91 +55,175 @@ Page({
       .then(res => {
         var GPAList = new Array(res.result.data.length);
         var NameList = new Array(res.result.data.length);
+        var GradeList = new Array(res.result.data.length);
         for (var count = 0; count < res.result.data.length; count++) {
-          GPAList[count] = res.result.data[count].GPA;
+          GPAList[count] = Number(res.result.data[count].GPA).toFixed(2);
           NameList[count] = res.result.data[count]._id;
-          //console.log(res.result.data[count].GPA);
-          //console.log(res.result.data[count]._id);
+          GradeList[count] = res.result.data[count].grade;
         }
-        that.setData({
-          GPAs: GPAList,
-          Names:NameList
-        })
-        //console.log(that.data.GPAs);
-        //console.log(that.data.Names);
-        that.sort();
-        that.search();
-        //console.log(ranking);
 
-        //console.log(that.data.Rank);
-        //console.log(that.data.RankPic);
-                  //var height = [70, 65, 63, 72, 81, 83, 66, 75, 80, 75, 79, 76, 76, 69, 75, 74, 85, 86, 71, 64, 78, 80, 74, 72, 77, 81, 82, 80, 80, 80, 87];
-        //var bins = ecStat.histogram(that.data.GPAs);
-        //that.initChart();
+        GPAs = GPAList;
+        Names = NameList;
+        Grades = GradeList;
+
+        that.sort();
+        that.categorize();
+        that.search();
 
       })
       .catch(console.error)
+    console.log("Run Complete.")
   },
-  sort:function(){
+
+  categorize: function() {
+    console.log("Running categorize...")
     var that = this;
-    var GPAList = that.data.GPAs;
-    var NameList = that.data.Names;
-    var Max = GPAList[0];
-    var GPATemp = 0;
-    var Place = 0;
-    var NameTemp = 0;
+    var rawGPA = GPAs;
+    var rawName = Names;
+    var rawGrade = Grades;
+    //console.log(rawGrade);
+    var EGpa = [];
+    var NGpa = [];
+    var TGpa = [];
+    var ELEGpa = [];
+    var EName = [];
+    var NName = [];
+    var TName = [];
+    var ELEName = [];
+
+    for (var count = 0; count < rawGPA.length; count++) {
+      if (rawGrade[count] == 8) {
+        EGpa.push(rawGPA[count]);
+        EName.push(rawName[count]);
+      }
+      if (rawGrade[count] == 9) {
+        NGpa.push(rawGPA[count]);
+        NName.push(rawName[count]);
+      }
+      if (rawGrade[count] == 10) {
+        TGpa.push(rawGPA[count]);
+        TName.push(rawName[count]);
+      }
+      if (rawGrade[count] == 11) {
+        ELEGpa.push(rawGPA[count]);
+        ELEName.push(rawName[count]);
+      }
+    }
+
+    EGPAs = EGpa;
+    ENames = EName;
+    NGPAs = NGpa;
+    NNames = NName;
+    TGPAs = TGpa;
+    TNames = TName;
+    ELEGPAs = ELEGpa;
+    ELENames = ELEName;
+    console.log("Run Complete.")
+  },
+
+  sort: function() {
+    console.log("Running sort...")
+    var that = this;
+    var Max = GPAs[0];
+    var gpaTemp = 0;
+    var place = 0;
+    var nameTemp = 0;
+    var gradeTemp = 0;
     //height = GPAList;
 
-    for (var i = 0; i < GPAList.length; i++) {
-      for (var j = i; j < GPAList.length; j++) {
-        if (GPAList[j] > Max) {
-          Max = GPAList[j];
-          Place = j;
+    for (var i = 0; i < GPAs.length; i++) {
+      for (var j = i; j < GPAs.length; j++) {
+        if (GPAs[j] > Max) {
+          Max = GPAs[j];
+          place = j;
         }
-
       }
-
-      GPATemp = GPAList[i];
-      NameTemp = NameList[i];
-      GPAList[i] = GPAList[Place];
-      NameList[i] = NameList[Place];
-      GPAList[Place] = GPATemp;
-      NameList[Place] = NameTemp;
-      Max = GPAList[i + 1];
-
-      that.setData({
-        GPAs: GPAList,
-        Names:NameList
-      })
+      gpaTemp = GPAs[i];
+      nameTemp = Names[i];
+      gradeTemp = Grades[i];
+      GPAs[i] = GPAs[place];
+      Names[i] = Names[place];
+      Grades[i] = Grades[place];
+      GPAs[place] = gpaTemp;
+      Names[place] = nameTemp;
+      Grades[place] = gradeTemp;
+      Max = GPAs[i + 1];
     }
+
+    console.log("Run Complete.")
   },
-  search:function(){
+
+  search: function() {
+    console.log("Running Search...")
     var that = this;
-    var GPAList = that.data.GPAs;
-    var NameList = that.data.Names;
     var nickName = '';
 
     wx.getUserInfo({
-      success: function (res) {
+      success: function(res) {
         var userInfo = res.userInfo;
         nickName = userInfo.nickName.replace(/\s*/g, "")
         //console.log(nickName); 
-        for (var count = 0; count <= GPAList.length; count++) {
-          if (nickName == NameList[count]) {
-            that.setData({
-              Name: NameList[count], //显示前端level
-              Rank: count,
-              GPA: GPAList[count],
-              Defeat: Number.parseInt(100 - (count / GPAList.length) * 100),
-              Population: GPAList.length
-            })
-            that.rankPic(Number.parseInt((count / GPAList.length) * 100));
+        for (var count = 0; count < Names.length; count++) {
+          if (nickName == Names[count]) {
+            that.syncAll(Grades[count], nickName);
+
           }
         }
       }
     })
+    console.log("Run Complete.")
   },
+
+  syncAll: function(userGrade, Name) {
+    var that = this;
+    console.log("Running syncAll...")
+    //console.log(userGrade);
+    var userGPA = [];
+    var userField = [];
+
+    if (userGrade == 8) {
+      userGPA = EGPAs;
+      userField = ENames;
+    }
+    if (userGrade == 9) {
+      userGPA = NGPAs;
+      userField = NNames;
+    }
+    if (userGrade == 10) {
+      userGPA = TGPAs;
+      userField = TNames;
+    }
+    if (userGrade == 11) {
+      userGPA = ELEGPAs;
+      userField = ELENames;
+      //console.log("Got it!")
+      //console.log(userGPA[0]);
+    }
+
+    for (var count = 0; count < userGPA.length; count++) {
+      if (Name == userField[count]) {
+        that.setData({
+          Name: userField[count],
+          Grade: userGrade,
+          Rank: count,
+          GPA: userGPA[count],
+          Defeat: Number.parseInt(100 - (count / userGPA.length) * 100),
+          Population: userGPA.length
+        })
+        that.rankPic(Number.parseInt((count / userGPA.length) * 100));
+        //console.log(userGPA[0]);
+        //setTimeout(function(){console.log("Here we go."); that.initChart(userGPA);}, "5000");
+        that.initChart(userGPA);
+      }
+      //console.log("Not this one.")
+    }
+    //console.log(this.data.finalGPA[11]);
+    console.log("Run Complete.")
+  },
+
+
   rankPic: function(ranking) {
+    console.log("Running rankPic...")
     //console.log(ranking);
     var that = this;
     if (ranking <= 5)
@@ -258,9 +316,11 @@ Page({
         RankPic: 'https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/ranks/copper3.png?sign=18e4b43015c4e3ae1534163f5c4677ff&t=1542199042',
         RankName: 'Copper II'
       });
+    console.log("Run Complete.")
   },
 
-  initChart: function() {
+  initChart: function(finalGPA) {
+
     this.ecComponent.init((canvas, width, height) => {
       // 获取组件的 canvas、width、height 后的回调函数
       // 在这里初始化图表
@@ -268,19 +328,59 @@ Page({
         width: width,
         height: height
       });
-      setOption(chart);
+      this.setOp(chart, finalGPA);
       this.chart = chart;
-
-      this.setData({
-        isLoaded: true,
-        isDisposed: false
-      });
 
       // 注意这里一定要返回 chart 实例，否则会影响事件处理等
       return chart;
     });
-  }, 
-  
+  },
+
+  setOp: function(chart, finalGPA) {
+
+    //console.log(finalGPA[0]);
+    //var bins = ecStat.histogram(tempList,'scott');
+    // var girth = [8.3, 8.6, 8.8, 10.5, 10.7, 10.8, 11.0, 11.0, 11.1, 11.2, 11.3, 11.4, 11.4, 11.7, 12.0, 12.9, 12.9, 13.3, 13.7, 13.8, 14.0, 14.2, 14.5, 16.0, 16.3, 17.3, 17.5, 17.9, 18.0, 18.0, 20.6];
+
+    var bins = ecStat.histogram(finalGPA); //Gotta change back to "finalGPA" after gaining a certain amount of users. GPAs
+    var option = {
+      title: {
+        text: 'Distribution of GPA',
+        left: 'center',
+        top: 20
+      },
+      color: ['rgb(25, 183, 207)'],
+      grid: {
+        left: '3%',
+        right: '3%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [{
+        type: 'value',
+        scale: true, //这个一定要设，不然barWidth和bins对应不上
+      }],
+      yAxis: [{
+        type: 'value',
+      }],
+      series: [{
+        name: 'height',
+        type: 'bar',
+        barWidth: '70%',
+        label: {
+          normal: {
+            show: true,
+            position: 'insideTop',
+            formatter: function(params) {
+              return params.value[1];
+            }
+          }
+        },
+        data: bins.data
+      }]
+    };
+    chart.setOption(option);
+  },
   /**
    * 用户点击右上角分享
    */

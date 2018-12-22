@@ -216,7 +216,8 @@ Page({
           // data 传入需要局部更新的数据
           data: {
             // 表示将 done 字段置为 true
-            GPA: GPAFinal
+            GPA: GPAFinal,
+            grade:11
           },
           success: function (res) {
             console.log(res.data)
@@ -229,7 +230,8 @@ Page({
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: GPAFinal
+            GPA: GPAFinal,
+            grade: 11
           }
         })
         console.log("Created");

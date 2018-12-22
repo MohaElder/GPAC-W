@@ -1,5 +1,7 @@
 const db = wx.cloud.database()
 const userSearcher = db.collection('UserGPA')
+var pScore = [];
+
 Page({
 
   /**
@@ -10,7 +12,6 @@ Page({
 
     level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
-    pScore: ['', '', '', '', '', '', ''],
     SubAindex: 0,
     SubBindex: 0,
     SubCindex: 0,
@@ -32,10 +33,7 @@ Page({
   },
 
   getSubAScore: function (e) {
-    var formatter = "pScore[" + 0 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[0] = e.detail.value;
     //console.log(e.detail.value)
   },
 
@@ -52,10 +50,7 @@ Page({
   },
 
   getSubBScore: function (e) {
-    var formatter = "pScore[" + 1 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[1] = e.detail.value;
   },
   getSubBLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -70,10 +65,7 @@ Page({
   },
 
   getSubCScore: function (e) {
-    var formatter = "pScore[" + 2 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[2] = e.detail.value;
   },
   getSubCLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -88,10 +80,7 @@ Page({
   },
 
   getSubDScore: function (e) {
-    var formatter = "pScore[" + 3 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[3] = e.detail.value;
   },
   getSubDLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -106,10 +95,7 @@ Page({
   },
 
   getSubEScore: function (e) {
-    var formatter = "pScore[" + 4 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[4] = e.detail.value;
   },
   getSubELevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -124,10 +110,7 @@ Page({
   },
 
   getSubFScore: function (e) {
-    var formatter = "pScore[" + 5 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[5] = e.detail.value;
   },
   getSubFLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -142,10 +125,7 @@ Page({
   },
 
   getSubGScore: function (e) {
-    var formatter = "pScore[" + 6 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[6] = e.detail.value;
   },
   getSubGLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -177,8 +157,8 @@ Page({
     var credit = 0;
     var that = this;
     //console.log(name);
-    for (var count = 0; count < this.data.pLevel.length; count++) {
-      if (this.data.pScore[count] != '') {
+    for (var count = 0; count < pScore.length; count++) {
+      if (pScore[count] != '') {
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
         //console.log(credit);
@@ -209,7 +189,8 @@ Page({
           // data 传入需要局部更新的数据
           data: {
             // 表示将 done 字段置为 true
-            GPA: GPAFinal
+            GPA: GPAFinal,
+            grade: 9
           },
           success: function (res) {
             //console.log(res.data)
@@ -222,7 +203,8 @@ Page({
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: GPAFinal
+            GPA: GPAFinal,
+            grade: 9
           }
         })
         console.log("Created");
@@ -240,7 +222,7 @@ Page({
   //Data Importation Function
   getGpa: function (count) {
     var that = this;
-    var subScore = this.data.pScore[count];//Import Score
+    var subScore = pScore[count];//Import Score
     var subLevel = this.data.pLevel[count];//Import Level
     var TempList = this.data.CreditList[count].split("@");//Decode CreditList
     var Credit = parseFloat(TempList[0]);//Import Credit

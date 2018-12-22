@@ -13,7 +13,8 @@ exports.main = async (event, context) => {
   for (let i = 0; i < batchTimes; i++) {
     const promise = db.collection('UserGPA').skip(i * MAX_LIMIT).limit(MAX_LIMIT).field({
       GPA: true,
-      _id: true
+      _id: true,
+      grade:true
       })
       .get()
     tasks.push(promise)

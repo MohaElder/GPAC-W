@@ -1,5 +1,7 @@
 const db = wx.cloud.database()
 const userSearcher = db.collection('UserGPA')
+var pScore = [];
+
 Page({
   
   /**
@@ -10,7 +12,6 @@ Page({
     SubjectList: ["Math", "Eng", "Chi", "Phy/Chem", "SubE", "SubF", "SubG"],//Subjects (Not used in the following code, only to make the data readable)
     level: ['S', 'S+', 'H', 'H+', 'AP'],
     pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
-    pScore:['','','','','','',''],
     CreditList: ["5.5@0", "5.5@1", "3.0@1", "4.0@0", "4.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
     NLAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
     NLHPLUSList: [0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15],
@@ -43,10 +44,8 @@ Page({
    //   this.show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path; that.setData({ show: this.show })
  // },
   getSubAScore: function (e) {
-    var formatter = "pScore[" + 0 + "]";
-    this.setData({
-      [formatter]:e.detail.value
-    })
+    pScore[0] = e.detail.value;
+   //console.log(pScore[0]);
    //console.log(e.detail.value)
   },
 
@@ -63,10 +62,7 @@ Page({
   },
 
   getSubBScore: function (e) {
-    var formatter = "pScore[" + 1 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[1] = e.detail.value;
   },
   getSubBLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -81,10 +77,7 @@ Page({
   },
 
   getSubCScore: function (e) {
-    var formatter = "pScore[" + 2 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[2] = e.detail.value;
   },
   getSubCLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -99,10 +92,7 @@ Page({
   },
 
   getSubDScore: function (e) {
-    var formatter = "pScore[" + 3 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[3] = e.detail.value;
   },
   getSubDLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -117,10 +107,7 @@ Page({
   },
 
   getSubEScore: function (e) {
-    var formatter = "pScore[" + 4 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[4] = e.detail.value;
   },
   getSubELevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -135,10 +122,7 @@ Page({
   },
 
   getSubFScore: function (e) {
-    var formatter = "pScore[" + 5 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[5] = e.detail.value;
   },
   getSubFLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -153,10 +137,7 @@ Page({
   },
 
   getSubGScore: function (e) {
-    var formatter = "pScore[" + 6 + "]";
-    this.setData({
-      [formatter]: e.detail.value
-    })
+    pScore[6] = e.detail.value;
   },
   getSubGLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -188,8 +169,8 @@ Page({
     var credit = 0;
     var that = this;
     //console.log(name);
-    for (var count = 0; count < this.data.pLevel.length; count++) {
-      if (this.data.pScore[count] != ''){
+    for (var count = 0; count < pScore.length; count++) {
+      if (pScore[count] != ''){
         var TempList = this.data.CreditList[count].split("@")//Decode CreditList
         credit += parseFloat(TempList[0]);//Import Credit
         //console.log(credit);
@@ -220,7 +201,8 @@ Page({
           // data 传入需要局部更新的数据
           data: {
             // 表示将 done 字段置为 true
-            GPA:GPAFinal
+            GPA:GPAFinal,
+            grade: 11
           },
           success: function (res) {
             //console.log(res.data)
@@ -233,7 +215,8 @@ Page({
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: GPAFinal
+            GPA: GPAFinal,
+            grade: 11
           }
         })
         console.log("Created");
@@ -251,7 +234,7 @@ Page({
   //Data Importation Function
   getGpa:function (count){
     var that = this;
-    var subScore = this.data.pScore[count];//Import Score
+    var subScore = pScore[count];//Import Score
     var subLevel = this.data.pLevel[count];//Import Level
     var TempList = this.data.CreditList[count].split("@");//Decode CreditList
     var Credit = parseFloat(TempList[0]);//Import Credit
