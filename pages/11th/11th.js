@@ -1,6 +1,12 @@
+import GPAC from '../../utils/GPAC';
+
 const db = wx.cloud.database()
 const userSearcher = db.collection('UserGPA')
 var pScore = [];
+var pLevel = [];
+var GPACs = [];
+var subjectList= ["Math", "Eng", "Chi", "Phy/Chem", "SubE", "SubF", "SubG"];
+var level =  ['S', 'S+', 'H', 'H+', 'AP'];
 
 Page({
   
@@ -11,7 +17,6 @@ Page({
     //imagelist: ['https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/a.png?sign=c7b448418df2aecd04952a7368b0c6da&t=1537967612'],
     SubjectList: ["Math", "Eng", "Chi", "Phy/Chem", "SubE", "SubF", "SubG"],//Subjects (Not used in the following code, only to make the data readable)
     level: ['S', 'S+', 'H', 'H+', 'AP'],
-    pLevel: ['S', 'S', 'S', 'S', 'S', 'S', 'S'],
     CreditList: ["5.5@0", "5.5@1", "3.0@1", "4.0@0", "4.0@0", "4.0@0", "4.0@0"],//Subjects'credit and the mark of whether it is language or nonlanguage. 1 = Language, 0 = NonLanguage
     NLAPList: [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5], //Credits for Language AP IN ORDER
     NLHPLUSList: [0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15],
@@ -44,32 +49,30 @@ Page({
    //   this.show = "结果:" + res.result + "二维码类型:" + res.scanType + "字符集:" + res.charSet + "路径:" + res.path; that.setData({ show: this.show })
  // },
   getSubAScore: function (e) {
-    pScore[0] = e.detail.value;
-   //console.log(pScore[0]);
-   //console.log(e.detail.value)
+    GPACs[0].setScore(e.detail.value);
   },
 
   getSubALevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
+    GPACs[0].setLevel(level[e.detail.value]);
+    //console.log(GPACs[0].getLevel());
     var formatter = "pLevel[" + 0 + "]";
     this.setData({
-      SubAindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level      
+      SubAindex: e.detail.value,//显示前端level 
     })
-    //console.log(this.dPta.index)
     //console.log(this.data.pLevel[0])
 
   },
 
   getSubBScore: function (e) {
-    pScore[1] = e.detail.value;
+    GPACs[1].setScore(e.detail.value);
   },
   getSubBLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
+    GPACs[1].setLevel(level[e.detail.value]);
     var formatter = "pLevel[" + 1 + "]";
     this.setData({
-      SubBindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level   
+      SubBindex: e.detail.value,//显示前端level  
     })
     //console.log(this.data.index)
     //console.log(this.data.SubALevel)
@@ -77,14 +80,14 @@ Page({
   },
 
   getSubCScore: function (e) {
-    pScore[2] = e.detail.value;
+    GPACs[2].setScore(e.detail.value);
   },
   getSubCLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
-    var formatter = "pLevel[" + 2 + "]";
+    GPACs[2].setLevel(level[e.detail.value]);
     this.setData({
       SubCindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level   
+      
     })
     //console.log(this.data.index)
     //console.log(this.data.SubALevel)
@@ -92,14 +95,15 @@ Page({
   },
 
   getSubDScore: function (e) {
-    pScore[3] = e.detail.value;
+    GPACs[3].setScore(e.detail.value);
   },
   getSubDLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
-    var formatter = "pLevel[" + 3 + "]";
+    GPACs[3].setLevel(level[e.detail.value]);
+
     this.setData({
       SubDindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level    
+      
     })
     //console.log(this.data.index)
     //console.log(this.data.SubALevel)
@@ -107,14 +111,15 @@ Page({
   },
 
   getSubEScore: function (e) {
-    pScore[4] = e.detail.value;
+    GPACs[4].setScore(e.detail.value);
   },
   getSubELevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
+    GPACs[4].setLevel(level[e.detail.value]);
     var formatter = "pLevel[" + 4 + "]";
     this.setData({
       SubEindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level   
+     
     })
     //console.log(this.data.index)
     //console.log(this.data.SubALevel)
@@ -122,14 +127,14 @@ Page({
   },
 
   getSubFScore: function (e) {
-    pScore[5] = e.detail.value;
+    GPACs[5].setScore(e.detail.value);
   },
   getSubFLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
-    var formatter = "pLevel[" + 5 + "]";
+    GPACs[5].setLevel(level[e.detail.value]);
     this.setData({
      SubFindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level    
+     
     })
     //console.log(this.data.index)
     //console.log(this.data.SubALevel)
@@ -137,14 +142,14 @@ Page({
   },
 
   getSubGScore: function (e) {
-    pScore[6] = e.detail.value;
+    GPACs[6].setScore(e.detail.value);
   },
   getSubGLevel: function (e) {
     //console.log('picker发送选择改变，携带值为', e.detail.value)
-    var formatter = "pLevel[" + 6 + "]";
+    GPACs[6].setLevel(level[e.detail.value]);
     this.setData({
       SubGindex: e.detail.value,//显示前端level
-      [formatter]: this.data.level[e.detail.value] //提取前端level   
+
     })
     //console.log(this.data.index)
     //console.log(this.data.SubALevel)
@@ -163,65 +168,7 @@ Page({
   },
   //StartUp Function 
   Submit: function (name) {
-    const _ = db.command;
-    var total = 0;
-    var rank = "";
-    var credit = 0;
-    var that = this;
-    //console.log(name);
-    for (var count = 0; count < pScore.length; count++) {
-      if (pScore[count] != ''){
-        var TempList = this.data.CreditList[count].split("@")//Decode CreditList
-        credit += parseFloat(TempList[0]);//Import Credit
-        //console.log(credit);
-        total += that.getGpa(count);//Adds all the raw GPA
-      }
 
-    }
-
-    var GPAFinal = total / credit;//Divides the Raw GPA with the credit.
-    //GPA Satisfaction Evaluation
-    if (GPAFinal <= 3) { rank = " Try harder!"; }
-    else if (GPAFinal >= 3) { rank = " Sweet!"; }
-    else { rank = "Error!"; }
-    //Present GPA
-    wx.showModal({
-      title: 'Result',
-      content: ("Your GPA is " + GPAFinal.toFixed(2) + "," + rank),
-      confirmText: "Confirm", 
-      cancelText: "OK"      
-    });
-    that.setData({
-      FinalGPA: GPAFinal
-    })
-    //console.log(this.data.FinalGPA);
-    db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
-      success: function (res) {
-        db.collection('UserGPA').doc(name).update({
-          // data 传入需要局部更新的数据
-          data: {
-            // 表示将 done 字段置为 true
-            GPA:GPAFinal,
-            grade: 11
-          },
-          success: function (res) {
-            //console.log(res.data)
-          }
-        })
-        // res.data 包含该记录的数据
-        console.log("Update");
-      },
-      fail: function () {
-        db.collection('UserGPA').add({
-          data: {
-            _id: name,
-            GPA: GPAFinal,
-            grade: 11
-          }
-        })
-        console.log("Created");
-      }
-    })
 
     //console.log(this.data.UserGPA)
     //console.log("Your GPA is " + GPAFinal + "," + rank);
@@ -329,7 +276,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    for (var i = 0; i < subjectList.length; i++){
+      GPACs.push(new GPAC());
+    }
   },
 
   /**

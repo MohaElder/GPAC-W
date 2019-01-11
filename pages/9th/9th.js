@@ -256,7 +256,7 @@ Page({
     }
     if (Level == "S") {
       calLevel = this.data.NLSList
-      return that.calGPA(Score, calLevel);
+      return that.calGPA(Score, calLevel);  
     }
   },
 
@@ -273,6 +273,7 @@ Page({
       return that.calGPA(Score, calLevel);
     }
     if (Level == "H") {
+
       calLevel = this.data.LHList
       return that.calGPA(Score, calLevel);
     }
