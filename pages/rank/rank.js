@@ -37,6 +37,7 @@ Page({
     ec: {
       lazyLoad: true
     },
+    scrollTop: 100
   },
   onReady: function() {
     // 获取组件
@@ -384,5 +385,9 @@ Page({
    */
   onShareAppMessage: function() {
 
+  },
+  onPullDownRefresh: function () {
+    console.log("Yay");
+    this.onLoad()
   }
 })

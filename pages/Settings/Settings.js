@@ -5,7 +5,25 @@ Page({
    * 页面的初始数据
    */
   data: {
+    subjects: [
+      {
+        subjectName: 'Loading......',
+        level: ['S', 'S+', 'H', 'H+', 'AP'],
+        selectedValue: 0,
+        credit: 5.5,
+        type: 1 //1 = Language, 0 = NonLanguage
+      }
+    ],
+    level: ['S', 'S+', 'H', 'H+', 'AP'],
+    levelNum: 1,
+    subNum: [],
+  },
 
+  generateSubject: function(e){
+    this.subNum
+    this.setData({
+      subNum:list
+    })
   },
 
   /**

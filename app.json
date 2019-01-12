@@ -4,14 +4,9 @@
   ],
   "pages": [
     "pages/index/index",
-    "pages/8th/8th",
-    "pages/9th/9th",
-    "pages/10th/10th",
-    "pages/11th/11th",
     "pages/rank/rank",
     "pages/IB/IB",
     "pages/Agreement/Agreement",
-    "pages/scatter/index",
     "pages/Settings/Settings"
   ],
   "window": {
@@ -19,5 +14,29 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "navigationBarTitleText": "input",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#bfbfbf",
+    "selectedColor": "#d81e06",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "GPA",
+        "iconPath": "/Assets/GPA.png",
+        "selectedIconPath": "/Assets/GPA_Selected.png"
+      },
+      {
+        "pagePath": "pages/rank/rank",
+        "text": "Me",
+        "iconPath": "/Assets/Rank.png",
+        "selectedIconPath": "/Assets/Rank_Selected.png"
+      },
+      {
+        "pagePath": "pages/Settings/Settings",
+        "text": "Settings",
+        "iconPath": "/Assets/Rank.png",
+        "selectedIconPath": "/Assets/Rank_Selected.png"
+      }
+    ]
   }
 }

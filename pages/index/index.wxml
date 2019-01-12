@@ -1,28 +1,29 @@
-  <!--index.wxml-->
+<view class="page-body">
 
-<view class="page__hd">
-  <view class="page__title">GPAC W</view>
-  <view class="page__desc">A More Club Product</view>
-  <view class="page__desc enhanceAgreement">使用本软件代表您默认同意本软件授权条款/Using this software means that you agrees with the licsence agreement of this software.</view>
+ <view class="page__hd">
+        <view class="page__title">
+        <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetList}}">
+        <view class="picker">
+          You are at: {{presetList[presetIndex]}}
+        </view>
+      </picker>
+      </view>
+        <view class="page__desc">{{announcement}}</view>
+    </view>
+  <view class="page-section">
+
+<view class="weui-cells weui-cells_after-title" wx:for="{{subjects}}">
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__bd">{{item.subjectName}}</view>
+     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore" data-index = "{{index}}"/>
+  </view>
+      <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index = "{{index}}" range="{{item.level}}">
+        <view class="picker enhanceView">
+          Level = {{item.level[item.selectedValue]}}
+        </view>
+      </picker>
 </view>
-<view class="container">
-  <view class="userinfo">
-    <open-data class="userinfo-avatar"type="userAvatarUrl"></open-data>
-   <text>Welcome! </text>
-   <open-data type="userNickName"></open-data>
-  </view>
-  <view name="NavButtons">
-    <text>\n</text>
-    <button class="weui-btn enhanceButton" type="primary" bindtap='To8'>8TH GRADE</button>
-    <button class="weui-btn enhanceButton" type="primary" bindtap='To9'>9TH GRADE</button>
-    <button class="weui-btn enhanceButton" type="primary" bindtap='To10'>10TH GRADE</button>
-    <button class="weui-btn enhanceButton" type="primary" bindtap='To11'>11TH GRADE</button>
-    <button class="weui-btn enhanceButton" type="primary" bindtap='ToIB'>IB</button>
-    <text>\n</text>
-    <button class="weui-btn enhanceButton" type="primary" bindtap='ToRank'>My Ranking</button>
-     <!--<button class="weui-btn enhanceButton" type="primary" bindtap='ToDebug'>DEBUG</button>-->
-    <button class="weui-btn enhanceButton" type="secondary" bindtap='ToDonation'>支持我，给我打钱</button>
-    <button class="weui-btn enhanceButton" type="secondary" bindtap='ToAgreement'>授权条款/Licsence Agreement</button>
 
-  </view>
+<button class="weui-btn enhanceButton" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+</view>
 </view>

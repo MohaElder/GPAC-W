@@ -1,6 +1,66 @@
 <!--pages/Settings/Settings.wxml-->
-<text>pages/Settings/Settings.wxml</text>
+<view class="page-body">
 
-<p>未来这里会有自定义年级功能 -> 保存用户预设 how many subjects: 8 -> wx:if 8生成八个unit credit 跟随跳出来的howmany subject 数量 -> creditA: creditB: 命名科目 保存的时候上传到用户对应数据库</p>
+ <view class="page__hd">
+        <view class="page__title">
+        Customize your preset here!
+      </view>
+        <view class="page__desc">{{announcement}}</view>
+    </view>
+  <view class="page-section">
 
-<p> ui逻辑大改 -> 变成两个tab， gpa和我（rank+stat+上中头脑王者。。。。。。），进入gpa的时候有个提示框让你选择年级or用户preset -> preset通过搜索用户名加载，保存在数据库 </p>
+<view class="weui-cells weui-cells_after-title">
+
+
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__bd">Preset Name</view>
+     <input class="weui-input" type="number" placeholder="Name..."/>
+  </view>
+
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__bd">Subject Number</view>
+     <input class="weui-input" type="number" placeholder="Number..." bindinput = "generateSubject" data-index = "{{index}}"/>
+  </view>
+
+</view>
+
+<view class="weui-cells weui-cells_after-title" wx:for="{{subNum}}">
+
+  <text>{{index + 1}} Subject(s)</text>
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__bd">Subject Name</view>
+     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore"/>
+  </view>
+
+  <view class="weui-cell weui-cell_input">
+
+    <view class="weui-cell__bd">Number of Levels</view>
+     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore"/>
+  </view>
+
+<view class="weui-cells weui-cells_after-title" wx:for="{levels}}">
+ <picker bindchange="getSubtype" value="{{item.selectedValue}}" data-index = "{{index}}" range="{{item.type}}">
+        <view class="picker enhanceView">
+          Subject Type = {{item.type[item.selectedValue]}}
+        </view>
+      </picker>
+</view>
+
+  <view class="weui-cell weui-cell_input">
+    <view class="weui-cell__bd">Subject Credit</view>
+     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore"/>
+  </view>
+
+      <picker bindchange="getSubtype" value="{{item.selectedValue}}" data-index = "{{index}}" range="{{item.type}}">
+        <view class="picker enhanceView">
+          Subject Type = {{item.type[item.selectedValue]}}
+        </view>
+      </picker>
+
+      </view>
+
+<button class="weui-btn enhanceButton" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+
+</view>
+
+</view>
