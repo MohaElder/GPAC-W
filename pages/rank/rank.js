@@ -124,30 +124,28 @@ Page({
   sort: function() {
     console.log("Running sort...")
     var that = this;
-    var Max = GPAs[0];
+    var Max = 0;
     var gpaTemp = 0;
-    var place = 0;
     var nameTemp = 0;
     var gradeTemp = 0;
     //height = GPAList;
 
-    for (var i = 0; i < GPAs.length; i++) {
+    for (var i = 0; i < GPAs.length-1; i++) {
+      Max = i;
       for (var j = i; j < GPAs.length; j++) {
-        if (GPAs[j] > Max) {
-          Max = GPAs[j];
-          place = j;
+        if (GPAs[j] > GPAs[Max]) {
+          Max = j;
         }
       }
       gpaTemp = GPAs[i];
       nameTemp = Names[i];
       gradeTemp = Grades[i];
-      GPAs[i] = GPAs[place];
-      Names[i] = Names[place];
-      Grades[i] = Grades[place];
-      GPAs[place] = gpaTemp;
-      Names[place] = nameTemp;
-      Grades[place] = gradeTemp;
-      Max = GPAs[i + 1];
+      GPAs[i] = GPAs[Max];
+      Names[i] = Names[Max];
+      Grades[i] = Grades[Max];
+      GPAs[Max] = gpaTemp;
+      Names[Max] = nameTemp;
+      Grades[Max] = gradeTemp;
     }
 
     console.log("Run Complete.")
