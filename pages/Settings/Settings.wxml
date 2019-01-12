@@ -1,0 +1,6 @@
+<!--pages/Settings/Settings.wxml-->
+<text>pages/Settings/Settings.wxml</text>
+
+<p>未来这里会有自定义年级功能 -> 保存用户预设 how many subjects: 8 -> wx:if 8生成八个unit credit 跟随跳出来的howmany subject 数量 -> creditA: creditB: 命名科目 保存的时候上传到用户对应数据库</p>
+
+<p> ui逻辑大改 -> 变成两个tab， gpa和我（rank+stat+上中头脑王者。。。。。。），进入gpa的时候有个提示框让你选择年级or用户preset -> preset通过搜索用户名加载，保存在数据库 </p>
