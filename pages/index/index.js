@@ -3,7 +3,8 @@ import { Unit, Result } from '../../utils/GPAC';
 const db = wx.cloud.database()
 const userSearcher = db.collection('UserGPA')
 var GPACs = [];
-
+var Presets = [];
+var presetListname = [];
 //Default Presets
 var eighthGrade = [
   {
@@ -270,10 +271,12 @@ var ib = [
     credit: 2.0,
     type: 0 //1 = Language, 0 = NonLanguage
   },
- ];
+];
+
+var defaultPresets = [eighthGrade, ninethGrade, tenthGrade, elethGrade, ib];
 
 
-var defaultPresets = [eighthGrade,ninethGrade,tenthGrade,elethGrade,ib];
+
 
 //console.log(defaultPresets)
 
@@ -284,7 +287,7 @@ Page({
    */
   data: {
     announcement: "Change Preset 👆",
-    presetList:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
+    presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
     presetIndex: 0,
     subjects: [
       {
@@ -390,7 +393,6 @@ Page({
         subjects:eighthGrade
       })
     for (var i = 0; i < this.data.subjects.length; i++) {
-
       //var TempList = settingList[i].split("@");//Decode CreditList
       GPACs.push(new Unit(this.data.subjects[i].name, this.data.subjects[i].credit, this.data.subjects[i].type));
     }
@@ -401,15 +403,8 @@ Page({
       name: 'presetCloud'
     })
       .then(res => {
-        var presetName = res.result.data.Presetname;
-        var presetGrade = res.result.data.Presetgrade;
-        var subjects = new Array(res.result.data.length);
-        for (var count = 0; count < res.result.data.length; count++) {
-          subjects[count] = res.result.data[count].grade;
-        }
-
+        Presets = res.result.data;
         that.search();
-
       })
       .catch(console.error)
     console.log("Run Complete.")
@@ -426,10 +421,16 @@ Page({
         var userInfo = res.userInfo;
         nickName = userInfo.nickName.replace(/\s*/g, "")
         //console.log(nickName); 
-        for (var count = 0; count < Names.length; count++) {
-          if (nickName == Names[count]) {
-            that.syncAll(Grades[count], nickName);
-
+        for (var count = 0; count < Presets.length; count++) {
+          if (nickName == Presets[count]._id) {
+            presetListname = that.data.presetListname;
+            presetListname.push(Presets[count].Presetname);
+            defaultPresets.push(Presets[count].subjects);
+            
+            that.setData({
+              presetListname: presetListname
+            })
+            console.log("Success");
           }
         }
       }

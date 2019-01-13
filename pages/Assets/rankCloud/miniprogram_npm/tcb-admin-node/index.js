@@ -4,7 +4,7 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {} }; __MODS__[
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = { exports: {} }; __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); if(typeof m.exports === "object") { Object.keys(m.exports).forEach(function(k) { __MODS__[modId].m.exports[k] = m.exports[k]; }); if(m.exports.__esModule) Object.defineProperty(__MODS__[modId].m.exports, "__esModule", { value: true }); } else { __MODS__[modId].m.exports = m.exports; } } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1543112984171, function(require, module, exports) {
+__DEFINE__(1547361209095, function(require, module, exports) {
 const storage = require("./src/storage");
 const database = require("./src/db").Db;
 const functions = require("./src/functions");
@@ -94,8 +94,490 @@ extend(Tcb.prototype, wx)
 
 module.exports = new Tcb();
 
-}, function(modId) {var map = {"./src/db":1543112984173,"./src/functions":1543112984189,"./src/wx":1543112984190}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984173, function(require, module, exports) {
+}, function(modId) {var map = {"./src/storage":1547361209096,"./src/db":1547361209099,"./src/functions":1547361209113,"./src/wx":1547361209114}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209096, function(require, module, exports) {
+const request = require("request");
+const fs = require('fs');
+const httpRequest = require("../utils/httpRequest");
+
+/*
+ * 上传文件
+ * @param {string} cloudPath 上传后的文件路径
+ * @param {fs.ReadStream} fileContent  上传文件的二进制流
+ */
+function uploadFile({ cloudPath, fileContent }, { onResponseReceived } = {}) {
+  let params = {
+    action: "storage.uploadFile",
+    path: cloudPath,
+    file: fileContent
+  };
+
+  return httpRequest({
+    config: this.config,
+    params,
+    method: "post",
+    headers: {
+      // "content-type": "multipart/form-data"
+    },
+    callback: (response) => {
+      onResponseReceived && typeof onResponseReceived === 'function' && onResponseReceived(response)
+    }
+  }).then((res) => {
+    if (res.code) {
+      return res;
+    } else {
+      return {
+        fileID: res.data.fileID,
+        requestId: res.requestId
+      };
+    }
+  });
+}
+
+/**
+ * 删除文件
+ * @param {Array.<string>} fileList 文件id数组
+ */
+async function deleteFile({ fileList }) {
+  if (!fileList || !Array.isArray(fileList)) {
+    return {
+      code: "INVALID_PARAM",
+      message: "fileList必须是非空的数组"
+    };
+  }
+
+  for (let file of fileList) {
+    if (!file || typeof file != "string") {
+      return {
+        code: "INVALID_PARAM",
+        message: "fileList的元素必须是非空的字符串"
+      };
+    }
+  }
+
+  let params = {
+    action: "storage.batchDeleteFile",
+    fileid_list: fileList
+  };
+
+  return httpRequest({
+    config: this.config,
+    params,
+    method: "post",
+    headers: {
+      "content-type": "application/json"
+    }
+  }).then(res => {
+    if (res.code) {
+      return res;
+    } else {
+      return {
+        fileList: res.data.delete_list,
+        requestId: res.requestId
+      };
+    }
+  });
+}
+
+/**
+ * 获取文件下载链接
+ * @param {Array.<Object>} fileList
+ */
+async function getTempFileURL({ fileList }) {
+  if (!fileList || !Array.isArray(fileList)) {
+    return {
+      code: "INVALID_PARAM",
+      message: "fileList必须是非空的数组"
+    };
+  }
+
+  let file_list = [];
+  for (let file of fileList) {
+    if (typeof file === 'object') {
+      if (
+        !file.hasOwnProperty("fileID") ||
+        !file.hasOwnProperty("maxAge")
+      ) {
+        return {
+          code: "INVALID_PARAM",
+          message: "fileList的元素必须是包含fileID和maxAge的对象"
+        };
+      }
+
+      file_list.push({
+        fileid: file.fileID,
+        max_age: file.maxAge
+      });
+    } else if (typeof file === 'string') {
+      file_list.push({
+        fileid: file,
+      });
+    } else {
+      return {
+        code: "INVALID_PARAM",
+        message: "fileList的元素必须是字符串"
+      };
+    }
+  }
+
+  let params = {
+    action: "storage.batchGetDownloadUrl",
+    file_list
+  };
+  // console.log(params);
+
+  return httpRequest({
+    config: this.config,
+    params,
+    method: "post",
+    headers: {
+      "content-type": "application/json"
+    }
+  }).then(res => {
+    // console.log(res);
+    if (res.code) {
+      return res;
+    } else {
+      return {
+        fileList: res.data.download_list,
+        requestId: res.requestId
+      };
+    }
+  });
+}
+
+async function downloadFile({ fileID, tempFilePath }) {
+  let tmpUrl,
+    self = this;
+  try {
+    const tmpUrlRes = await this.getTempFileURL({
+      fileList: [
+        {
+          fileID,
+          maxAge: 600
+        }
+      ]
+    });
+    // console.log(tmpUrlRes);
+    const res = tmpUrlRes.fileList[0]
+
+    if (
+      res.code != 'SUCCESS'
+    ) {
+      return res;
+    }
+
+    tmpUrl = res.tempFileURL;
+  } catch (e) {
+    throw e
+  }
+
+  let req = request({
+    url: tmpUrl,
+    encoding: null,
+    proxy: self.config.proxy
+  });
+
+  return new Promise((resolve, reject) => {
+    let fileContent = Buffer.alloc(0)
+    req.on('response', function (response) {
+      if (response && +response.statusCode === 200) {
+        if (tempFilePath) {
+          response.pipe(fs.createWriteStream(tempFilePath));
+        } else {
+          response.on('data', (data) => {
+            fileContent = Buffer.concat([fileContent, data])
+          })
+        }
+        response.on('end', () => {
+          resolve({
+            fileContent: tempFilePath ? undefined : fileContent,
+            message: '文件下载完成'
+          })
+        })
+      } else {
+        reject(response)
+      }
+    });
+  });
+}
+
+exports.uploadFile = uploadFile;
+exports.deleteFile = deleteFile;
+exports.getTempFileURL = getTempFileURL;
+exports.downloadFile = downloadFile;
+
+}, function(modId) { var map = {"../utils/httpRequest":1547361209097}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209097, function(require, module, exports) {
+var request = require("request");
+var auth = require("./auth.js");
+
+module.exports = function (args) {
+  var config = args.config,
+    params = args.params,
+    method = args.method || "get";
+
+  const eventId = (new Date()).valueOf() + '_' + Math.random().toString().substr(2,5)
+
+  params = Object.assign({}, params, {
+    envName: config.envName,
+    timestamp: new Date().valueOf(),
+    eventId
+  });
+
+  for (let key in params) {
+    if (params[key] === undefined) {
+      delete params[key];
+    }
+  }
+
+  let file = null;
+  if (params.action === "storage.uploadFile") {
+    file = params["file"];
+    delete params["file"];
+  }
+
+  if (!config.secretId || !config.secretKey) {
+    if (process.env.TENCENTCLOUD_RUNENV === 'SCF') {
+      throw Error("missing authoration key, redeploy the function")
+    }
+    throw Error("missing secretId or secretKey of tencent cloud");
+  }
+
+  const authObj = {
+    SecretId: config.secretId,
+    SecretKey: config.secretKey,
+    Method: method,
+    pathname: "/admin",
+    Query: params,
+    Headers: Object.assign(
+      {
+        "user-agent": "tcb-admin-sdk"
+      },
+      args.headers || {}
+    )
+  };
+
+  var authorization = auth.getAuth(authObj);
+
+  params.authorization = authorization;
+  file && (params.file = file);
+  config.sessionToken && (params.sessionToken = config.sessionToken);
+
+  // console.log(params);
+  var opts = {
+    // url: 'http://localhost:8002/admin',
+    url: "http://tcb-admin.tencentcloudapi.com/admin",
+    method: args.method || "get",
+    timeout: args.timeout || 50000,
+    headers: authObj.Headers,
+    proxy: config.proxy
+  };
+
+  if (params.action === "storage.uploadFile") {
+    opts.formData = params;
+    opts.formData.file = {
+      value: params.file,
+      options: {
+        filename: params.path
+      }
+    };
+  } else if (args.method == "post") {
+    opts.body = params;
+    opts.json = true;
+  } else {
+    opts.qs = params;
+  }
+
+  if (params.action === 'wx.api') {
+    opts.url = 'https://tcb-open.tencentcloudapi.com/admin'
+  }
+
+  if (args.proxy) {
+    opts.proxy = args.proxy;
+  }
+
+  opts.url = `${opts.url}?eventId=${eventId}`
+
+  // console.log(JSON.stringify(opts));
+  return new Promise(function (resolve, reject) {
+    request(opts, function (err, response, body) {
+      // console.log(err, body);
+      args && args.callback && args.callback(response)
+
+      if (err === null && response.statusCode == 200) {
+        let res;
+        try {
+          res = typeof body === "string" ? JSON.parse(body) : body;
+        } catch (e) {
+          res = body;
+        }
+        return resolve(res);
+      } else {
+        return reject(err);
+      }
+    });
+  });
+};
+
+}, function(modId) { var map = {"./auth.js":1547361209098}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209098, function(require, module, exports) {
+var crypto = require("crypto");
+
+function camSafeUrlEncode(str) {
+  return encodeURIComponent(str)
+    .replace(/!/g, "%21")
+    .replace(/'/g, "%27")
+    .replace(/\(/g, "%28")
+    .replace(/\)/g, "%29")
+    .replace(/\*/g, "%2A");
+}
+function map(obj, fn) {
+  var o = isArray(obj) ? [] : {};
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      o[i] = fn(obj[i], i);
+    }
+  }
+  return o;
+}
+function isArray(arr) {
+  return arr instanceof Array;
+}
+
+function clone(obj) {
+  return map(obj, function(v) {
+    return typeof v === "object" && v !== undefined && v !== null
+      ? clone(v)
+      : v;
+  });
+}
+//测试用的key后面可以去掉
+var getAuth = function(opt) {
+  //   console.log(opt);
+  opt = opt || {};
+
+  var SecretId = opt.SecretId;
+  var SecretKey = opt.SecretKey;
+  var method = (opt.method || opt.Method || "get").toLowerCase();
+  var pathname = opt.pathname || "/";
+  var queryParams = clone(opt.Query || opt.params || {});
+  var headers = clone(opt.Headers || opt.headers || {});
+  pathname.indexOf("/") !== 0 && (pathname = "/" + pathname);
+
+  if (!SecretId) return console.error("missing param SecretId");
+  if (!SecretKey) return console.error("missing param SecretKey");
+
+  var getObjectKeys = function(obj) {
+    var list = [];
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (obj[key] === undefined) {
+          continue;
+        }
+        list.push(key);
+      }
+    }
+    return list.sort();
+  };
+
+  var obj2str = function(obj) {
+    var i, key, val;
+    var list = [];
+    var keyList = getObjectKeys(obj);
+    for (i = 0; i < keyList.length; i++) {
+      key = keyList[i];
+      if (obj[key] === undefined) {
+        continue;
+      }
+      val = obj[key] === null ? "" : obj[key];
+      if (typeof val !== "string") {
+        val = JSON.stringify(val);
+      }
+      key = key.toLowerCase();
+      key = camSafeUrlEncode(key);
+      val = camSafeUrlEncode(val) || "";
+      list.push(key + "=" + val);
+    }
+    return list.join("&");
+  };
+
+  // 签名有效起止时间
+  var now = parseInt(new Date().getTime() / 1000) - 1;
+  var exp = now;
+
+  var Expires = opt.Expires || opt.expires;
+  if (Expires === undefined) {
+    exp += 900; // 签名过期时间为当前 + 900s
+  } else {
+    exp += Expires * 1 || 0;
+  }
+
+  // 要用到的 Authorization 参数列表
+  var qSignAlgorithm = "sha1";
+  var qAk = SecretId;
+  var qSignTime = now + ";" + exp;
+  var qKeyTime = now + ";" + exp;
+  var qHeaderList = getObjectKeys(headers)
+    .join(";")
+    .toLowerCase();
+  var qUrlParamList = getObjectKeys(queryParams)
+    .join(";")
+    .toLowerCase();
+
+  // 签名算法说明文档：https://www.qcloud.com/document/product/436/7778
+  // 步骤一：计算 SignKey
+  var signKey = crypto
+    .createHmac("sha1", SecretKey)
+    .update(qKeyTime)
+    .digest("hex");
+
+  // console.log("queryParams", queryParams);
+  // console.log(obj2str(queryParams));
+
+  // 步骤二：构成 FormatString
+  var formatString = [
+    method,
+    pathname,
+    obj2str(queryParams),
+    obj2str(headers),
+    ""
+  ].join("\n");
+
+  // console.log(formatString);
+  formatString = Buffer.from(formatString, "utf8");
+
+  // 步骤三：计算 StringToSign
+  var sha1Algo = crypto.createHash("sha1");
+  sha1Algo.update(formatString);
+  var res = sha1Algo.digest("hex");
+  var stringToSign = ["sha1", qSignTime, res, ""].join("\n");
+
+  // console.log(stringToSign);
+  // 步骤四：计算 Signature
+  var qSignature = crypto
+    .createHmac("sha1", signKey)
+    .update(stringToSign)
+    .digest("hex");
+
+  // 步骤五：构造 Authorization
+  var authorization = [
+    "q-sign-algorithm=" + qSignAlgorithm,
+    "q-ak=" + qAk,
+    "q-sign-time=" + qSignTime,
+    "q-key-time=" + qKeyTime,
+    "q-header-list=" + qHeaderList,
+    "q-url-param-list=" + qUrlParamList,
+    "q-signature=" + qSignature
+  ].join("&");
+
+  return authorization;
+};
+
+exports.getAuth = getAuth;
+
+}, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209099, function(require, module, exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -103,8 +585,8 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./db"));
 
-}, function(modId) { var map = {"./db":1543112984174}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984174, function(require, module, exports) {
+}, function(modId) { var map = {"./db":1547361209100}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209100, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Geo = require("./geo");
@@ -139,8 +621,8 @@ class Db {
 }
 exports.Db = Db;
 
-}, function(modId) { var map = {"./geo":1543112984175,"./collection":1543112984183,"./command":1543112984180,"./serverDate":1543112984182,"./request":1543112984185,"./regexp":1543112984181}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984175, function(require, module, exports) {
+}, function(modId) { var map = {"./geo":1547361209101,"./collection":1547361209109,"./command":1547361209106,"./serverDate":1547361209108,"./request":1547361209111,"./regexp":1547361209107}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209101, function(require, module, exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -148,8 +630,8 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./point"));
 
-}, function(modId) { var map = {"./point":1543112984176}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984176, function(require, module, exports) {
+}, function(modId) { var map = {"./point":1547361209102}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209102, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const validate_1 = require("../validate");
@@ -171,8 +653,8 @@ class Point {
 }
 exports.Point = Point;
 
-}, function(modId) { var map = {"../validate":1543112984177}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984177, function(require, module, exports) {
+}, function(modId) { var map = {"../validate":1547361209103}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209103, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const constant_1 = require("./constant");
@@ -230,8 +712,8 @@ class Validate {
 }
 exports.Validate = Validate;
 
-}, function(modId) { var map = {"./constant":1543112984178,"./util":1543112984179}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984178, function(require, module, exports) {
+}, function(modId) { var map = {"./constant":1547361209104,"./util":1547361209105}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209104, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ErrorCode;
@@ -293,7 +775,7 @@ const UpdateOperatorList = [
 exports.UpdateOperatorList = UpdateOperatorList;
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984179, function(require, module, exports) {
+__DEFINE__(1547361209105, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const constant_1 = require("./constant");
@@ -475,8 +957,8 @@ Util.generateDocId = () => {
 };
 exports.Util = Util;
 
-}, function(modId) { var map = {"./constant":1543112984178,"./geo/point":1543112984176,"./command":1543112984180,"./serverDate":1543112984182}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984180, function(require, module, exports) {
+}, function(modId) { var map = {"./constant":1547361209104,"./geo/point":1547361209102,"./command":1547361209106,"./serverDate":1547361209108}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209106, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const regexp_1 = require("./regexp");
@@ -657,8 +1139,8 @@ class Command {
 }
 exports.Command = Command;
 
-}, function(modId) { var map = {"./regexp":1543112984181,"./geo":1543112984175}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984181, function(require, module, exports) {
+}, function(modId) { var map = {"./regexp":1547361209107,"./geo":1547361209101}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209107, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class RegExp {
@@ -685,7 +1167,7 @@ function RegExpConstructor(param) {
 exports.RegExpConstructor = RegExpConstructor;
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984182, function(require, module, exports) {
+__DEFINE__(1547361209108, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class ServerDate {
@@ -696,7 +1178,7 @@ class ServerDate {
 exports.ServerDate = ServerDate;
 
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984183, function(require, module, exports) {
+__DEFINE__(1547361209109, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const document_1 = require("./document");
@@ -718,8 +1200,8 @@ class CollectionReference extends query_1.Query {
 }
 exports.CollectionReference = CollectionReference;
 
-}, function(modId) { var map = {"./document":1543112984184,"./query":1543112984188}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984184, function(require, module, exports) {
+}, function(modId) { var map = {"./document":1547361209110,"./query":1547361209112}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209110, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request_1 = require("./request");
@@ -911,8 +1393,8 @@ class DocumentReference {
 }
 exports.DocumentReference = DocumentReference;
 
-}, function(modId) { var map = {"./request":1543112984185,"./util":1543112984179,"./command":1543112984180}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984185, function(require, module, exports) {
+}, function(modId) { var map = {"./request":1547361209111,"./util":1547361209105,"./command":1547361209106}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209111, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const requestHandler = require("../utils/httpRequest");
@@ -936,277 +1418,8 @@ class Request {
 }
 exports.Request = Request;
 
-}, function(modId) { var map = {"../utils/httpRequest":1543112984186}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984186, function(require, module, exports) {
-var request = require("request");
-var auth = require("./auth.js");
-
-module.exports = function (args) {
-  var config = args.config,
-    params = args.params,
-    method = args.method || "get";
-
-  const eventId = (new Date()).valueOf() + '_' + Math.random().toString().substr(2,5)
-
-  params = Object.assign({}, params, {
-    envName: config.envName,
-    timestamp: new Date().valueOf(),
-    eventId
-  });
-
-  for (let key in params) {
-    if (params[key] === undefined) {
-      delete params[key];
-    }
-  }
-
-  let file = null;
-  if (params.action === "storage.uploadFile") {
-    file = params["file"];
-    delete params["file"];
-  }
-
-  if (!config.secretId || !config.secretKey) {
-    if (process.env.TENCENTCLOUD_RUNENV === 'SCF') {
-      throw Error("missing authoration key, redeploy the function")
-    }
-    throw Error("missing secretId or secretKey of tencent cloud");
-  }
-
-  const authObj = {
-    SecretId: config.secretId,
-    SecretKey: config.secretKey,
-    Method: method,
-    pathname: "/admin",
-    Query: params,
-    Headers: Object.assign(
-      {
-        "user-agent": "tcb-admin-sdk"
-      },
-      args.headers || {}
-    )
-  };
-
-  var authorization = auth.getAuth(authObj);
-
-  params.authorization = authorization;
-  file && (params.file = file);
-  config.sessionToken && (params.sessionToken = config.sessionToken);
-
-  // console.log(params);
-  var opts = {
-    // url: 'http://localhost:8002/admin',
-    url: "http://tcb-admin.tencentcloudapi.com/admin",
-    method: args.method || "get",
-    timeout: args.timeout || 50000,
-    headers: authObj.Headers,
-    proxy: config.proxy
-  };
-
-  if (params.action === "storage.uploadFile") {
-    opts.formData = params;
-    opts.formData.file = {
-      value: params.file,
-      options: {
-        filename: params.path
-      }
-    };
-  } else if (args.method == "post") {
-    opts.body = params;
-    opts.json = true;
-  } else {
-    opts.qs = params;
-  }
-
-  if (params.action === 'wx.api') {
-    opts.url = 'https://tcb-open.tencentcloudapi.com/admin'
-  }
-
-  if (args.proxy) {
-    opts.proxy = args.proxy;
-  }
-
-  opts.url = `${opts.url}?eventId=${eventId}`
-
-  // console.log(JSON.stringify(opts));
-  return new Promise(function (resolve, reject) {
-    request(opts, function (err, response, body) {
-      // console.log(err, body);
-      args && args.callback && args.callback(response)
-
-      if (err === null && response.statusCode == 200) {
-        let res;
-        try {
-          res = typeof body === "string" ? JSON.parse(body) : body;
-        } catch (e) {
-          res = body;
-        }
-        return resolve(res);
-      } else {
-        return reject(err);
-      }
-    });
-  });
-};
-
-}, function(modId) { var map = {"./auth.js":1543112984187}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984187, function(require, module, exports) {
-var crypto = require("crypto");
-
-function camSafeUrlEncode(str) {
-  return encodeURIComponent(str)
-    .replace(/!/g, "%21")
-    .replace(/'/g, "%27")
-    .replace(/\(/g, "%28")
-    .replace(/\)/g, "%29")
-    .replace(/\*/g, "%2A");
-}
-function map(obj, fn) {
-  var o = isArray(obj) ? [] : {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      o[i] = fn(obj[i], i);
-    }
-  }
-  return o;
-}
-function isArray(arr) {
-  return arr instanceof Array;
-}
-
-function clone(obj) {
-  return map(obj, function(v) {
-    return typeof v === "object" && v !== undefined && v !== null
-      ? clone(v)
-      : v;
-  });
-}
-//测试用的key后面可以去掉
-var getAuth = function(opt) {
-  //   console.log(opt);
-  opt = opt || {};
-
-  var SecretId = opt.SecretId;
-  var SecretKey = opt.SecretKey;
-  var method = (opt.method || opt.Method || "get").toLowerCase();
-  var pathname = opt.pathname || "/";
-  var queryParams = clone(opt.Query || opt.params || {});
-  var headers = clone(opt.Headers || opt.headers || {});
-  pathname.indexOf("/") !== 0 && (pathname = "/" + pathname);
-
-  if (!SecretId) return console.error("missing param SecretId");
-  if (!SecretKey) return console.error("missing param SecretKey");
-
-  var getObjectKeys = function(obj) {
-    var list = [];
-    for (var key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (obj[key] === undefined) {
-          continue;
-        }
-        list.push(key);
-      }
-    }
-    return list.sort();
-  };
-
-  var obj2str = function(obj) {
-    var i, key, val;
-    var list = [];
-    var keyList = getObjectKeys(obj);
-    for (i = 0; i < keyList.length; i++) {
-      key = keyList[i];
-      if (obj[key] === undefined) {
-        continue;
-      }
-      val = obj[key] === null ? "" : obj[key];
-      if (typeof val !== "string") {
-        val = JSON.stringify(val);
-      }
-      key = key.toLowerCase();
-      key = camSafeUrlEncode(key);
-      val = camSafeUrlEncode(val) || "";
-      list.push(key + "=" + val);
-    }
-    return list.join("&");
-  };
-
-  // 签名有效起止时间
-  var now = parseInt(new Date().getTime() / 1000) - 1;
-  var exp = now;
-
-  var Expires = opt.Expires || opt.expires;
-  if (Expires === undefined) {
-    exp += 900; // 签名过期时间为当前 + 900s
-  } else {
-    exp += Expires * 1 || 0;
-  }
-
-  // 要用到的 Authorization 参数列表
-  var qSignAlgorithm = "sha1";
-  var qAk = SecretId;
-  var qSignTime = now + ";" + exp;
-  var qKeyTime = now + ";" + exp;
-  var qHeaderList = getObjectKeys(headers)
-    .join(";")
-    .toLowerCase();
-  var qUrlParamList = getObjectKeys(queryParams)
-    .join(";")
-    .toLowerCase();
-
-  // 签名算法说明文档：https://www.qcloud.com/document/product/436/7778
-  // 步骤一：计算 SignKey
-  var signKey = crypto
-    .createHmac("sha1", SecretKey)
-    .update(qKeyTime)
-    .digest("hex");
-
-  // console.log("queryParams", queryParams);
-  // console.log(obj2str(queryParams));
-
-  // 步骤二：构成 FormatString
-  var formatString = [
-    method,
-    pathname,
-    obj2str(queryParams),
-    obj2str(headers),
-    ""
-  ].join("\n");
-
-  // console.log(formatString);
-  formatString = Buffer.from(formatString, "utf8");
-
-  // 步骤三：计算 StringToSign
-  var sha1Algo = crypto.createHash("sha1");
-  sha1Algo.update(formatString);
-  var res = sha1Algo.digest("hex");
-  var stringToSign = ["sha1", qSignTime, res, ""].join("\n");
-
-  // console.log(stringToSign);
-  // 步骤四：计算 Signature
-  var qSignature = crypto
-    .createHmac("sha1", signKey)
-    .update(stringToSign)
-    .digest("hex");
-
-  // 步骤五：构造 Authorization
-  var authorization = [
-    "q-sign-algorithm=" + qSignAlgorithm,
-    "q-ak=" + qAk,
-    "q-sign-time=" + qSignTime,
-    "q-key-time=" + qKeyTime,
-    "q-header-list=" + qHeaderList,
-    "q-url-param-list=" + qUrlParamList,
-    "q-signature=" + qSignature
-  ].join("&");
-
-  return authorization;
-};
-
-exports.getAuth = getAuth;
-
-}, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984188, function(require, module, exports) {
+}, function(modId) { var map = {"../utils/httpRequest":1547361209097}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209112, function(require, module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request_1 = require("./request");
@@ -1433,8 +1646,8 @@ class Query {
 }
 exports.Query = Query;
 
-}, function(modId) { var map = {"./request":1543112984185,"./validate":1543112984177,"./util":1543112984179,"./command":1543112984180,"./regexp":1543112984181,"./geo":1543112984175}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984189, function(require, module, exports) {
+}, function(modId) { var map = {"./request":1547361209111,"./validate":1547361209103,"./util":1547361209105,"./command":1547361209106,"./regexp":1547361209107,"./geo":1547361209101}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209113, function(require, module, exports) {
 const httpRequest = require("../utils/httpRequest");
 
 /**
@@ -1489,8 +1702,8 @@ function callFunction({ name, data }) {
 
 exports.callFunction = callFunction;
 
-}, function(modId) { var map = {"../utils/httpRequest":1543112984186}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1543112984190, function(require, module, exports) {
+}, function(modId) { var map = {"../utils/httpRequest":1547361209097}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1547361209114, function(require, module, exports) {
 const httpRequest = require("../utils/httpRequest");
 
 exports.callWxOpenApi = function ({ apiName, requestData } = {}) {
@@ -1533,7 +1746,7 @@ exports.callWxOpenApi = function ({ apiName, requestData } = {}) {
     });
 }
 
-}, function(modId) { var map = {"../utils/httpRequest":1543112984186}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1543112984171);
+}, function(modId) { var map = {"../utils/httpRequest":1547361209097}; return __REQUIRE__(map[modId], modId); })
+return __REQUIRE__(1547361209095);
 })()
 //# sourceMappingURL=index.js.map

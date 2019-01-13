@@ -29,13 +29,13 @@
   <text>{{index + 1}} Subject(s)</text>
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__bd">Subject Name</view>
-     <input class="weui-input" type="number" placeholder="Name..." bindinput = "getSubname" data-index = "{{index}}"/>
+     <input class="weui-input" placeholder="Name..." bindinput = "getSubname" data-index = "{{index}}"/>
   </view>
 
 <view class="weui-cells weui-cells_after-title">
- <picker bindchange="getSubtype" value="{{selectedValue}}" data-index = "{{index}}" range="{{typeList}}">
+ <picker bindchange="getSubtype" value="{{item.type}}" data-index = "{{index}}" range="{{typeList}}">
         <view class="picker enhanceView">
-          Subject Type = {{typeList[selectedValue]}}
+          Subject Type = {{typeList[item.type]}}
         </view>
       </picker>
 </view>

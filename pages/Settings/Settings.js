@@ -10,17 +10,17 @@ Page({
    */
   data: {
           
-      presetName:"defaultPreset",
-      presetGrade: 0,
+    presetName:"defaultPreset",
+    presetGrade: 0,
     subjects: [
       {
         subjectName: 'Loading......',
         level: ['S', 'S+', 'H', 'H+', 'AP'],//open the right to change this in the future
         credit: 0,
-        type: 0 //1 = Language, 0 = NonLanguage
+        type: 0, //1 = Language, 0 = NonLanguage
+        selectedValue: 0
       }
     ],
-    selectedValue:0,
     typeList: ["Is Not Language","Is Language"],
     //levels:[],
     //level: ['S', 'S+', 'H', 'H+', 'AP'],
@@ -29,25 +29,20 @@ Page({
   },
 
   generateSubject: function(e){
-    var rawSubject = [
-      {
+    var rawSubject = []
+
+    for(var i = 0; i < e.detail.value; i++){
+      rawSubject.push({
         subjectName: 'Loading......',
         level: ['S', 'S+', 'H', 'H+', 'AP'],//open the right to change this in the future
         credit: 0,
-        type: 0 //1 = Language, 0 = NonLanguage
-      }
-    ]
-    this.setData({
-      subjects: rawSubject
-    })
-
-    var list = this.data.subjects
-    for(var i = 1; i < e.detail.value; i++){
-    list.push(list[0]);
+        type: 0,  //1 = Language, 0 = NonLanguage
+        selectedValue: 0
+      });
     }
 
     this.setData({
-      subjects:list
+      subjects:rawSubject
     })
 
   },
@@ -56,33 +51,39 @@ Page({
   //
   //},
   getSubname: function(e){
+    var that = this;
     var index = e.currentTarget.dataset.index;
     var formatter = "subjects[" + index + "].subjectName";
     //console.log(selectedLevel);
-    this.setData({
+    that.setData({
       [formatter]: e.detail.value,//显示前端level 
     })
+    console.log(index);
   },
 
   getSubtype: function(e){
+    var that = this;
     var index = e.currentTarget.dataset.index;
     var formatter = "subjects[" + index + "].type";
     //console.log(selectedLevel);
-    this.setData({
+    that.setData({
       [formatter]: e.detail.value,//显示前端level 
-      selectedValue: e.detail.value
     })
+    console.log(index);
 
     //console.log(this.data.subjects[0].type);
   },
 
   getSubcredit: function (e) {
+    var that = this;
     var index = e.currentTarget.dataset.index;
     var formatter = "subjects[" + index + "].credit";
     //console.log(selectedLevel);
-    this.setData({
+    that.setData({
       [formatter]: e.detail.value,//显示前端level 
     })
+    console.log(index);
+    console.log(this.data.subjects[index].credit)
 
     //console.log(this.data.subjects[0].type);
   },
@@ -95,18 +96,21 @@ Page({
   },
 
   upload: function(name) {
+    var flag = false;
     //console.log(this.data.subjects[0].presetName+this.data.subjects[1].subjectName);
     for(var i = 0; i < this.data.subjects.length;i++){
       if (this.data.subjects[i].credit <= 0 ){
         console.log("Missing Something, cannot upload!");
       }
       else{
-        var uploadList = [];
+        flag = true;
+        }
+
+    if(flag == true){
+        var uploadList = this.data.subjects;
+        console.log(uploadList);
         var presetName = this.data.presetName;
         var presetGrade = this.data.presetGrade;
-        for(var i = 0; i < this.data.subjects.length; i++){
-          uploadList.push(this.data.subjects[i]);
-        }
         db.collection('UserPreset').doc(name).get({//建立或者更新数据库信息
           success: function (res) {
             db.collection('UserPreset').doc(name).update({

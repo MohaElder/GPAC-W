@@ -12,9 +12,10 @@ exports.main = async (event, context) => {
   const tasks = []
   for (let i = 0; i < batchTimes; i++) {
     const promise = db.collection('UserPreset').skip(i * MAX_LIMIT).limit(MAX_LIMIT).field({
-      GPA: true,
+      Presetgrade: true,
       _id: true,
-      grade: true
+      Presetname: true,
+      subjects: true
     })
       .get()
     tasks.push(promise)

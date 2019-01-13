@@ -2,9 +2,9 @@
 
  <view class="page__hd">
         <view class="page__title">
-        <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetList}}">
+        <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
         <view class="picker">
-          You are at: {{presetList[presetIndex]}}
+          You are at: {{presetListname[presetIndex]}}
         </view>
       </picker>
       </view>
