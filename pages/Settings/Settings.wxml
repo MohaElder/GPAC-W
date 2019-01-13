@@ -14,50 +14,37 @@
 
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__bd">Preset Name</view>
-     <input class="weui-input" type="number" placeholder="Name..."/>
+     <input class="weui-input" placeholder="Name..."/>
   </view>
 
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__bd">Subject Number</view>
-     <input class="weui-input" type="number" placeholder="Number..." bindinput = "generateSubject" data-index = "{{index}}"/>
+     <input class="weui-input" type = "number" placeholder="Number..." bindinput = "generateSubject"/>
   </view>
 
 </view>
 
-<view class="weui-cells weui-cells_after-title" wx:for="{{subNum}}">
+<view class="weui-cells weui-cells_after-title" wx:for="{{subjects}}">
 
   <text>{{index + 1}} Subject(s)</text>
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__bd">Subject Name</view>
-     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore"/>
+     <input class="weui-input" type="number" placeholder="Name..." bindinput = "getSubname" data-index = "{{index}}"/>
   </view>
 
-  <view class="weui-cell weui-cell_input">
-
-    <view class="weui-cell__bd">Number of Levels</view>
-     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore"/>
-  </view>
-
-<view class="weui-cells weui-cells_after-title" wx:for="{levels}}">
- <picker bindchange="getSubtype" value="{{item.selectedValue}}" data-index = "{{index}}" range="{{item.type}}">
+<view class="weui-cells weui-cells_after-title">
+ <picker bindchange="getSubtype" value="{{selectedValue}}" data-index = "{{index}}" range="{{typeList}}">
         <view class="picker enhanceView">
-          Subject Type = {{item.type[item.selectedValue]}}
+          Subject Type = {{typeList[selectedValue]}}
         </view>
       </picker>
 </view>
 
   <view class="weui-cell weui-cell_input">
     <view class="weui-cell__bd">Subject Credit</view>
-     <input class="weui-input" type="number" placeholder="Score..." bindinput = "getSubScore"/>
+     <input class="weui-input" type="number" placeholder="Credit..." bindinput = "getSubcredit" data-index = "{{index}}"/>
+    </view>
   </view>
-
-      <picker bindchange="getSubtype" value="{{item.selectedValue}}" data-index = "{{index}}" range="{{item.type}}">
-        <view class="picker enhanceView">
-          Subject Type = {{item.type[item.selectedValue]}}
-        </view>
-      </picker>
-
-      </view>
 
 <button class="weui-btn enhanceButton" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
 

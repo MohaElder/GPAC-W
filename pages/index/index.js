@@ -273,7 +273,7 @@ var ib = [
  ];
 
 
-var defaultPresets = [eighthGrade,ninethGrade,tenthGrade,elethGrade];
+var defaultPresets = [eighthGrade,ninethGrade,tenthGrade,elethGrade,ib];
 
 //console.log(defaultPresets)
 
@@ -394,6 +394,47 @@ Page({
       //var TempList = settingList[i].split("@");//Decode CreditList
       GPACs.push(new Unit(this.data.subjects[i].name, this.data.subjects[i].credit, this.data.subjects[i].type));
     }
+
+    console.log("Running OnLoad...")
+    var that = this;
+    wx.cloud.callFunction({
+      name: 'presetCloud'
+    })
+      .then(res => {
+        var presetName = res.result.data.Presetname;
+        var presetGrade = res.result.data.Presetgrade;
+        var subjects = new Array(res.result.data.length);
+        for (var count = 0; count < res.result.data.length; count++) {
+          subjects[count] = res.result.data[count].grade;
+        }
+
+        that.search();
+
+      })
+      .catch(console.error)
+    console.log("Run Complete.")
+
+  },
+
+  search: function () {
+    console.log("Running Search...")
+    var that = this;
+    var nickName = '';
+
+    wx.getUserInfo({
+      success: function (res) {
+        var userInfo = res.userInfo;
+        nickName = userInfo.nickName.replace(/\s*/g, "")
+        //console.log(nickName); 
+        for (var count = 0; count < Names.length; count++) {
+          if (nickName == Names[count]) {
+            that.syncAll(Grades[count], nickName);
+
+          }
+        }
+      }
+    })
+    console.log("Run Complete.")
   },
 
   /**
