@@ -1,7 +1,7 @@
 # G-PAC_Miniprogram
 
 ## 简介 Brief
- GPACW是由MoreClub工信部主席MohaElder169自主研发的基于微信小程序的GPA计算器，基于GPAC框架（同样出自MohaElder1469之手）
+ GPACW是由MoreClub工信部主席MohaElder169自主研发的基于微信小程序的GPA计算器，基于GPAC框架（同样出自MohaElder169之手）
 
 
 ## 特性 Features
