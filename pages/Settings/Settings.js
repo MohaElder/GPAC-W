@@ -50,6 +50,13 @@ Page({
   //generateLevel: function(e){
   //
   //},
+  getPresetname: function (e) {
+    //console.log(selectedLevel);
+    this.setData({
+      presetName: e.detail.value,//显示前端level 
+    })
+  },
+
   getSubname: function(e){
     var that = this;
     var index = e.currentTarget.dataset.index;
@@ -96,17 +103,19 @@ Page({
   },
 
   upload: function(name) {
+    var message = '';
     var flag = false;
     //console.log(this.data.subjects[0].presetName+this.data.subjects[1].subjectName);
     for(var i = 0; i < this.data.subjects.length;i++){
       if (this.data.subjects[i].credit <= 0 ){
-        console.log("Missing Something, cannot upload!");
+        message = "Missing Something, cannot upload!";
       }
       else{
         flag = true;
         }
 
     if(flag == true){
+      message = "Uploaded!";
         var uploadList = this.data.subjects;
         console.log(uploadList);
         var presetName = this.data.presetName;
@@ -140,6 +149,13 @@ Page({
         })
       }
     }
+
+    wx.showModal({
+      title: 'Result',
+      content: (message),
+      confirmText: "Confirm",
+      cancelText: "OK"
+    });
 
   },
   /**

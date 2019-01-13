@@ -221,62 +221,59 @@ var elethGrade = [
   }
  ];
 
-var ib = [
+var ib =[
   {
-    subjectName: '666',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 7.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'English',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 7.5,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chinese',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 5.0,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Physics',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 3.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Biology',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
+    subjectName: "TOK",
+    level: ['IB'],
     selectedValue: 0,
     credit: 3.0,
     type: 0 //1 = Language, 0 = NonLanguage
   },
   {
-    subjectName: 'History',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
+    subjectName: "SubA",
+    level: ['IB'],
     selectedValue: 0,
-    credit: 2.0,
+    credit: 6.0,
     type: 0 //1 = Language, 0 = NonLanguage
   },
   {
-    subjectName: 'Geography',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
+    subjectName: "SubB",
+    level: ['IB'],
     selectedValue: 0,
-    credit: 2.0,
+    credit: 6.0,
     type: 0 //1 = Language, 0 = NonLanguage
   },
-];
+  {
+    subjectName: "SubC",
+    level: ['IB'],
+    selectedValue: 0,
+    credit: 6.0,
+    type: 0 //1 = Language, 0 = NonLanguage
+  },
+  {
+    subjectName: "SubD",
+    level: ['IB'],
+    selectedValue: 0,
+    credit: 6.0,
+    type: 0 //1 = Language, 0 = NonLanguage
+  },
+  {
+    subjectName: "SubE",
+    level: ['IB'],
+    selectedValue: 0,
+    credit: 6.0,
+    type: 0 //1 = Language, 0 = NonLanguage
+  },
+  {
+    subjectName: "SubF",
+    level: ['IB'],
+    selectedValue: 0,
+    credit: 6.0,
+    type: 0 //1 = Language, 0 = NonLanguage
+  },
+ ];
 
 var defaultPresets = [eighthGrade, ninethGrade, tenthGrade, elethGrade, ib];
-
-
-
 
 //console.log(defaultPresets)
 
@@ -311,10 +308,16 @@ Page({
       subjects: defaultPresets[e.detail.value],
       presetIndex: e.detail.value//显示前端level 
     })
+    GPACs = [];
+    for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
+      //var TempList = settingList[i].split("@");//Decode CreditList
+      GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type));
+    }
   },
 
   getSubScore: function (e) {
     var index = e.currentTarget.dataset.index;
+    GPACs[index].setCredit(this.data.subjects[index].credit);
     GPACs[index].setScore(e.detail.value);
     
   },
