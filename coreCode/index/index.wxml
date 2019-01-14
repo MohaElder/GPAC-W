@@ -1,0 +1,49 @@
+<!--index page-->
+<view name = "homeSection">
+<picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
+  <view class="picker">
+    <view class="cu-card case">
+      <view wx:for="{{1}}" wx:key class="cu-item shadow">
+        <view class='image'>
+          <image src="https://image.weilanwl.com/img/4x3-1.jpg" mode="widthFix"></image>
+          <view class='cu-bar bg-shadeBottom'>
+            You are at: {{presetListname[presetIndex]}}
+          </view>
+        </view>
+        <view class="cu-list menu menu-avatar">
+          <view class="cu-item">
+            <view class='content flex-sub'>
+              <view class='text-grey bg'>Change Preset</view>
+              <view class="text-grey bg">{{announcement}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</picker>
+</view>
+
+<view name = "gpaSection">
+<view class="cu-card case">
+  <view wx:for="{{1}}" wx:key class="cu-item shadow">
+    <view class='image'>
+      <view class="cu-form-group margin-top" wx:for="{{subjects}}">
+    <view class="title">{{item.subjectName}}</view>
+    <input type="number" placeholder="Score..." bindinput="getSubScore" data-index="{{index}}" />
+    <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index="{{index}}" range="{{item.level}}">
+      <view class="picker">
+        Level = {{item.level[item.selectedValue]}}
+      </view>
+    </picker>
+  </view>
+  <view class="padding flex flex-direction">
+    <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+</view>
+    </view>
+  </view>
+</view>
+</view>
+
+
+  
