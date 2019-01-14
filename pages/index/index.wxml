@@ -1,4 +1,7 @@
 <!--index page-->
+
+<!-- <image class="response"mode="widthFix"src="/images/componentBg.png"style="height: 243.056px;"></image> -->
+
 <view name = "homeSection">
 <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
   <view class="picker">
@@ -6,18 +9,18 @@
       <view wx:for="{{1}}" wx:key class="cu-item shadow">
         <view class='image'>
           <swiper class="screen-swiper" circular="true" autoplay="true" interval="5000" duration="500">
-  <swiper-item wx:for="{{4}}" wx:key>
-    <image src="https://image.weilanwl.com/img/4x3-{{index+1}}.jpg" mode='aspectFill'></image>
+  <swiper-item wx:for="{{5}}" wx:key>
+    <image src="{{imageList[index]}}" mode='aspectFill'></image>
   </swiper-item>
 </swiper>
-          <view class='cu-bar bg-shadeBottom'>
+          <view class='cu-bar bg-shadeBottom text-xxl'>
             You are at: {{presetListname[presetIndex]}}
           </view>
         </view>
         <view class="cu-list menu menu-avatar">
           <view class="cu-item">
             <view class='content flex-sub'>
-              <view class='text-grey bg'>Change Preset</view>
+              <view class='text-black bg text-bold'>Change Preset 😎</view>
               <view class="text-grey bg">{{announcement}}</view>
             </view>
           </view>
@@ -39,7 +42,7 @@
       <view class="picker">
         Level = {{item.level[item.selectedValue]}}
       </view>
-    </picker>
+    </picker> 
   </view>
   <view class="padding flex flex-direction">
     <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>

@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    Announcements: "aaa",
+    Announcements: "Hakuna Matata",
     presetName:"defaultPreset",
     presetGrade: 0,
     subjects: [

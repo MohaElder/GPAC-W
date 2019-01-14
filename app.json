@@ -9,14 +9,16 @@
     "pages/Settings/Settings"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "navigationBarTitleText": "input",
-    "navigationBarTextStyle": "black"
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTitleText": "GPACW",
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#bfbfbf",
-    "selectedColor": "#d81e06",
+    "color": "#aaa",
+    "selectedColor": "#000000",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -32,9 +34,9 @@
       },
       {
         "pagePath": "pages/Settings/Settings",
-        "text": "Settings",
-        "iconPath": "/Assets/Rank.png",
-        "selectedIconPath": "/Assets/Rank_Selected.png"
+        "text": "Presets",
+        "iconPath": "/Assets/setting.png",
+        "selectedIconPath": "/Assets/setting_selected.png"
       }
     ]
   }

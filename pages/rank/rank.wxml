@@ -7,7 +7,7 @@
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
-        <open-data class="cu-avatar round lg" type = "userAvatarUrl"></open-data>
+         <image class='cu-avatar round lg' src='{{RankPic}}'/>
           <view class='content flex-sub'>
             <view>{{Name}}</view>
             <view class='text-gray text-sm flex justify-between'>
@@ -51,7 +51,6 @@
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
             <view class='text-grey'>   I am qualified as {{RankName}}</view>
-            <image class='cu-avatar round lg' src='{{RankPic}}'/>
           </view>
         </view>
       </view>

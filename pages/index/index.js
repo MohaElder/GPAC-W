@@ -285,7 +285,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    announcement: "Hello World!",
+    imageList:[
+      "https://wx4.sinaimg.cn/mw690/006tozhpgy1fz6fslw5nnj31900u0u10.jpg",
+      "https://wx1.sinaimg.cn/mw690/006tozhpgy1fz6fss7qdjj31hc0u0hdv.jpg",
+      "https://wx3.sinaimg.cn/mw690/006tozhpgy1fz6ftb6uc0j31900u04qw.jpg",
+      "https://wx1.sinaimg.cn/mw690/006tozhpgy1fz6fteo8vij31900u0hdw.jpg",
+      "https://wx3.sinaimg.cn/mw690/006tozhpgy1fz6fty4nbbj31900u0u12.jpg",
+    ],
+    announcement: "I know H.T.M.L.",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
     presetIndex: 0,
     subjects: [
