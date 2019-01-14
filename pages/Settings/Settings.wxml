@@ -1,53 +1,66 @@
 <!--pages/Settings/Settings.wxml-->
-<view class="page-body">
 
- <view class="page__hd">
-        <view class="page__title">
-        Customize your preset here!
-      </view>
-        <view class="page__desc">{{announcement}}</view>
-    </view>
-  <view class="page-section">
-
-<view class="weui-cells weui-cells_after-title">
-
-
-  <view class="weui-cell weui-cell_input">
-    <view class="weui-cell__bd">Preset Name</view>
-     <input class="weui-input" placeholder="Name..." bindinput = "generateSubject"/>
-  </view>
-
-  <view class="weui-cell weui-cell_input">
-    <view class="weui-cell__bd">Subject Number</view>
-     <input class="weui-input" type = "number" placeholder="Number..." bindinput = "generateSubject"/>
-  </view>
-
-</view>
-
-<view class="weui-cells weui-cells_after-title" wx:for="{{subjects}}">
-
-  <text>{{index + 1}} Subject(s)</text>
-  <view class="weui-cell weui-cell_input">
-    <view class="weui-cell__bd">Subject Name</view>
-     <input class="weui-input" placeholder="Name..." bindinput = "getSubname" data-index = "{{index}}"/>
-  </view>
-
-<view class="weui-cells weui-cells_after-title">
- <picker bindchange="getSubtype" value="{{item.type}}" data-index = "{{index}}" range="{{typeList}}">
-        <view class="picker enhanceView">
-          Subject Type = {{typeList[item.type]}}
+<view name="profileSection">
+  <view class="cu-card dynamic">
+    <view wx:for="1" wx:key class="cu-item shadow">
+      <view class="cu-list menu menu-avatar">
+        <view class="cu-item">
+          <view class='content flex-sub'>
+            <view>Customize your preset here!</view>
+          </view>
         </view>
-      </picker>
-</view>
+      </view>
+      <view class='text-content'>
+        {{Announcements}}
+      </view>
 
-  <view class="weui-cell weui-cell_input">
-    <view class="weui-cell__bd">Subject Credit</view>
-     <input class="weui-input" type="number" placeholder="Credit..." bindinput = "getSubcredit" data-index = "{{index}}"/>
+      <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class="text-black">Preset Name</view>
+            <input placeholder="Name..." bindinput="generateSubject" />
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class="text-black">Subject Number</view>
+            <input type="number" placeholder="Number..." bindinput="generateSubject" />
+          </view>
+        </view>
+      </view>
     </view>
   </view>
-
-<button class="weui-btn enhanceButton" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
-
 </view>
 
+<view name="uploadSection">
+  <view class="cu-card case">
+    <view wx:for="{{1}}" wx:key class="cu-item shadow">
+      <view class='image' wx:for="{{subjects}}">
+
+        <view class="cu-form-group margin-top">
+          <view class='title'>Subject Name</view>
+          <input class="title" placeholder="Name..." bindinput="getSubname" data-index="{{index}}" />
+          <picker bindchange="getSubtype" value="{{item.type}}" data-index="{{index}}" range="{{typeList}}">
+            <view class="picker enhanceView">
+              {{typeList[item.type]}}
+            </view>
+          </picker>
+        </view>
+
+        <view class="cu-form-group">
+          <view class='title'>Subject Credit</view>
+          <input class="title" type="number" placeholder="Credit" bindinput="getSubcredit" data-index="{{index}}" />
+        </view>
+
+
+
+        <view class="padding flex flex-direction">
+          <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

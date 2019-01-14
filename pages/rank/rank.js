@@ -41,7 +41,7 @@ Page({
   },
   onReady: function() {
     // 获取组件
-    this.ecComponent = this.selectComponent('#mychart-dom-scatter');
+    this.ecComponent = this.selectComponent('#mychart-dom-move-bar');
   },
 
   /**

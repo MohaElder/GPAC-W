@@ -5,7 +5,11 @@
     <view class="cu-card case">
       <view wx:for="{{1}}" wx:key class="cu-item shadow">
         <view class='image'>
-          <image src="https://image.weilanwl.com/img/4x3-1.jpg" mode="widthFix"></image>
+          <swiper class="screen-swiper" circular="true" autoplay="true" interval="5000" duration="500">
+  <swiper-item wx:for="{{4}}" wx:key>
+    <image src="https://image.weilanwl.com/img/4x3-{{index+1}}.jpg" mode='aspectFill'></image>
+  </swiper-item>
+</swiper>
           <view class='cu-bar bg-shadeBottom'>
             You are at: {{presetListname[presetIndex]}}
           </view>

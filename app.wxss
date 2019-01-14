@@ -1,4 +1,3 @@
-@import '/dist/style/weui.wxss';
 @import "/utils/icon.wxss";
 @import "/utils/colorui.wxss";
 

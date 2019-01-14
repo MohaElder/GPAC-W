@@ -28,8 +28,8 @@ ec-canvas {
 
 .container {
   position: absolute;
-  top: 100%;
-  bottom: 100%;
+  top: 25%;
+  bottom: 25%;
   left: 0;
   right: 0;
   display: flex;
@@ -39,4 +39,16 @@ ec-canvas {
   box-sizing: border-box;
 
 } 
+
+#mychart-dom-move-bar {
+  width: 90%;
+  height: 500px;
+  margin: 20px 5%;
+  display: block;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 10rpx;
+  position: relative;
+  box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.1);
+}
 
