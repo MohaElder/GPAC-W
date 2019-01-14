@@ -5,7 +5,6 @@
   "pages": [
     "pages/index/index",
     "pages/rank/rank",
-    "pages/IB/IB",
     "pages/Agreement/Agreement",
     "pages/Settings/Settings"
   ],
