@@ -285,7 +285,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    announcement: "Change Preset 👆",
+    announcement: "Hello World!",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
     presetIndex: 0,
     subjects: [

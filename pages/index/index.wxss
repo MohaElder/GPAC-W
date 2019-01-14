@@ -11,3 +11,7 @@
   margin-bottom:10px;
   text-align: center;
 }
+
+form-group .title {
+  min-width: calc(4em + 15px);
+}

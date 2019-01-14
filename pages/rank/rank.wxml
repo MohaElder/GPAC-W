@@ -1,36 +1,67 @@
 <!--rank.wxml-->
 
-<scroll-view
-    scroll-y
-    style="height: 1000px;"
-    scroll-into-view="{{toView}}"
-    scroll-top="{{scrollTop}}"
-    aria-label = "true"
-    enable-back-to-top = "true"
-  >
+<scroll-view scroll-y style="height: 1000px;" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" aria-label="true" enable-back-to-top="true">
 
-    <view class="weui-panel weui-panel_access">
-            <view class="weui-panel__bd">
-                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                        <image class="weui-media-box__thumb" src="{{RankPic}}" />
-                    </view>
-                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                        <view class="weui-media-box__title">Your rank is {{Rank}} out of {{Population}} users in {{Grade}}th Grade</view>
-                        <view class="weui-media-box__title">Your defeated {{Defeat}}% of the users.</view>
-                        <view class="weui-media-box__desc">Your GPA: {{GPA}}</view>
-                        <view class="weui-media-box__desc">Your Grade Level: {{Grade}}</view>
-                        <view class="weui-media-box__title">You are qualified as {{RankName}}</view>
-                    </view>
-                </navigator>
-</view>
-
-            </view>
-
-
-    <view class="container">
-  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-scatter" canvas-id="mychart-scatter" ec="{{ ec }}"></ec-canvas>
+<view class="cu-card dynamic {{isCard?'no-card':''}}">
+  <view wx:for="1" wx:key class="cu-item shadow">
+    <view class="cu-list menu menu-avatar">
+      <view class="cu-item">
+        <view class="cu-avatar round lg" style="background-image:url(https://image.weilanwl.com/img/square-1.jpg);"></view>
+        <view class='content flex-sub'>
+          <view>UserName</view>
+          <view class='text-gray text-sm flex justify-between'>
+            2018年12月3日
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='text-content'>
+      Anything you wanna add here
     </view>
 
-  </scroll-view>
+    <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-item" wx:for="{{1}}" wx:key>
+        <view class='content'>
+          <view class='text-grey'>   I defeated </view>
+          <view class='text-gray text-content text-df'>
+               {{Defeat}}% of the users, but does that really matter?
+          </view>
+        </view>
+      </view>
+    </view>
 
+        <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-item" wx:for="{{1}}" wx:key>
+        <view class='content'>
+          <view class='text-grey'>   I am in Grade {{Grade}}</view>
+        </view>
+      </view>
+    </view>
+
+            <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-item" wx:for="{{1}}" wx:key>
+        <view class='content'>
+          <view class='text-grey'>   My GPA is : {{GPA}}</view>
+        </view>
+      </view>
+    </view>
+
+                <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-item" wx:for="{{1}}" wx:key>
+        <view class='content'>
+          <view class='text-grey'>   I am qualified as {{RankName}}</view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+</view>
+
+
+
+
+       <view class="container">
+     <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-scatter" canvas-id="mychart-scatter" ec="{{ ec }}"></ec-canvas>
+  </view>
+  
+</scroll-view>
