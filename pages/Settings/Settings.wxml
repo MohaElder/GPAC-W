@@ -54,13 +54,14 @@
           <view class='title'>Subject Credit</view>
           <input class="title" type="number" placeholder="Credit" bindinput="getSubcredit" data-index="{{index}}" />
         </view>
-
-
-
-        <view class="padding flex flex-direction">
-          <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
-        </view>
       </view>
+
+
     </view>
+
+    <view class="padding flex flex-direction">
+      <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+    </view>
+
   </view>
 </view>
