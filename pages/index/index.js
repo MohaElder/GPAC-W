@@ -5,6 +5,8 @@ const userSearcher = db.collection('UserGPA')
 var GPACs = [];
 var Presets = [];
 var presetListname = [];
+var Gradelist = [8,9,10,11,11];
+var grade;
 //Default Presets
 var eighthGrade = [
   {
@@ -309,6 +311,8 @@ Page({
       presetIndex: e.detail.value//显示前端level 
     })
     GPACs = [];
+    grade = Gradelist[e.detail.value];
+    console.log(grade);
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
       //var TempList = settingList[i].split("@");//Decode CreditList
       GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type));
@@ -365,7 +369,7 @@ Page({
           data: {
             // 表示将 done 字段置为 true
             GPA: gpaFinal.getGPA(),
-            grade: 11
+            grade: grade
           },
           success: function (res) {
           }
@@ -425,15 +429,17 @@ Page({
         nickName = userInfo.nickName.replace(/\s*/g, "")
         //console.log(nickName); 
         for (var count = 0; count < Presets.length; count++) {
-          if (nickName == Presets[count]._id) {
+          if (nickName == Presets[count].Name) {
             presetListname = that.data.presetListname;
             presetListname.push(Presets[count].Presetname);
+            Gradelist.push(Presets[count].Presetgrade);
+            //console.log(Presets[count].Presetgrade);
             defaultPresets.push(Presets[count].subjects);
-            
             that.setData({
               presetListname: presetListname
             })
             console.log("Success");
+            console.log(Gradelist);
           }
         }
       }

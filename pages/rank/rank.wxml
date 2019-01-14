@@ -16,7 +16,7 @@
                         <image class="weui-media-box__thumb" src="{{RankPic}}" />
                     </view>
                     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                        <view class="weui-media-box__title">Your rank is {{Rank}} out of {{Population}} users.</view>
+                        <view class="weui-media-box__title">Your rank is {{Rank}} out of {{Population}} users in {{Grade}}th Grade</view>
                         <view class="weui-media-box__title">Your defeated {{Defeat}}% of the users.</view>
                         <view class="weui-media-box__desc">Your GPA: {{GPA}}</view>
                         <view class="weui-media-box__desc">Your Grade Level: {{Grade}}</view>

@@ -113,6 +113,7 @@ Page({
       else{
         flag = true;
         }
+    }
 
     if(flag == true){
       message = "Uploaded!";
@@ -120,6 +121,8 @@ Page({
         console.log(uploadList);
         var presetName = this.data.presetName;
         var presetGrade = this.data.presetGrade;
+        
+        /*
         db.collection('UserPreset').doc(name).get({//建立或者更新数据库信息
           success: function (res) {
             db.collection('UserPreset').doc(name).update({
@@ -136,19 +139,22 @@ Page({
             console.log("Update");
           },
           fail: function () {
-            db.collection('UserPreset').add({
-              data: {
-                _id: name,
-                Presetname: presetName,
-                Presetgrade: presetGrade,
-                subjects: uploadList
-              }
-            })
+
             console.log("Created");
           }
         })
+        */
+
+      db.collection('UserPreset').add({
+        data: {
+          Name: name,
+          Presetname: presetName,
+          Presetgrade: presetGrade,
+          subjects: uploadList
+        }
+      })
       }
-    }
+    
 
     wx.showModal({
       title: 'Result',

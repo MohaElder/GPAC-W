@@ -13,7 +13,7 @@ exports.main = async (event, context) => {
   for (let i = 0; i < batchTimes; i++) {
     const promise = db.collection('UserPreset').skip(i * MAX_LIMIT).limit(MAX_LIMIT).field({
       Presetgrade: true,
-      _id: true,
+      Name: true,
       Presetname: true,
       subjects: true
     })
