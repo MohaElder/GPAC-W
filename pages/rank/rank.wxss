@@ -1,0 +1,42 @@
+/* rank.wxss */
+.enhancedAvatar{
+  overflow:hidden;
+  display: block;
+  width: 160rpx;
+  height: 160rpx;
+  margin: 20rpx;
+  margin-top: 50rpx;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+.enhancedView{
+  margin-left: 130px;
+  margin-right: 130px;
+  margin-bottom:10px;
+  text-align: center;
+}
+
+.warning{
+  color: #ff0000
+}
+
+ec-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: absolute;
+  top: 100%;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+} 
+
