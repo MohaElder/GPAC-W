@@ -285,6 +285,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    clubimageList:[
+      "https://connect.shs.cn/images/b/b4/b45141edd63b272b.jpg",
+      "https://connect.shs.cn/images/6/67/679b5bfbf1cbd7ef.jpg",
+      "https://connect.shs.cn/images/c/c4/c4b4fc3612738a2a.jpg",
+      "https://connect.shs.cn/images/2/23/2335cadc333ced44.jpg",
+      "https://wx2.sinaimg.cn/mw690/006tozhpgy1fz9nlk3sanj30u00jg0t5.jpg"
+    ],
     imageList:[
       "https://wx4.sinaimg.cn/mw690/006tozhpgy1fz6fslw5nnj31900u0u10.jpg",
       "https://wx1.sinaimg.cn/mw690/006tozhpgy1fz6fss7qdjj31hc0u0hdv.jpg",
@@ -501,6 +508,10 @@ Page({
 
     //console.log("显示了当前页面的转发按钮");
 
+  },
+  onPullDownRefresh: function () {
+    console.log("Yay");
+    this.onLoad()
   },
   /**
    * 用户点击右上角分享

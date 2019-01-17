@@ -25,6 +25,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    brief: "HelloWorld!",
+    Announcement: "",
     Name: 'Please Wait',
     Rank: 0,
     GPA: 0,

@@ -1,5 +1,12 @@
 <!--pages/Settings/Settings.wxml-->
 
+<view class="cu-bar margin-top gradual-blue padding text-center shadow-blur">
+  <!--<view class="cu-avatar round" style="background-image:url(https://image.weilanwl.com/img/square-3.jpg);"></view>-->
+  <view class='content'>
+    GPAC-W
+  </view>
+</view>
+
 <view name="profileSection">
   <view class="cu-card dynamic">
     <view wx:for="1" wx:key class="cu-item shadow">
@@ -18,7 +25,7 @@
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
             <view class="text-black">Preset Name</view>
-            <input placeholder="Name..." bindinput="generateSubject" />
+            <input placeholder="Name..." bindinput="generateSubject" bindinput="getPresetname"/>
           </view>
         </view>
       </view>
@@ -60,7 +67,7 @@
     </view>
 
     <view class="padding flex flex-direction">
-      <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Submit</button>
+      <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Done</button>
     </view>
 
   </view>

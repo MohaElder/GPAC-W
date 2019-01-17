@@ -1,3 +1,4 @@
 {
-"navigationBarTitleText": "GPA"
+"navigationBarTitleText": "GPA",
+"enablePullDownRefresh": true
 }
