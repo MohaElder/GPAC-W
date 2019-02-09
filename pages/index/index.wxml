@@ -1,51 +1,43 @@
 <!--index page-->
 
-<view class="cu-bar margin-top gradual-blue padding text-center shadow-blur">
-   <view class="cu-avatar round" style="background-image:url(https://image.weilanwl.com/img/square-3.jpg);"></view>
-  <view class='content'>
-    G-PAC W
+<view class="cu-bar bg-white">
+  <view class='action'>
+    <text class='icon-titles text-blue'></text>
+    <text class='text-xl text-bold'>G-PACW</text>
   </view>
 </view>
 
-<view class="cu-card dynamic {{isCard?'no-card':''}}" style = "marin-top:20px;">
+<view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20px;">
   <view wx:for="1" wx:key class="cu-item shadow">
     <view class="cu-list menu menu-avatar">
       <view class="cu-item">
-        <!--<view class="cu-avatar round lg" style="background-image:url({{image}});"></view>-->
         <view class='content flex-sub'>
           <view class='solid-bottom text-xl padding'>
-            <text class="text-black text-bold">Hi! {{userNickName}}, how would you like me to calculate your GPA?</text>
+            <text class="text-black">Hi! </text>
+            <open-data type="userNickName"></open-data>
+            <text class="text-black">, how would you like me to calculate your GPA?</text>
           </view>
         </view>
       </view>
     </view>
-    <!--<view class='text-content'>
-      {{desc}}
-    </view>-->
     <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
-    <view class="picker">
-      <view class="cu-card case">
-        <view wx:for="{{1}}" wx:key class="cu-item shadow">
-          <view class='image'>
-            <!--  <swiper class="screen-swiper" circular="true" autoplay="true" interval="5000" duration="500">
-   <swiper-item wx:for="{{5}}" wx:key>
-      <image src="{{imageList[index]}}" mode='aspectFill'></image>
-    </swiper-item>
-  </swiper>-->
-          </view>
-          <view class="cu-list menu menu-avatar ">
-            <view class="cu-item gradual-green ">
-              <view class='content flex-sub'>
-                <view class='text-black bg text-bold '>
-                  In {{presetListname[presetIndex]}} way.</view>
-                <!--<view class="text-grey bg">{{announcement}}</view>-->
+      <view class="picker">
+        <view class="cu-card case">
+          <view wx:for="{{1}}" wx:key class="cu-item shadow">
+            <view class='image'>
+            </view>
+            <view class="cu-list menu menu-avatar  ">
+              <view class="bg-gradual-blue padding radius text-center shadow-blur">
+                <view class='content flex-sub'>
+                  <view class='text-bold '>
+                    In {{presetListname[presetIndex]}} way</view>
+                </view>
               </view>
             </view>
           </view>
         </view>
       </view>
-    </view>
-  </picker>
+    </picker>
   </view>
 </view>
 
@@ -63,7 +55,7 @@
           </picker>
         </view>
         <view class="padding flex flex-direction">
-          <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Abrakadabra</button>
+          <button class="cu-btn bg-gradual-green padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Go Ahead</button>
         </view>
       </view>
     </view>

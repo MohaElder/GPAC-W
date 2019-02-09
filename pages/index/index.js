@@ -87,18 +87,27 @@ Page({
       title: 'Result',
       content: ("Your GPA is " + finalGPA + "," + gpaFinal.getRank() + "\n Do you want to access more info(STAT,HISTORY) by uploading your GPA?"),
       confirmText: "Ok",
-      cancelText: "No"
+      cancelText: "No",
+      success: function (res) {
+        if (res.confirm) {
+          that.Upload(finalGPA,name);
+        }
+        else if (res.cancel) {
+          console.log("Cancelled");
+        }
+      }
     });
+    
+  },
 
-      
-
+  Upload: function(GPA,name){
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
         db.collection('UserGPA').doc(name).update({
           // data 传入需要局部更新的数据
           data: {
             // 表示将 done 字段置为 true
-            GPA: gpaFinal.getGPA(),
+            GPA: GPA,
             grade: grade
           },
           success: function (res) {
@@ -111,14 +120,13 @@ Page({
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: gpaFinal.getGPA(),
-            grade: 11
+            GPA: GPA,
+            grade: grade
           }
         })
         console.log("Created");
       }
     })
-    
   },
 
   /**

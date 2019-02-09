@@ -71,4 +71,11 @@
     </view>
 
   </view>
+
+    <view class='cu-steps'>
+    <view class='cu-item {{index>courseStep?"":"text-red"}}' wx:for="{{courseSteps}}" wx:key>
+      <text class='icon-usefullfill'></text> Step{{item.name}}
+    </view>
+  </view>
+  
 </view>
