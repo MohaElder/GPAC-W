@@ -1,281 +1,15 @@
 import { Unit, Result } from '../../utils/GPAC';
 
-const db = wx.cloud.database()
-const userSearcher = db.collection('UserGPA')
+const app = getApp();
+const db = wx.cloud.database();
+const userSearcher = db.collection('UserGPA');
 var GPACs = [];
-var Presets = [];
-var presetListname = [];
+var Presets, presetListname = []
 var Gradelist = [8,9,10,11,11];
-var grade;
+var grade,finalGPA;
 //Default Presets
-var eighthGrade = [
-  {
-  subjectName: 'Math',
-  level: ['S', 'S+', 'H'],
-  selectedValue: 0,
-  credit: 7.5,
-  type: 0 //1 = Language, 0 = NonLanguage
-  }, 
-  {
-    subjectName: 'English',
-    level: ['S', 'S+', 'H', 'H+'],
-    selectedValue: 0,
-    credit: 7.5,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chinese',
-    level: ['S','H'],
-    selectedValue: 0,
-    credit: 5.0,
-    type: 1 //1 = Language, 0 = NonLanguage
-  }, 
-  {
-    subjectName: 'Physics',
-    level: ['S','H'],
-    selectedValue: 0,
-    credit: 3.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  }, 
-  {
-    subjectName: 'Biology',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  }, 
-  {
-    subjectName: 'History',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 2.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Geography',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 2.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  ];
 
-var ninethGrade = [
-  {
-    subjectName: 'Math',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 6.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'English',
-    level: ['S', 'S+', 'H', 'H+'],
-    selectedValue: 0,
-    credit: 6.5,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chinese',
-    level: ['S','H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Physics',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chemistry',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'History',
-    level: ['S', 'H'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Elective',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 2.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
- ];
-
-var tenthGrade = [
-  {
-    subjectName: 'Math',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 5.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'English',
-    level: ['S', 'S+', 'H', 'H+'],
-    selectedValue: 0,
-    credit: 5.5,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chinese',
-    level: ['S','H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Physics',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chemistry',
-    level: ['S', 'S+', 'H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'History',
-    level: ['S', 'S+', 'H', 'AP'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Elective1',
-    level: ['S', 'H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Elective2',
-    level: ['S', 'H'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
- ];
-
-var elethGrade = [
-  {
-    subjectName: 'Math',
-    level: ['S', 'H', 'AP'],
-    selectedValue: 0,
-    credit: 5.5,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'English',
-    level: ['S', 'S+', 'H', 'AP'],
-    selectedValue: 0,
-    credit: 5.5,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Chinese',
-    level: ['S', 'H', 'H+'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 1 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Subject D',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Subject E',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Subject F',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: 'Subject G',
-    level: ['S', 'S+', 'H', 'H+', 'AP'],
-    selectedValue: 0,
-    credit: 4.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  }
- ];
-
-var ib =[
-  {
-    subjectName: "TOK",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 3.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: "SubA",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 6.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: "SubB",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 6.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: "SubC",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 6.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: "SubD",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 6.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: "SubE",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 6.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
-  {
-    subjectName: "SubF",
-    level: ['IB'],
-    selectedValue: 0,
-    credit: 6.0,
-    type: 0 //1 = Language, 0 = NonLanguage
-  },
- ];
-
-var defaultPresets = [eighthGrade, ninethGrade, tenthGrade, elethGrade, ib];
+var defaultPresets = [app.globalData.eighthGrade, app.globalData.ninethGrade, app.globalData.tenthGrade, app.globalData.elethGrade, app.globalData.ib];
 
 //console.log(defaultPresets)
 
@@ -285,20 +19,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    clubimageList:[
-      "https://connect.shs.cn/images/b/b4/b45141edd63b272b.jpg",
-      "https://connect.shs.cn/images/6/67/679b5bfbf1cbd7ef.jpg",
-      "https://connect.shs.cn/images/c/c4/c4b4fc3612738a2a.jpg",
-      "https://connect.shs.cn/images/2/23/2335cadc333ced44.jpg",
-      "https://wx2.sinaimg.cn/mw690/006tozhpgy1fz9nlk3sanj30u00jg0t5.jpg"
-    ],
-    imageList:[
-      "https://wx4.sinaimg.cn/mw690/006tozhpgy1fz6fslw5nnj31900u0u10.jpg",
-      "https://wx1.sinaimg.cn/mw690/006tozhpgy1fz6fss7qdjj31hc0u0hdv.jpg",
-      "https://wx3.sinaimg.cn/mw690/006tozhpgy1fz6ftb6uc0j31900u04qw.jpg",
-      "https://wx1.sinaimg.cn/mw690/006tozhpgy1fz6fteo8vij31900u0hdw.jpg",
-      "https://wx3.sinaimg.cn/mw690/006tozhpgy1fz6fty4nbbj31900u0u12.jpg",
-    ],
+    userNickName:"Calen",
+    clubimageList:app.globalData.imageList,
     announcement: "I know H.T.M.L.",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
     presetIndex: 0,
@@ -310,12 +32,7 @@ Page({
       credit:5.5,
       type: 1 //1 = Language, 0 = NonLanguage
     }
-    ],
-    
-    /**
-     * If you change the part below, there might be problems
-     */
-    finalGPA: '',
+    ]
   },
 
   changePreset: function(e){
@@ -328,7 +45,7 @@ Page({
     grade = Gradelist[e.detail.value];
     console.log(grade);
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
-      //var TempList = settingList[i].split("@");//Decode CreditList
+
       GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type));
     }
   },
@@ -364,17 +81,16 @@ Page({
     var total = 0;
     var that = this;
     var gpaFinal = new Result(GPACs);
-
+    finalGPA = gpaFinal.getGPA();
     //Present GPA
     wx.showModal({
       title: 'Result',
-      content: ("Your GPA is " + gpaFinal.getGPA() + "," + gpaFinal.getRank()),
-      confirmText: "Confirm",
-      cancelText: "OK"
+      content: ("Your GPA is " + finalGPA + "," + gpaFinal.getRank() + "\n Do you want to access more info(STAT,HISTORY) by uploading your GPA?"),
+      confirmText: "Ok",
+      cancelText: "No"
     });
-    that.setData({
-      finalGPA: gpaFinal.getGPA()
-    })
+
+      
 
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
@@ -402,6 +118,7 @@ Page({
         console.log("Created");
       }
     })
+    
   },
 
   /**
@@ -409,17 +126,18 @@ Page({
    */
   onLoad: function (options) {
     //console.log(this.data.array[0].level);
-
-      this.setData({
-        subjects:eighthGrade
-      })
+    var that = this;
+    this.setData({
+      subjects: defaultPresets[0]
+    })
+    console.log(this.data.subjects);
     for (var i = 0; i < this.data.subjects.length; i++) {
       //var TempList = settingList[i].split("@");//Decode CreditList
-      GPACs.push(new Unit(this.data.subjects[i].name, this.data.subjects[i].credit, this.data.subjects[i].type));
+      GPACs.push(new Unit(this.data.subjects[i].subjectName, this.data.subjects[i].credit, this.data.subjects[i].type));
     }
 
     console.log("Running OnLoad...")
-    var that = this;
+    
     wx.cloud.callFunction({
       name: 'presetCloud'
     })
@@ -429,6 +147,8 @@ Page({
       })
       .catch(console.error)
     console.log("Run Complete.")
+
+    
 
   },
 
@@ -456,6 +176,9 @@ Page({
             console.log(Gradelist);
           }
         }
+      },
+      fail: function (res) {
+      console.log("Running Offline Mode...");
       }
     })
     console.log("Run Complete.")
@@ -517,9 +240,8 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    //console.log(this.data.finalGPA)
     return {
-      title: 'Wow! My GPA is ' + this.data.finalGPA,
+      title: 'Wow! My GPA is ' + finalGPA,
       path: '/pages/index/index?',
       //imageUrl: "/images/1.jpg"
     }

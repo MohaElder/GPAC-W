@@ -27,17 +27,17 @@
         "selectedIconPath": "/Assets/GPA_Selected.png"
       },
       {
+        "pagePath": "pages/Settings/Settings",
+        "text": "Create",
+        "iconPath": "/Assets/setting.png",
+        "selectedIconPath": "/Assets/setting_selected.png"
+      },
+      {
         "pagePath": "pages/rank/rank",
         "text": "Me",
         "iconPath": "/Assets/Rank.png",
         "selectedIconPath": "/Assets/Rank_Selected.png"
-      },
-      {
-        "pagePath": "pages/Settings/Settings",
-        "text": "Presets",
-        "iconPath": "/Assets/setting.png",
-        "selectedIconPath": "/Assets/setting_selected.png"
-      }
+      } 
     ]
   }
 }

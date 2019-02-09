@@ -1,39 +1,44 @@
 <!--index page-->
 
 <view class="cu-bar margin-top gradual-blue padding text-center shadow-blur">
-  <!-- <view class="cu-avatar round" style="background-image:url(https://image.weilanwl.com/img/square-3.jpg);"></view> -->
+   <view class="cu-avatar round" style="background-image:url(https://image.weilanwl.com/img/square-3.jpg);"></view>
   <view class='content'>
     G-PAC W
   </view>
 </view>
 
- <swiper class="card-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
-  <swiper-item wx:for="{{5}}" wx:key class="{{cardCur==index?'cur':''}}">
-    <view class='bg-img shadow-blur' style="background-image:url({{clubimageList[index]}})"></view>
-  </swiper-item>
-
-</swiper>
-
-<view name = "homeSection">
-  <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
+<view class="cu-card dynamic {{isCard?'no-card':''}}" style = "marin-top:20px;">
+  <view wx:for="1" wx:key class="cu-item shadow">
+    <view class="cu-list menu menu-avatar">
+      <view class="cu-item">
+        <!--<view class="cu-avatar round lg" style="background-image:url({{image}});"></view>-->
+        <view class='content flex-sub'>
+          <view class='solid-bottom text-xl padding'>
+            <text class="text-black text-bold">Hi! {{userNickName}}, how would you like me to calculate your GPA?</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!--<view class='text-content'>
+      {{desc}}
+    </view>-->
+    <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
     <view class="picker">
       <view class="cu-card case">
         <view wx:for="{{1}}" wx:key class="cu-item shadow">
           <view class='image'>
-            <swiper class="screen-swiper" circular="true" autoplay="true" interval="5000" duration="500">
-    <swiper-item wx:for="{{5}}" wx:key>
+            <!--  <swiper class="screen-swiper" circular="true" autoplay="true" interval="5000" duration="500">
+   <swiper-item wx:for="{{5}}" wx:key>
       <image src="{{imageList[index]}}" mode='aspectFill'></image>
     </swiper-item>
-  </swiper>
-            <view class='cu-bar bg-shadeBottom text-xxl'>
-              You are at: {{presetListname[presetIndex]}}
-            </view>
+  </swiper>-->
           </view>
-          <view class="cu-list menu menu-avatar">
-            <view class="cu-item">
+          <view class="cu-list menu menu-avatar ">
+            <view class="cu-item gradual-green ">
               <view class='content flex-sub'>
-                <view class='text-black bg text-bold'>Change Preset 😎</view>
-                <view class="text-grey bg">{{announcement}}</view>
+                <view class='text-black bg text-bold '>
+                  In {{presetListname[presetIndex]}} way.</view>
+                <!--<view class="text-grey bg">{{announcement}}</view>-->
               </view>
             </view>
           </view>
@@ -41,28 +46,26 @@
       </view>
     </view>
   </picker>
+  </view>
 </view>
 
-<view name = "gpaSection">
+<view name="gpaSection">
   <view class="cu-card case">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image'>
         <view class="cu-form-group margin-top" wx:for="{{subjects}}">
-      <view class="title">{{item.subjectName}}</view>
-      <input type="number" placeholder="Score..." bindinput="getSubScore" data-index="{{index}}" />
-      <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index="{{index}}" range="{{item.level}}">
-        <view class="picker">
-          Level = {{item.level[item.selectedValue]}}
+          <view class="title">{{item.subjectName}}</view>
+          <input type="number" placeholder="Score..." bindinput="getSubScore" data-index="{{index}}" />
+          <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index="{{index}}" range="{{item.level}}">
+            <view class="picker">
+              Level = {{item.level[item.selectedValue]}}
+            </view>
+          </picker>
         </view>
-      </picker> 
-    </view>
-    <view class="padding flex flex-direction">
-      <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Abrakadabra</button>
-  </view>
+        <view class="padding flex flex-direction">
+          <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Abrakadabra</button>
+        </view>
       </view>
     </view>
   </view>
 </view>
-
-
-  
