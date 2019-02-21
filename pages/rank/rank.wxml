@@ -1,13 +1,13 @@
 <!--rank.wxml-->
 
-<view class="cu-bar margin-top gradual-blue padding text-center shadow-blur">
-  <!--<view class="cu-avatar round" style="background-image:url(https://image.weilanwl.com/img/square-3.jpg);"></view>-->
-  <view class='content'>
-    GPAC-W
+<view class="cu-bar bg-white">
+  <view class='action'>
+    <text class='icon-titles text-pink'></text>
+    <text class='text-xl text-bold'>Me</text>
   </view>
 </view>
 
-<scroll-view scroll-y style="height: 1000px;" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" aria-label="true" enable-back-to-top="true">
+<!--<scroll-view scroll-y style="height: 1000px;" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" aria-label="true" enable-back-to-top="true">-->
 
 <view name = "profileSection">
   <view class="cu-card dynamic">
@@ -23,17 +23,11 @@
           </view>
         </view>
       </view>
-      <view class='text-content'>
-        {{Announcement}}
-      </view>
 
       <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>   I defeated </view>
-            <view class='text-gray text-content text-df'>
-                {{Defeat}}% of the users, but does that really matter?
-            </view>
+            <view class='text-grey'>   I defeated {{Defeat}}% of the users this time.</view>
           </view>
         </view>
       </view>
@@ -66,6 +60,25 @@
   </view>
 </view>
 
-<ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas>
+  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas>
 
-</scroll-view>
+<!--</scroll-view>-->
+
+<view name = "TimelineSection">
+  <view class="cu-card dynamic">
+    <view wx:for="1" wx:key class="cu-item shadow">
+        <view class="cu-item">
+<view class="cu-timeline" >
+  <view class="cu-time">Your GPAs</view>
+
+  <view wx:for="{{historyList}}" class='cu-item text-blue' >
+    <view class="bg-blue content"  wx:key>
+      Your got a GPA of {{item.GPA}} at {{item.time}}.
+    </view>
+  </view>
+</view>
+        </view>
+      </view>
+</view>
+</view>
+

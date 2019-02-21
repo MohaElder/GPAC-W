@@ -1,23 +1,19 @@
 // rank.js
-
 import * as echarts from '../../ec-canvas/echarts';
 import * as ecStat from '../../ec-canvas/ec-stat';
 import WxCanvas from '../../ec-canvas/wx-canvas';
 
+//const util = require('../../utils/util.js');
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 const app = getApp();
-var EGPAs = [];
-var NGPAs = [];
-var TGPAs = [];
-var ELEGPAs = [];
-var ENames = [];
-var NNames = [];
-var TNames = [];
-var ELENames = [];
+var EGPAs, NGPAs, TGPAs, ELEGPAs = [];
+var ENames, NNames, TNames, ELENames = [];
 var GPAs = [];
 var Names = [];
 var Grades= [];
+
+//var Time = util.formatTime(new Date());
 
 Page({
 
@@ -25,21 +21,45 @@ Page({
    * 页面的初始数据
    */
   data: {
-    brief: "HelloWorld!",
-    Announcement: "",
+    historyList: [
+      {
+        time: 0,
+        courseName: "DataStructure",
+        courseGrade: 100,
+      },
+      {
+        time: "22:20",
+        courseName: "DataStructure",
+        courseGrade: 100,
+      },
+      {
+        time: "22:20",
+        courseName: "DataStructure",
+        courseGrade: 100,
+      },
+      {
+        time: "22:20",
+        courseName: "DataStructure",
+        courseGrade: 100,
+      },
+      {
+        time: "22:20",
+        courseName: "DataStructure",
+        courseGrade: 100,
+      }
+    ],
     Name: 'Please Wait',
     Rank: 0,
     GPA: 0,
     Defeat: 0,
     Population: 0,
-    RankPic: 'cloud://gpacw-069de7.6770-gpacw-069de7/timg (2).gif',
-    RankName: 'Please Wait',
     Grade: 0,
+    RankPic: 'cloud://gpacw-069de7.6770-gpacw-069de7/timg (2).gif',//need to change this pic in the future
+    RankName: 'Please Wait',
     finalGPA: [],
     ec: {
       lazyLoad: true
     },
-    scrollTop: 100
   },
   onReady: function() {
     // 获取组件
@@ -59,6 +79,7 @@ Page({
         var GPAList = new Array(res.result.data.length);
         var NameList = new Array(res.result.data.length);
         var GradeList = new Array(res.result.data.length);
+  
         for (var count = 0; count < res.result.data.length; count++) {
           GPAList[count] = Number(res.result.data[count].GPA).toFixed(2);
           NameList[count] = res.result.data[count]._id;

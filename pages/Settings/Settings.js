@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    Announcements: "Hakuna Matata",
+    courseSteps: [1,2],
+    courseStep: 0, 
     presetName:"defaultPreset",
     presetGrade: 0,
     subjects: [

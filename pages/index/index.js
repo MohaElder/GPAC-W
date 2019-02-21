@@ -1,12 +1,14 @@
 import { Unit, Result } from '../../utils/GPAC';
 
+const util = require('../../utils/util.js');
 const app = getApp();
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
+var grade = app.globalData.gradeList;;
 var GPACs = [];
 var Presets, presetListname = []
-var Gradelist = [8,9,10,11,11];
-var grade,finalGPA;
+var finalGPA;
+
 //Default Presets
 
 var defaultPresets = [app.globalData.eighthGrade, app.globalData.ninethGrade, app.globalData.tenthGrade, app.globalData.elethGrade, app.globalData.ib];
@@ -36,13 +38,13 @@ Page({
   },
 
   changePreset: function(e){
+    var seletedGrade = grade[e.detail.value];
     //console.log(this.data.presetList[e.detail.value]);
     this.setData({
       subjects: defaultPresets[e.detail.value],
       presetIndex: e.detail.value//显示前端level 
     })
     GPACs = [];
-    grade = Gradelist[e.detail.value];
     console.log(grade);
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
 
@@ -101,27 +103,32 @@ Page({
   },
 
   Upload: function(GPA,name){
+    console.log("Running Upload...")
+    var Time = util.formatTime(new Date());
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
+        console.log("Running Update..." + "GPA is " + GPA + " Time is " + Time);
         db.collection('UserGPA').doc(name).update({
           // data 传入需要局部更新的数据
           data: {
-            // 表示将 done 字段置为 true
-            GPA: GPA,
-            grade: grade
+            GPA: _.push(GPA),
+            grade: grade,
+            //time: _.push(Time)
           },
           success: function (res) {
           }
         })
         // res.data 包含该记录的数据
-        console.log("Update");
+        console.log("Updated!");
       },
       fail: function () {
+        console.log("Running Create...");
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: GPA,
-            grade: grade
+            GPA: [GPA],
+            grade: grade,
+            time: [Time]
           }
         })
         console.log("Created");
@@ -174,14 +181,14 @@ Page({
           if (nickName == Presets[count].Name) {
             presetListname = that.data.presetListname;
             presetListname.push(Presets[count].Presetname);
-            Gradelist.push(Presets[count].Presetgrade);
+            grade.push(Presets[count].Presetgrade);
             //console.log(Presets[count].Presetgrade);
             defaultPresets.push(Presets[count].subjects);
             that.setData({
               presetListname: presetListname
             })
             console.log("Success");
-            console.log(Gradelist);
+            console.log(grade);
           }
         }
       },

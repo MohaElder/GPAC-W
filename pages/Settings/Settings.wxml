@@ -1,13 +1,13 @@
 <!--pages/Settings/Settings.wxml-->
 
-<view class="cu-bar margin-top gradual-blue padding text-center shadow-blur">
-  <!--<view class="cu-avatar round" style="background-image:url(https://image.weilanwl.com/img/square-3.jpg);"></view>-->
-  <view class='content'>
-    GPAC-W
+<view class="cu-bar bg-white">
+  <view class='action'>
+    <text class='icon-titles text-yellow'></text>
+    <text class='text-xl text-bold'>Create</text>
   </view>
 </view>
 
-<view name="profileSection">
+<view name="profileSkection">
   <view class="cu-card dynamic">
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
@@ -16,9 +16,6 @@
             <view>Customize your preset here!</view>
           </view>
         </view>
-      </view>
-      <view class='text-content'>
-        {{Announcements}}
       </view>
 
       <view class="cu-list menu menu-avatar comment solids-top">
@@ -72,10 +69,10 @@
 
   </view>
 
-    <view class='cu-steps'>
+</view>
+
+  <view class='cu-steps'>
     <view class='cu-item {{index>courseStep?"":"text-red"}}' wx:for="{{courseSteps}}" wx:key>
-      <text class='icon-usefullfill'></text> Step{{item.name}}
+      <text class='icon-usefullfill'></text> Step {{item}}
     </view>
   </view>
-  
-</view>
