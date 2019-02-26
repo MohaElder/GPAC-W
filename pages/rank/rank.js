@@ -9,9 +9,10 @@ const userSearcher = db.collection('UserGPA');
 const app = getApp();
 var EGPAs, NGPAs, TGPAs, ELEGPAs = [];
 var ENames, NNames, TNames, ELENames = [];
-var GPAs = [];
+var GPALists = [];
 var Names = [];
 var Grades= [];
+var currentGPAs = [];
 
 //var Time = util.formatTime(new Date());
 
@@ -21,33 +22,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    historyList: [
-      {
-        time: 0,
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      }
-    ],
+    historyList: [],
     Name: 'Please Wait',
     Rank: 0,
     GPA: 0,
@@ -76,17 +51,21 @@ Page({
         name: 'rankCloud'
       })
       .then(res => {
+        console.log(res.result.data);
         var GPAList = new Array(res.result.data.length);
+        var currentGPA = new Array(res.result.data.length);
         var NameList = new Array(res.result.data.length);
         var GradeList = new Array(res.result.data.length);
-  
+
         for (var count = 0; count < res.result.data.length; count++) {
-          GPAList[count] = Number(res.result.data[count].GPA).toFixed(2);
+          currentGPA[count] = (Number)(res.result.data[count].GPA[0]).toFixed(2);
+          GPAList[count] = res.result.data[count].GPA;
           NameList[count] = res.result.data[count]._id;
           GradeList[count] = res.result.data[count].grade;
         }
 
-        GPAs = GPAList;
+        GPALists = GPAList;
+        currentGPAs = currentGPA;
         Names = NameList;
         Grades = GradeList;
 
@@ -102,7 +81,7 @@ Page({
   categorize: function() {
     console.log("Running categorize...")
     var that = this;
-    var rawGPA = GPAs;
+    var rawGPA = currentGPAs;
     var rawName = Names;
     var rawGrade = Grades;
     //console.log(rawGrade);
@@ -149,24 +128,28 @@ Page({
     console.log("Running sort...")
     var that = this;
     var Max = 0;
-    var gpaTemp = 0;
-    var nameTemp = 0;
-    var gradeTemp = 0;
+    var gpaTemp,nameTemp,gradeTemp, gpaListTemp = 0;
     //height = GPAList;
 
-    for (var i = 0; i < GPAs.length-1; i++) {
+    for (var i = 0; i < currentGPAs.length-1; i++) {
       Max = i;
-      for (var j = i; j < GPAs.length; j++) {
-        if (GPAs[j] > GPAs[Max]) {
+      for (var j = i; j < currentGPAs.length; j++) {
+        if (currentGPAs[j] > currentGPAs[Max]) {
           Max = j;
         }
       }
-      gpaTemp = GPAs[i];
+      gpaListTemp = GPALists[i];
+      gpaTemp = currentGPAs[i];
       nameTemp = Names[i];
       gradeTemp = Grades[i];
-      GPAs[i] = GPAs[Max];
+
+      GPALists[i] = GPALists[Max];
+      currentGPAs[i] = currentGPAs[Max];
       Names[i] = Names[Max];
       Grades[i] = Grades[Max];
+
+      GPALists[Max] = gpaListTemp;
+      currentGPAs[Max] = gpaTemp;
       GPAs[Max] = gpaTemp;
       Names[Max] = nameTemp;
       Grades[Max] = gradeTemp;
@@ -187,7 +170,7 @@ Page({
         //console.log(nickName); 
         for (var count = 0; count < Names.length; count++) {
           if (nickName == Names[count]) {
-            that.syncAll(Grades[count], nickName);
+            that.syncAll(Grades[count], nickName, GPALists[count]);
 
           }
         }
@@ -196,7 +179,7 @@ Page({
     console.log("Run Complete.")
   },
 
-  syncAll: function(userGrade, Name) {
+  syncAll: function(userGrade, Name,selectedGPAs) {
     var that = this;
     console.log("Running syncAll...")
     //console.log(userGrade);
@@ -230,7 +213,8 @@ Page({
           Rank: count,
           GPA: userGPA[count],
           Defeat: Number.parseInt(100 - (count / userGPA.length) * 100),
-          Population: userGPA.length
+          Population: userGPA.length,
+          historyList: selectedGPAs
         })
         that.rankPic(Number.parseInt((count / userGPA.length) * 100));
         //console.log(userGPA[0]);

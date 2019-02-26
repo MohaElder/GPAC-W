@@ -4,7 +4,8 @@ const util = require('../../utils/util.js');
 const app = getApp();
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
-var grade = app.globalData.gradeList;;
+var grade = app.globalData.gradeList;
+var selectedGrade;
 var GPACs = [];
 var Presets, presetListname = []
 var finalGPA;
@@ -21,7 +22,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userNickName:"Calen",
     clubimageList:app.globalData.imageList,
     announcement: "I know H.T.M.L.",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
@@ -38,7 +38,7 @@ Page({
   },
 
   changePreset: function(e){
-    var seletedGrade = grade[e.detail.value];
+    selectedGrade = grade[e.detail.value];
     //console.log(this.data.presetList[e.detail.value]);
     this.setData({
       subjects: defaultPresets[e.detail.value],
@@ -79,7 +79,6 @@ Page({
   },
   //StartUp Function 
   Submit: function (name) {
-    const _ = db.command;
     var total = 0;
     var that = this;
     var gpaFinal = new Result(GPACs);
@@ -102,18 +101,19 @@ Page({
     
   },
 
-  Upload: function(GPA,name){
+  Upload: function(gpa,name){
+    const _ = db.command;
     console.log("Running Upload...")
     var Time = util.formatTime(new Date());
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
-        console.log("Running Update..." + "GPA is " + GPA + " Time is " + Time);
+        console.log("Running Update..." + "GPA is " + gpa + " Time is " + Time);
         db.collection('UserGPA').doc(name).update({
           // data 传入需要局部更新的数据
           data: {
-            GPA: _.push(GPA),
-            grade: grade,
-            //time: _.push(Time)
+            GPA: _.push(gpa),
+            grade: selectedGrade,
+            time: _.push(Time)
           },
           success: function (res) {
           }
@@ -126,8 +126,8 @@ Page({
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: [GPA],
-            grade: grade,
+            GPA: [gpa],
+            grade: selectedGrade,
             time: [Time]
           }
         })
@@ -142,13 +142,14 @@ Page({
   onLoad: function (options) {
     //console.log(this.data.array[0].level);
     var that = this;
-    this.setData({
-      subjects: defaultPresets[0]
+    that.setData({
+      subjects: defaultPresets[0],
+      presetIndex:0
     })
     console.log(this.data.subjects);
-    for (var i = 0; i < this.data.subjects.length; i++) {
+    for (var i = 0; i < that.data.subjects.length; i++) {
       //var TempList = settingList[i].split("@");//Decode CreditList
-      GPACs.push(new Unit(this.data.subjects[i].subjectName, this.data.subjects[i].credit, this.data.subjects[i].type));
+      GPACs.push(new Unit(that.data.subjects[i].subjectName, that.data.subjects[i].credit, that.data.subjects[i].type));
     }
 
     console.log("Running OnLoad...")
