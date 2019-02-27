@@ -8,26 +8,14 @@ const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 const app = getApp();
 
-//Should Change these in the future
-var eGPAArrs = [];
-var nGPAArrs = [];
-var tGPAArrs = [];
-var eleGPAArrs = [];
-var EGPAs = [];
-var NGPAs = [];
-var TGPAs = [];
-var ELEGPAs = [];
-var ENames= [];
-var TNames= []; 
-var ELENames = [];
-//👆
+var ePeople = [];
+var nPeople = [];
+var tPeople = [];
+var elePeople = [];
 
-var gpas = [];
-var specGPAList = [];
-var names = [];
-var grades= [];
+var people = [];
+var person = [];
 
-//var Time = util.formatTime(new Date());
 
 Page({
 
@@ -58,6 +46,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+
     console.log("Running OnLoad...")
     var that = this;
     wx.cloud.callFunction({
@@ -65,11 +54,16 @@ Page({
       })
       .then(res => {
         for (var count = 0; count < res.result.data.length; count++) {
-          gpas.push(res.result.data[count].GPA);
-          specGPAList.push((Number)(res.result.data[count].GPA[0]).toFixed(2));
-          names.push(res.result.data[count]._id);
-          grades.push(res.result.data[count].grade);
+          var temp = {
+              name: res.result.data[count]._id,
+              gpas: res.result.data[count].GPA,
+              gpa: (Number)(res.result.data[count].GPA[0]).toFixed(2),
+              grade: res.result.data[count].grade
+            };
+
+            people.push(temp);
         }
+        console.log(people);
         that.sort();
         that.categorize();
         that.search();
@@ -85,16 +79,12 @@ Page({
     //console.log(rawGrade);
 
 
-    for (var count = 0; count < gpas.length; count++) {
-      if (grades[count] == 8) {
-       eGPAArrs.push(gpas[count]);
-       EGPAs.push(specGPAList[count]);
-       ENames.push(names[count]);
+    for (var count = 0; count < people.length; count++) {
+      if (people[count].grade == 8) {
+       ePeople.push(people[count]);
       }
-      if (grades[count] == 9) {
-        nGPAArrs.push(gpas[count]);
-        NGPAs.push(specGPAList[count]);
-        NNames.push(names[count]);
+      if (people[count] == 9) {
+        nPeople.push(people[count]);
       }
       if (grades[count] == 10) {
         tGPAArrs.push(gpas[count]);
