@@ -14,8 +14,6 @@ var tPeople = [];
 var elePeople = [];
 
 var people = [];
-var person = [];
-
 
 Page({
 
@@ -54,14 +52,13 @@ Page({
       })
       .then(res => {
         for (var count = 0; count < res.result.data.length; count++) {
-          var temp = {
+          people.push({
               name: res.result.data[count]._id,
               gpas: res.result.data[count].GPA,
               gpa: (Number)(res.result.data[count].GPA[0]).toFixed(2),
-              grade: res.result.data[count].grade
-            };
-
-            people.push(temp);
+              grade: res.result.data[count].grade,
+              time: res.result.data[count].time
+            });
         }
         console.log(people);
         that.sort();
@@ -83,21 +80,16 @@ Page({
       if (people[count].grade == 8) {
        ePeople.push(people[count]);
       }
-      if (people[count] == 9) {
+      if (people[count].grade == 9) {
         nPeople.push(people[count]);
       }
-      if (grades[count] == 10) {
-        tGPAArrs.push(gpas[count]);
-        TGPAs.push(specGPAList[count]);
-        TNames.push(names[count]);
+      if (people[count].grade == 10) {
+        tPeople.push(people[count]);
       }
-      if (grades[count] == 11) {
-        eleGPAArrs.push(gpas[count]);
-        EGPAs.push(specGPAList[count]);
-        ELENames.push(names[count]);
+      if (people[count].grade == 11) {
+        elePeople.push(people[count]);
       }
     }
-
     console.log("Run Complete.")
   },
 
@@ -106,30 +98,33 @@ Page({
     var that = this;
     var Max = 0;
     var gpaTemp,gpasTemp = 0;
-    var nameTemp, gradeTemp = '';
+    var nameTemp, gradeTemp,timeTemp = '';
     //height = GPAList;
 
-    for (var i = 0; i < gpas.length-1; i++) {
+    for (var i = 0; i < people.length-1; i++) {
       Max = i;
-      for (var j = i; j < gpas.length; j++) {
-        if (gpas[j] > gpas[Max]) {
+      for (var j = i; j < people.length; j++) {
+        if (people[j] > people[Max]) {
           Max = j;
         }
       }
-      gpasTemp = gpas[i];
-      gpaTemp = specGPAList[i];      
-      nameTemp = names[i];
-      gradeTemp = grades[i];
+      gpasTemp = people[i].gpas;
+      gpaTemp = people[i].gpa;      
+      nameTemp = people[i].name;
+      gradeTemp = people[i].grade;
+      timeTemp= people[i].time;
 
-      gpas[i] = gpas[Max];
-      specGPAList[i] = specGPAList[Max];
-      names[i] = names[Max];
-      grades[i] = grades[Max];
+      people[i].gpas = people[Max].gpas;
+      people[i].gpa = people[Max].gpa;
+      people[i].name = people[Max].name;
+      people[i].grade = people[Max].grade;
+      people[i].time = people[Max].time;
 
-      specGPAList[Max] = gpaTemp;
-      gpas[Max] = gpasTemp;
-      names[Max] = nameTemp;
-      grades[Max] = gradeTemp;
+      people[Max].gpas = gpasTemp;
+      people[Max].gpa = gpaTemp;
+      people[Max].name = nameTemp;
+      people[Max].grade = gradeTemp;
+      people[Max].time = timeTemp;
     }
 
     console.log("Run Complete.")
@@ -145,9 +140,9 @@ Page({
         var userInfo = res.userInfo;
         nickName = userInfo.nickName.replace(/\s*/g, "")
         //console.log(nickName); 
-        for (var count = 0; count < names.length; count++) {
-          if (nickName == names[count]) {
-            that.syncAll(grades[count], nickName);
+        for (var count = 0; count < people.length; count++) {
+          if (nickName == people[count].name) {
+            that.syncAll(people[count].grade, nickName);
 
           }
         }
@@ -160,46 +155,34 @@ Page({
     var that = this;
     console.log("Running syncAll...")
     //console.log(userGrade);
-    var userGPA = [];
-    var userField = [];
-    var userGPAArr = [];
 
     if (userGrade == 8) {
-      userGPAArr = eGPAArrs;
-      userGPA = EGPAs;
-      userField = ENames;
+      people = ePeople;
     }
     if (userGrade == 9) {
-      userGPAArr = nGPAArrs;
-      userGPA = NGPAs;
-      userField = NNames;
+      people = nPeople;
     }
     if (userGrade == 10) {
-      userGPAArr = tGPAArrs;
-      userGPA = TGPAs;
-      userField = TNames;
+      people = tPeople;
     }
     if (userGrade == 11) {
-      userGPAArr = eleGPAArrs;
-      userGPA = ELEGPAs;
-      userField = ELENames;
+      people = elePeople;
     }
+console.log(people);
 
-    console.log(userGPA);
-
-    for (var count = 0; count < userGPA.length; count++) {
-      if (name == userField[count]) {
+    for (var count = 0; count < people.length; count++) {
+      if (name == people[count].name) {
         that.setData({
-          historyList: userGPAArr[0],
-          Name: userField[count],
-          Grade: userGrade,
+          historyList: people[count],
+          Name: people[count].name,
+          Grade: people[count].grade,
           Rank: count,
-          GPA: userGPA[count],
-          Defeat: Number.parseInt(100 - (count / userGPA.length) * 100),
-          Population: userGPA.length
+          GPA: people[count].gpa,
+          Defeat: Number.parseInt(100 - (count / people.length) * 100),
+          Population: people.length
         })
-        that.rankPic(Number.parseInt((count / userGPA.length) * 100));
-        that.initChart(userGPA);
+        that.rankPic(Number.parseInt((count / people.length) * 100));
+        that.initChart(people);
       }
     }
     console.log("Run Complete.")
