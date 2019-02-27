@@ -7,11 +7,25 @@ import WxCanvas from '../../ec-canvas/wx-canvas';
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 const app = getApp();
-var EGPAs, NGPAs, TGPAs, ELEGPAs = [];
-var ENames, NNames, TNames, ELENames = [];
-var GPAs = [];
-var Names = [];
-var Grades= [];
+
+//Should Change these in the future
+var eGPAArrs = [];
+var nGPAArrs = [];
+var tGPAArrs = [];
+var eleGPAArrs = [];
+var EGPAs = [];
+var NGPAs = [];
+var TGPAs = [];
+var ELEGPAs = [];
+var ENames= [];
+var TNames= []; 
+var ELENames = [];
+//👆
+
+var gpas = [];
+var specGPAList = [];
+var names = [];
+var grades= [];
 
 //var Time = util.formatTime(new Date());
 
@@ -21,33 +35,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    historyList: [
-      {
-        time: 0,
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      },
-      {
-        time: "22:20",
-        courseName: "DataStructure",
-        courseGrade: 100,
-      }
-    ],
+    historyList: [],
     Name: 'Please Wait',
     Rank: 0,
     GPA: 0,
@@ -76,20 +64,12 @@ Page({
         name: 'rankCloud'
       })
       .then(res => {
-        var GPAList = new Array(res.result.data.length);
-        var NameList = new Array(res.result.data.length);
-        var GradeList = new Array(res.result.data.length);
-  
         for (var count = 0; count < res.result.data.length; count++) {
-          GPAList[count] = Number(res.result.data[count].GPA).toFixed(2);
-          NameList[count] = res.result.data[count]._id;
-          GradeList[count] = res.result.data[count].grade;
+          gpas.push(res.result.data[count].GPA);
+          specGPAList.push((Number)(res.result.data[count].GPA[0]).toFixed(2));
+          names.push(res.result.data[count]._id);
+          grades.push(res.result.data[count].grade);
         }
-
-        GPAs = GPAList;
-        Names = NameList;
-        Grades = GradeList;
-
         that.sort();
         that.categorize();
         that.search();
@@ -102,46 +82,32 @@ Page({
   categorize: function() {
     console.log("Running categorize...")
     var that = this;
-    var rawGPA = GPAs;
-    var rawName = Names;
-    var rawGrade = Grades;
     //console.log(rawGrade);
-    var EGpa = [];
-    var NGpa = [];
-    var TGpa = [];
-    var ELEGpa = [];
-    var EName = [];
-    var NName = [];
-    var TName = [];
-    var ELEName = [];
 
-    for (var count = 0; count < rawGPA.length; count++) {
-      if (rawGrade[count] == 8) {
-        EGpa.push(rawGPA[count]);
-        EName.push(rawName[count]);
+
+    for (var count = 0; count < gpas.length; count++) {
+      if (grades[count] == 8) {
+       eGPAArrs.push(gpas[count]);
+       EGPAs.push(specGPAList[count]);
+       ENames.push(names[count]);
       }
-      if (rawGrade[count] == 9) {
-        NGpa.push(rawGPA[count]);
-        NName.push(rawName[count]);
+      if (grades[count] == 9) {
+        nGPAArrs.push(gpas[count]);
+        NGPAs.push(specGPAList[count]);
+        NNames.push(names[count]);
       }
-      if (rawGrade[count] == 10) {
-        TGpa.push(rawGPA[count]);
-        TName.push(rawName[count]);
+      if (grades[count] == 10) {
+        tGPAArrs.push(gpas[count]);
+        TGPAs.push(specGPAList[count]);
+        TNames.push(names[count]);
       }
-      if (rawGrade[count] == 11) {
-        ELEGpa.push(rawGPA[count]);
-        ELEName.push(rawName[count]);
+      if (grades[count] == 11) {
+        eleGPAArrs.push(gpas[count]);
+        EGPAs.push(specGPAList[count]);
+        ELENames.push(names[count]);
       }
     }
 
-    EGPAs = EGpa;
-    ENames = EName;
-    NGPAs = NGpa;
-    NNames = NName;
-    TGPAs = TGpa;
-    TNames = TName;
-    ELEGPAs = ELEGpa;
-    ELENames = ELEName;
     console.log("Run Complete.")
   },
 
@@ -149,27 +115,31 @@ Page({
     console.log("Running sort...")
     var that = this;
     var Max = 0;
-    var gpaTemp = 0;
-    var nameTemp = 0;
-    var gradeTemp = 0;
+    var gpaTemp,gpasTemp = 0;
+    var nameTemp, gradeTemp = '';
     //height = GPAList;
 
-    for (var i = 0; i < GPAs.length-1; i++) {
+    for (var i = 0; i < gpas.length-1; i++) {
       Max = i;
-      for (var j = i; j < GPAs.length; j++) {
-        if (GPAs[j] > GPAs[Max]) {
+      for (var j = i; j < gpas.length; j++) {
+        if (gpas[j] > gpas[Max]) {
           Max = j;
         }
       }
-      gpaTemp = GPAs[i];
-      nameTemp = Names[i];
-      gradeTemp = Grades[i];
-      GPAs[i] = GPAs[Max];
-      Names[i] = Names[Max];
-      Grades[i] = Grades[Max];
-      GPAs[Max] = gpaTemp;
-      Names[Max] = nameTemp;
-      Grades[Max] = gradeTemp;
+      gpasTemp = gpas[i];
+      gpaTemp = specGPAList[i];      
+      nameTemp = names[i];
+      gradeTemp = grades[i];
+
+      gpas[i] = gpas[Max];
+      specGPAList[i] = specGPAList[Max];
+      names[i] = names[Max];
+      grades[i] = grades[Max];
+
+      specGPAList[Max] = gpaTemp;
+      gpas[Max] = gpasTemp;
+      names[Max] = nameTemp;
+      grades[Max] = gradeTemp;
     }
 
     console.log("Run Complete.")
@@ -185,9 +155,9 @@ Page({
         var userInfo = res.userInfo;
         nickName = userInfo.nickName.replace(/\s*/g, "")
         //console.log(nickName); 
-        for (var count = 0; count < Names.length; count++) {
-          if (nickName == Names[count]) {
-            that.syncAll(Grades[count], nickName);
+        for (var count = 0; count < names.length; count++) {
+          if (nickName == names[count]) {
+            that.syncAll(grades[count], nickName);
 
           }
         }
@@ -196,35 +166,41 @@ Page({
     console.log("Run Complete.")
   },
 
-  syncAll: function(userGrade, Name) {
+  syncAll: function(userGrade, name) {
     var that = this;
     console.log("Running syncAll...")
     //console.log(userGrade);
     var userGPA = [];
     var userField = [];
+    var userGPAArr = [];
 
     if (userGrade == 8) {
+      userGPAArr = eGPAArrs;
       userGPA = EGPAs;
       userField = ENames;
     }
     if (userGrade == 9) {
+      userGPAArr = nGPAArrs;
       userGPA = NGPAs;
       userField = NNames;
     }
     if (userGrade == 10) {
+      userGPAArr = tGPAArrs;
       userGPA = TGPAs;
       userField = TNames;
     }
     if (userGrade == 11) {
+      userGPAArr = eleGPAArrs;
       userGPA = ELEGPAs;
       userField = ELENames;
-      //console.log("Got it!")
-      //console.log(userGPA[0]);
     }
 
+    console.log(userGPA);
+
     for (var count = 0; count < userGPA.length; count++) {
-      if (Name == userField[count]) {
+      if (name == userField[count]) {
         that.setData({
+          historyList: userGPAArr[0],
           Name: userField[count],
           Grade: userGrade,
           Rank: count,
@@ -233,20 +209,15 @@ Page({
           Population: userGPA.length
         })
         that.rankPic(Number.parseInt((count / userGPA.length) * 100));
-        //console.log(userGPA[0]);
-        //setTimeout(function(){console.log("Here we go."); that.initChart(userGPA);}, "5000");
         that.initChart(userGPA);
       }
-      //console.log("Not this one.")
     }
-    //console.log(this.data.finalGPA[11]);
     console.log("Run Complete.")
   },
 
 
   rankPic: function(ranking) {
     console.log("Running rankPic...")
-    //console.log(ranking);
     var that = this;
     if (ranking <= 5)
       that.setData({
@@ -359,10 +330,6 @@ Page({
   },
 
   setOp: function(chart, finalGPA) {
-
-    //console.log(finalGPA[0]);
-    //var bins = ecStat.histogram(tempList,'scott');
-    // var girth = [8.3, 8.6, 8.8, 10.5, 10.7, 10.8, 11.0, 11.0, 11.1, 11.2, 11.3, 11.4, 11.4, 11.7, 12.0, 12.9, 12.9, 13.3, 13.7, 13.8, 14.0, 14.2, 14.5, 16.0, 16.3, 17.3, 17.5, 17.9, 18.0, 18.0, 20.6];
 
     var bins = ecStat.histogram(finalGPA); //Gotta change back to "finalGPA" after gaining a certain amount of users. GPAs
     var option = {

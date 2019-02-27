@@ -4,10 +4,11 @@ const util = require('../../utils/util.js');
 const app = getApp();
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
-var grade = app.globalData.gradeList;;
+var grade = app.globalData.gradeList;
 var GPACs = [];
 var Presets, presetListname = []
 var finalGPA;
+var selectedGrade;
 
 //Default Presets
 
@@ -38,14 +39,14 @@ Page({
   },
 
   changePreset: function(e){
-    var seletedGrade = grade[e.detail.value];
+    selectedGrade = grade[e.detail.value];
     //console.log(this.data.presetList[e.detail.value]);
     this.setData({
       subjects: defaultPresets[e.detail.value],
       presetIndex: e.detail.value//显示前端level 
     })
     GPACs = [];
-    console.log(grade);
+    console.log(selectedGrade);
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
 
       GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type));
@@ -79,7 +80,6 @@ Page({
   },
   //StartUp Function 
   Submit: function (name) {
-    const _ = db.command;
     var total = 0;
     var that = this;
     var gpaFinal = new Result(GPACs);
@@ -103,6 +103,7 @@ Page({
   },
 
   Upload: function(GPA,name){
+    const _ = db.command;
     console.log("Running Upload...")
     var Time = util.formatTime(new Date());
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
@@ -112,8 +113,8 @@ Page({
           // data 传入需要局部更新的数据
           data: {
             GPA: _.push(GPA),
-            grade: grade,
-            //time: _.push(Time)
+            grade: selectedGrade,
+            time: _.push(Time)
           },
           success: function (res) {
           }
@@ -127,7 +128,7 @@ Page({
           data: {
             _id: name,
             GPA: [GPA],
-            grade: grade,
+            grade: selectedGrade,
             time: [Time]
           }
         })

@@ -73,7 +73,7 @@
 
   <view wx:for="{{historyList}}" class='cu-item text-blue' >
     <view class="bg-blue content"  wx:key>
-      Your got a GPA of {{item.GPA}} at {{item.time}}.
+      Your got a GPA of {{item}} at {{item.time}}.
     </view>
   </view>
 </view>
