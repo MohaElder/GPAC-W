@@ -7,8 +7,6 @@
   </view>
 </view>
 
-<!--<scroll-view scroll-y style="height: 1000px;" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" aria-label="true" enable-back-to-top="true">-->
-
 <view name = "profileSection">
   <view class="cu-card dynamic">
     <view wx:for="1" wx:key class="cu-item shadow">
@@ -60,9 +58,8 @@
   </view>
 </view>
 
-  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas>
+  <!--<ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas> -->
 
-<!--</scroll-view>-->
 
 <view name = "TimelineSection">
   <view class="cu-card dynamic">
@@ -71,9 +68,9 @@
 <view class="cu-timeline" >
   <view class="cu-time">Your GPAs</view>
 
-  <view wx:for="{{historyList}}" class='cu-item text-blue' >
+  <view wx:for="{{historyList.gpas}}" class='cu-item text-blue' >
     <view class="bg-blue content"  wx:key>
-      Your got a GPA of {{item.GPA}} at {{item.time}}.
+      Your got a GPA of {{item}} at {{historyList.time[index]}}.
     </view>
   </view>
 </view>
