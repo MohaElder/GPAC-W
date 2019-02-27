@@ -62,6 +62,7 @@
   </view>
 </view>
 
+<!--
 <navigator url = "../AboutUs/AboutUs?">
 <view class="cu-card article {{isCard?'no-card':''}}">
   <view wx:for="1" wx:key class="cu-item shadow">
@@ -71,11 +72,10 @@
       <view class="desc">
         <view class='text-content'> Learn More About Us</view>
         <view>
-          <!--<view class='cu-tag bg-red light sm round'>假装有猫系列</view>
-          <view class='cu-tag bg-green light sm round'>戏精系列</view>-->
         </view>
       </view>
     </view>
   </view>
 </view>
 </navigator>
+-->

@@ -1,6 +1,6 @@
 <!--pages/AboutUs/AboutUs.wxml-->
 
-<view class="bg-img bg-mask padding-tb-xl" style="background-image: url('https://albedo-theme.com/wp-content/uploads/2016/08/pexels-photo-26180.jpg')">
+<view class="bg-img bg-mask padding-tb-xl" style="background-image: url('https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/background1.png?sign=223955b625e842e18d5b3691ec3a2f93&t=1551261216')">
   <view class='padding-xl text-white'>
     <view class='padding-xs text-xl'>
       More Club
@@ -11,9 +11,10 @@
   </view>
 </view>
 
-<swiper class="card-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="200" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
-   <swiper-item wx:for="{{5}}" wx:key>
-       <view class='bg-img shadow-blur' style="background-image:url({{imageList[index]}})"></view>
+
+<swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}"  indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="200">
+   <swiper-item wx:for="{{imageList}}" wx:key>
+   <image src="{{imageList[index]}}" mode='aspectFill'></image>
     </swiper-item>
   </swiper>
 
