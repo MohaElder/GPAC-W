@@ -7,14 +7,13 @@ import WxCanvas from '../../ec-canvas/wx-canvas';
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 const app = getApp();
-var EGPAs, NGPAs, TGPAs, ELEGPAs = [];
-var ENames, NNames, TNames, ELENames = [];
-var GPALists = [];
-var Names = [];
-var Grades= [];
-var currentGPAs = [];
 
-//var Time = util.formatTime(new Date());
+var ePeople = [];
+var nPeople = [];
+var tPeople = [];
+var elePeople = [];
+
+var people = [];
 
 Page({
 
@@ -45,30 +44,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+
     console.log("Running OnLoad...")
     var that = this;
     wx.cloud.callFunction({
         name: 'rankCloud'
       })
       .then(res => {
-        console.log(res.result.data);
-        var GPAList = new Array(res.result.data.length);
-        var currentGPA = new Array(res.result.data.length);
-        var NameList = new Array(res.result.data.length);
-        var GradeList = new Array(res.result.data.length);
-
         for (var count = 0; count < res.result.data.length; count++) {
-          currentGPA[count] = (Number)(res.result.data[count].GPA[0]).toFixed(2);
-          GPAList[count] = res.result.data[count].GPA;
-          NameList[count] = res.result.data[count]._id;
-          GradeList[count] = res.result.data[count].grade;
+          people.push({
+              name: res.result.data[count]._id,
+              gpas: res.result.data[count].GPA,
+              gpa: (Number)(res.result.data[count].GPA[0]).toFixed(2),
+              grade: res.result.data[count].grade,
+              time: res.result.data[count].time
+            });
         }
-
-        GPALists = GPAList;
-        currentGPAs = currentGPA;
-        Names = NameList;
-        Grades = GradeList;
-
+        console.log(people);
         that.sort();
         that.categorize();
         that.search();
@@ -81,46 +73,23 @@ Page({
   categorize: function() {
     console.log("Running categorize...")
     var that = this;
-    var rawGPA = currentGPAs;
-    var rawName = Names;
-    var rawGrade = Grades;
     //console.log(rawGrade);
-    var EGpa = [];
-    var NGpa = [];
-    var TGpa = [];
-    var ELEGpa = [];
-    var EName = [];
-    var NName = [];
-    var TName = [];
-    var ELEName = [];
 
-    for (var count = 0; count < rawGPA.length; count++) {
-      if (rawGrade[count] == 8) {
-        EGpa.push(rawGPA[count]);
-        EName.push(rawName[count]);
+
+    for (var count = 0; count < people.length; count++) {
+      if (people[count].grade == 8) {
+       ePeople.push(people[count]);
       }
-      if (rawGrade[count] == 9) {
-        NGpa.push(rawGPA[count]);
-        NName.push(rawName[count]);
+      if (people[count].grade == 9) {
+        nPeople.push(people[count]);
       }
-      if (rawGrade[count] == 10) {
-        TGpa.push(rawGPA[count]);
-        TName.push(rawName[count]);
+      if (people[count].grade == 10) {
+        tPeople.push(people[count]);
       }
-      if (rawGrade[count] == 11) {
-        ELEGpa.push(rawGPA[count]);
-        ELEName.push(rawName[count]);
+      if (people[count].grade == 11) {
+        elePeople.push(people[count]);
       }
     }
-
-    EGPAs = EGpa;
-    ENames = EName;
-    NGPAs = NGpa;
-    NNames = NName;
-    TGPAs = TGpa;
-    TNames = TName;
-    ELEGPAs = ELEGpa;
-    ELENames = ELEName;
     console.log("Run Complete.")
   },
 
@@ -128,31 +97,34 @@ Page({
     console.log("Running sort...")
     var that = this;
     var Max = 0;
-    var gpaTemp,nameTemp,gradeTemp, gpaListTemp = 0;
+    var gpaTemp,gpasTemp = 0;
+    var nameTemp, gradeTemp,timeTemp = '';
     //height = GPAList;
 
-    for (var i = 0; i < currentGPAs.length-1; i++) {
+    for (var i = 0; i < people.length-1; i++) {
       Max = i;
-      for (var j = i; j < currentGPAs.length; j++) {
-        if (currentGPAs[j] > currentGPAs[Max]) {
+      for (var j = i; j < people.length; j++) {
+        if (people[j] > people[Max]) {
           Max = j;
         }
       }
-      gpaListTemp = GPALists[i];
-      gpaTemp = currentGPAs[i];
-      nameTemp = Names[i];
-      gradeTemp = Grades[i];
+      gpasTemp = people[i].gpas;
+      gpaTemp = people[i].gpa;      
+      nameTemp = people[i].name;
+      gradeTemp = people[i].grade;
+      timeTemp= people[i].time;
 
-      GPALists[i] = GPALists[Max];
-      currentGPAs[i] = currentGPAs[Max];
-      Names[i] = Names[Max];
-      Grades[i] = Grades[Max];
+      people[i].gpas = people[Max].gpas;
+      people[i].gpa = people[Max].gpa;
+      people[i].name = people[Max].name;
+      people[i].grade = people[Max].grade;
+      people[i].time = people[Max].time;
 
-      GPALists[Max] = gpaListTemp;
-      currentGPAs[Max] = gpaTemp;
-      GPAs[Max] = gpaTemp;
-      Names[Max] = nameTemp;
-      Grades[Max] = gradeTemp;
+      people[Max].gpas = gpasTemp;
+      people[Max].gpa = gpaTemp;
+      people[Max].name = nameTemp;
+      people[Max].grade = gradeTemp;
+      people[Max].time = timeTemp;
     }
 
     console.log("Run Complete.")
@@ -168,9 +140,9 @@ Page({
         var userInfo = res.userInfo;
         nickName = userInfo.nickName.replace(/\s*/g, "")
         //console.log(nickName); 
-        for (var count = 0; count < Names.length; count++) {
-          if (nickName == Names[count]) {
-            that.syncAll(Grades[count], nickName, GPALists[count]);
+        for (var count = 0; count < people.length; count++) {
+          if (nickName == people[count].name) {
+            that.syncAll(people[count].grade, nickName);
 
           }
         }
@@ -179,58 +151,46 @@ Page({
     console.log("Run Complete.")
   },
 
-  syncAll: function(userGrade, Name,selectedGPAs) {
+  syncAll: function(userGrade, name) {
     var that = this;
     console.log("Running syncAll...")
     //console.log(userGrade);
-    var userGPA = [];
-    var userField = [];
 
     if (userGrade == 8) {
-      userGPA = EGPAs;
-      userField = ENames;
+      people = ePeople;
     }
     if (userGrade == 9) {
-      userGPA = NGPAs;
-      userField = NNames;
+      people = nPeople;
     }
     if (userGrade == 10) {
-      userGPA = TGPAs;
-      userField = TNames;
+      people = tPeople;
     }
     if (userGrade == 11) {
-      userGPA = ELEGPAs;
-      userField = ELENames;
-      //console.log("Got it!")
-      //console.log(userGPA[0]);
+      people = elePeople;
     }
+console.log(people);
 
-    for (var count = 0; count < userGPA.length; count++) {
-      if (Name == userField[count]) {
+    for (var count = 0; count < people.length; count++) {
+      if (name == people[count].name) {
         that.setData({
-          Name: userField[count],
-          Grade: userGrade,
+          historyList: people[count],
+          Name: people[count].name,
+          Grade: people[count].grade,
           Rank: count,
-          GPA: userGPA[count],
-          Defeat: Number.parseInt(100 - (count / userGPA.length) * 100),
-          Population: userGPA.length,
-          historyList: selectedGPAs
+          GPA: people[count].gpa,
+          Defeat: Number.parseInt(100 - (count / people.length) * 100),
+          Population: people.length
         })
-        that.rankPic(Number.parseInt((count / userGPA.length) * 100));
-        //console.log(userGPA[0]);
-        //setTimeout(function(){console.log("Here we go."); that.initChart(userGPA);}, "5000");
-        that.initChart(userGPA);
+        that.rankPic(Number.parseInt((count / people.length) * 100));
+        that.initChart(people);
       }
-      //console.log("Not this one.")
     }
-    //console.log(this.data.finalGPA[11]);
     console.log("Run Complete.")
   },
 
 
   rankPic: function(ranking) {
     console.log("Running rankPic...")
-    //console.log(ranking);
     var that = this;
     if (ranking <= 5)
       that.setData({
@@ -343,10 +303,6 @@ Page({
   },
 
   setOp: function(chart, finalGPA) {
-
-    //console.log(finalGPA[0]);
-    //var bins = ecStat.histogram(tempList,'scott');
-    // var girth = [8.3, 8.6, 8.8, 10.5, 10.7, 10.8, 11.0, 11.0, 11.1, 11.2, 11.3, 11.4, 11.4, 11.7, 12.0, 12.9, 12.9, 13.3, 13.7, 13.8, 14.0, 14.2, 14.5, 16.0, 16.3, 17.3, 17.5, 17.9, 18.0, 18.0, 20.6];
 
     var bins = ecStat.histogram(finalGPA); //Gotta change back to "finalGPA" after gaining a certain amount of users. GPAs
     var option = {

@@ -5,10 +5,10 @@ const app = getApp();
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 var grade = app.globalData.gradeList;
-var selectedGrade;
 var GPACs = [];
 var Presets, presetListname = []
 var finalGPA;
+var selectedGrade;
 
 //Default Presets
 
@@ -22,6 +22,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userNickName:"Calen",
     clubimageList:app.globalData.imageList,
     announcement: "I know H.T.M.L.",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
@@ -45,7 +46,7 @@ Page({
       presetIndex: e.detail.value//显示前端level 
     })
     GPACs = [];
-    console.log(grade);
+    console.log(selectedGrade);
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
 
       GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type));
@@ -101,17 +102,17 @@ Page({
     
   },
 
-  Upload: function(gpa,name){
+  Upload: function(GPA,name){
     const _ = db.command;
     console.log("Running Upload...")
     var Time = util.formatTime(new Date());
     db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
       success: function (res) {
-        console.log("Running Update..." + "GPA is " + gpa + " Time is " + Time);
+        console.log("Running Update..." + "GPA is " + GPA + " Time is " + Time);
         db.collection('UserGPA').doc(name).update({
           // data 传入需要局部更新的数据
           data: {
-            GPA: _.push(gpa),
+            GPA: _.push(GPA),
             grade: selectedGrade,
             time: _.push(Time)
           },
@@ -126,7 +127,7 @@ Page({
         db.collection('UserGPA').add({
           data: {
             _id: name,
-            GPA: [gpa],
+            GPA: [GPA],
             grade: selectedGrade,
             time: [Time]
           }
@@ -142,14 +143,13 @@ Page({
   onLoad: function (options) {
     //console.log(this.data.array[0].level);
     var that = this;
-    that.setData({
-      subjects: defaultPresets[0],
-      presetIndex:0
+    this.setData({
+      subjects: defaultPresets[0]
     })
     console.log(this.data.subjects);
-    for (var i = 0; i < that.data.subjects.length; i++) {
+    for (var i = 0; i < this.data.subjects.length; i++) {
       //var TempList = settingList[i].split("@");//Decode CreditList
-      GPACs.push(new Unit(that.data.subjects[i].subjectName, that.data.subjects[i].credit, that.data.subjects[i].type));
+      GPACs.push(new Unit(this.data.subjects[i].subjectName, this.data.subjects[i].credit, this.data.subjects[i].type));
     }
 
     console.log("Running OnLoad...")
