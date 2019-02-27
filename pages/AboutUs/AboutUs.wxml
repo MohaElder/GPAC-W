@@ -1,2 +1,20 @@
 <!--pages/AboutUs/AboutUs.wxml-->
-<text>pages/AboutUs/AboutUs.wxml</text>
+
+<view class="bg-img bg-mask padding-tb-xl" style="background-image: url('https://albedo-theme.com/wp-content/uploads/2016/08/pexels-photo-26180.jpg')">
+  <view class='padding-xl text-white'>
+    <view class='padding-xs text-xl'>
+      More Club
+    </view>
+    <view class='padding-xs'>
+      May the father of understanding guide you
+    </view>
+  </view>
+</view>
+
+<swiper class="card-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="200" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
+   <swiper-item wx:for="{{5}}" wx:key>
+       <view class='bg-img shadow-blur' style="background-image:url({{imageList[index]}})"></view>
+    </swiper-item>
+  </swiper>
+
+
