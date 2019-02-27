@@ -64,7 +64,7 @@
     </view>
 
     <view class="padding flex flex-direction">
-      <button class="cu-btn bg-green margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Done</button>
+                <button class="cu-btn bg-gradual-orange padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Go Ahead</button>
     </view>
 
   </view>

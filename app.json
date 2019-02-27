@@ -6,13 +6,14 @@
     "pages/index/index",
     "pages/rank/rank",
     "pages/Agreement/Agreement",
-    "pages/Settings/Settings"
+    "pages/Settings/Settings",
+    "pages/AboutUs/AboutUs"
   ],
   "window": {
-  "navigationBarBackgroundColor": "#000000",
-  "navigationBarTitleText": "GPACW",
-  "navigationStyle": "custom",
-  "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "GPACW",
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#aaa",
@@ -37,7 +38,7 @@
         "text": "Me",
         "iconPath": "/Assets/Rank.png",
         "selectedIconPath": "/Assets/Rank_Selected.png"
-      } 
+      }
     ]
   }
 }

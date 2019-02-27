@@ -25,7 +25,7 @@
       <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>   I defeated {{Defeat}}% of the users this time.</view>
+            <view class='text-grey'>Defeated {{Defeat}}% of the users.</view>
           </view>
         </view>
       </view>
@@ -33,7 +33,7 @@
           <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>   I am in Grade {{Grade}}</view>
+            <view class='text-grey'>Grade: {{Grade}}</view>
           </view>
         </view>
       </view>
@@ -41,7 +41,7 @@
               <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>   My GPA is : {{GPA}}</view>
+            <view class='text-grey'>Current GPA: {{GPA}}</view>
           </view>
         </view>
       </view>
@@ -49,7 +49,7 @@
                   <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>   I am qualified as {{RankName}}</view>
+            <view class='text-grey'>Rank: {{RankName}}</view>
           </view>
         </view>
       </view>
@@ -66,8 +66,7 @@
     <view wx:for="1" wx:key class="cu-item shadow">
         <view class="cu-item">
 <view class="cu-timeline" >
-  <view class="cu-time">Your GPAs</view>
-
+  <view class="cu-time">GPAs</view>
   <view wx:for="{{historyList.gpas}}" class='cu-item text-blue' >
     <view class="bg-blue content"  wx:key>
       Your got a GPA of {{item}} at {{historyList.time[index]}}.

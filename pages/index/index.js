@@ -22,9 +22,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userNickName:"Calen",
     clubimageList:app.globalData.imageList,
-    announcement: "I know H.T.M.L.",
+    announcement: "",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
     presetIndex: 0,
     subjects: [
@@ -115,12 +114,14 @@ Page({
             GPA: _.push(GPA),
             grade: selectedGrade,
             time: _.push(Time)
-          },
-          success: function (res) {
           }
         })
         // res.data 包含该记录的数据
         console.log("Updated!");
+        wx.showModal({
+          title: 'Status',
+          content: 'Your profile has been updated!',
+        });
       },
       fail: function () {
         console.log("Running Create...");
@@ -133,6 +134,10 @@ Page({
           }
         })
         console.log("Created");
+        wx.showModal({
+          title: 'Status',
+          content: 'Your profile has been created!',
+        });
       }
     })
   },
@@ -162,6 +167,7 @@ Page({
         that.search();
       })
       .catch(console.error)
+
     console.log("Run Complete.")
 
     
