@@ -11,10 +11,10 @@
 		"newFeature": true,
 		"nodeModules": true,
 		"autoAudits": true,
-		"uglifyFileName": false
+		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.0",
+	"libVersion": "2.6.1",
 	"appid": "wxe5a716b55329bacf",
 	"projectname": "G-PACW",
 	"isGameTourist": false,
