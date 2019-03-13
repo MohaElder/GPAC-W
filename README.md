@@ -1,5 +1,7 @@
 # G-PAC_Miniprogram
 
+
+![微信扫码体验](https://github.com/MohaElder/GPAC-W/blob/master/gh_728434cffad9_258.jpg)
 ## 简介 Brief
  GPACW是由MoreClub工信部主席MohaElder169自主研发的基于微信小程序的GPA计算器，基于GPAC框架（同样出自MohaElder169之手）
 
