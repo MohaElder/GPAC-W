@@ -3,7 +3,7 @@
 <view class="cu-bar bg-white">
   <view class='action'>
     <text class='icon-titles text-blue'></text>
-    <text class='text-xl text-bold'>GPA</text>
+    <text class='text-xl text-bold' bindtap='easterEgg'>GPA</text>
   </view>
 </view>
 

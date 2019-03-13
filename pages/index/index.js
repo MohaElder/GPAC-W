@@ -9,6 +9,7 @@ var GPACs = [];
 var Presets, presetListname = []
 var finalGPA;
 var selectedGrade;
+var easterEgg = 0;
 
 //Default Presets
 
@@ -22,7 +23,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    clubimageList:app.globalData.imageList,
     announcement: "",
     presetListname:["8th Grade","9th Grade","10th Grade","11th Grade", "IB"],
     presetIndex: 0,
@@ -35,6 +35,27 @@ Page({
       type: 1 //1 = Language, 0 = NonLanguage
     }
     ]
+  },
+
+  easterEgg: function(){
+    if(easterEgg == 10){
+      wx.showModal({
+        title: 'You Are Not Supposed To See This',
+        content: 'Hey! You have discovered an Easter Egg! Now I am going to tell you a secret.',
+        success: function (res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../../pages/AboutUs/AboutUs?',
+            });
+          }
+          else if (res.cancel) {
+            console.log("Cancelled");
+          }
+        }
+      });
+      
+    }
+    easterEgg++;
   },
 
   changePreset: function(e){
