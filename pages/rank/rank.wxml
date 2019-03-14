@@ -79,5 +79,5 @@
 </view>
 
     <view class="padding flex flex-direction">
-                <button class="cu-btn bg-gradual-orange padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindtap='donation'>Buy Us A Cup of Coffee</button>
+                <button class="cu-btn bg-yellow padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindtap='donation'>请我喝茶</button>
     </view>
