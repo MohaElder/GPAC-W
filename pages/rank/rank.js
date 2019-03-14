@@ -28,12 +28,18 @@ Page({
     Defeat: 0,
     Population: 0,
     Grade: 0,
-    RankPic: 'cloud://gpacw-069de7.6770-gpacw-069de7/timg (2).gif',//need to change this pic in the future
+    RankPic: '',//need to change this pic in the future
     RankName: 'Please Wait',
     finalGPA: [],
     ec: {
       lazyLoad: true
     },
+  },
+  donation: function(){
+    wx.navigateToMiniProgram({
+      appId: 'wx18a2ac992306a5a4',
+      path:'pages/apps/largess/detail?id=McWzLEbvB78%3D'
+    })
   },
   onReady: function() {
     // 获取组件
