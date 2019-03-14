@@ -288,6 +288,7 @@ console.log(people);
         RankPic: 'https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/ranks/copper3.png?sign=18e4b43015c4e3ae1534163f5c4677ff&t=1542199042',
         RankName: 'Copper II'
       });
+      
     console.log("Run Complete.")
   },
 
@@ -353,7 +354,11 @@ console.log(people);
    * 用户点击右上角分享
    */
   onShareAppMessage: function() {
-
+    return {
+      title: 'Wow! My GPA is ' + app.globalData.gpa,
+      path: '/pages/index/index?',
+      //imageUrl: "/images/1.jpg"
+    }
   },
   onPullDownRefresh: function () {
     console.log("Yay");

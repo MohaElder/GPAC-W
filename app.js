@@ -40,6 +40,7 @@ App({
     })
   },
   globalData: {
+    gpa:0,
     gradeList:[8, 9, 10, 11, 11],
     imageList: ["https://connect.shs.cn/images/b/b4/b45141edd63b272b.jpg",
       "https://connect.shs.cn/images/6/67/679b5bfbf1cbd7ef.jpg",
