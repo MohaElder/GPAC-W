@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.js"],"names":[],"mappings":";;;;;;;AAAA;AACA;AACA;AACA;AACA;AACA","file":"index.js","sourcesContent":["'use strict';\r\nmodule.exports = function (x) {\r\n\tvar type = typeof x;\r\n\treturn x !== null && (type === 'object' || type === 'function');\r\n};\r\n"]}
