@@ -34,6 +34,10 @@ Page({
     ec: {
       lazyLoad: true
     },
+    q1: 0,
+    q3: 0,
+    mean: 0,
+    sd: 0
   },
   donation: function(){
     wx.navigateToMiniProgram({
@@ -175,7 +179,7 @@ Page({
       people = elePeople;
     }
 console.log(people);
-
+  var gpaList = [];
     for (var count = 0; count < people.length; count++) {
       if (name == people[count].name) {
         that.setData({
@@ -188,7 +192,20 @@ console.log(people);
           Population: people.length
         })
         that.rankPic(Number.parseInt((count / people.length) * 100));
-        that.initChart(people);
+        for (var innerCount = 0; innerCount < people.length; innerCount++) {
+          if (people[innerCount].gpa != "NaN"){
+            gpaList.push((Number((people[innerCount].gpa))));
+          }
+          
+        }
+        that.initChart(gpaList);
+        //console.log(gpaList);
+        that.setData({
+          mean: ecStat.statistics.mean(gpaList),
+          q1: ecStat.statistics.quantile(gpaList, 0.25),
+          q3: ecStat.statistics.quantile(gpaList, 0.75),
+          sd: ecStat.statistics.deviation(gpaList)
+        })
       }
     }
     console.log("Run Complete.")
@@ -335,7 +352,7 @@ console.log(people);
       series: [{
         name: 'height',
         type: 'bar',
-        barWidth: '70%',
+        barWidth: '50%',
         label: {
           normal: {
             show: true,

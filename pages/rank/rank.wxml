@@ -58,7 +58,7 @@
   </view>
 </view>
 
-  <!--<ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas> -->
+  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas>
 
 
 <view name = "TimelineSection">
@@ -76,6 +76,65 @@
         </view>
       </view>
 </view>
+</view>
+
+<view name = "statSection">
+  <view class="cu-card dynamic">
+    <view wx:for="1" wx:key class="cu-item shadow">
+      <view class="cu-list menu menu-avatar">
+        <view class="cu-item">
+         <image class='cu-avatar round lg' src='{{RankPic}}'/>
+          <view class='content flex-sub'>
+            <view>Statistical Analysis</view>
+            <view class='text-gray text-sm flex justify-between'>
+              {{brief}}
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>Standard Deviation: {{sd}}</view>
+          </view>
+        </view>
+      </view>
+
+          <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>Mean: {{mean}}</view>
+          </view>
+        </view>
+      </view>
+
+              <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>Q1: {{q1}}</view>
+          </view>
+        </view>
+      </view>
+
+                  <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>Q3: {{q3}}</view>
+          </view>
+        </view>
+      </view>
+
+                        <view class="cu-list menu menu-avatar comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>You GPA is {{q}}</view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
 </view>
 
     <view class="padding flex flex-direction">
