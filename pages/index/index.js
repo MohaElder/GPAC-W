@@ -15,7 +15,6 @@ var easterEgg = 0;
 
 var defaultPresets = [app.globalData.eighthGrade, app.globalData.ninethGrade, app.globalData.tenthGrade, app.globalData.elethGrade, app.globalData.ib];
 
-
 Page({
 
   /**
@@ -214,6 +213,20 @@ Page({
       path: '/pages/index/index?',
       //imageUrl: "/images/1.jpg"
     }
+  },
+
+  onShow: function(){
+    app.sliderightshow(this, 'slide_right1', -110, 1);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right2', -110, 1);
+    }.bind(this), 200);
+  },
+  
+  onHide: function(){
+    app.sliderightshow(this, 'slide_right1', 110, 0);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right2', 110, 1)
+    }.bind(this), 200);
   }
 
 })

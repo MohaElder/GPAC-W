@@ -7,7 +7,7 @@
   </view>
 </view>
 
-<view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20px;">
+<view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right1}}">
   <view wx:for="1" wx:key class="cu-item shadow">
     <view class="cu-list menu menu-avatar">
       <view class="cu-item">
@@ -42,7 +42,7 @@
 </view>
 
 <view name="gpaSection">
-  <view class="cu-card case">
+  <view class="cu-card case" animation="{{slide_right2}}" style = "margin-left:200rpx; width:100%;">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image'>
         <view class="cu-form-group margin-top" wx:for="{{subjects}}">
@@ -61,6 +61,8 @@
     </view>
   </view>
 </view>
+
+
 
 <!--
 <navigator url = "../AboutUs/AboutUs?">

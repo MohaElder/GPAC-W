@@ -8,7 +8,7 @@
 </view>
 
 <view name="profileSkection">
-  <view class="cu-card dynamic">
+  <view class="cu-card dynamic" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right1}}">
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
@@ -18,7 +18,7 @@
         </view>
       </view>
 
-      <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-list menu menu-avatar comment solids-top" >
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
             <view class="text-black">Preset Name</view>
@@ -40,7 +40,7 @@
 </view>
 
 <view name="uploadSection">
-  <view class="cu-card case">
+  <view class="cu-card case" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right2}}">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image' wx:for="{{subjects}}">
 
@@ -63,7 +63,7 @@
 
     </view>
 
-    <view class="padding flex flex-direction">
+    <view class="padding flex flex-direction" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right3}}">
                 <button class="cu-btn bg-gradual-orange padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Go Ahead</button>
     </view>
 

@@ -8,7 +8,7 @@
 </view>
 
 <view name = "profileSection">
-  <view class="cu-card dynamic">
+  <view class="cu-card dynamic" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right1}}">
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
@@ -58,11 +58,11 @@
   </view>
 </view>
 
-  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}"></ec-canvas>
+  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right2}}"></ec-canvas>
 
 
 <view name = "TimelineSection">
-  <view class="cu-card dynamic">
+  <view class="cu-card dynamic" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right3}}">
     <view wx:for="1" wx:key class="cu-item shadow">
         <view class="cu-item">
 <view class="cu-timeline" >
@@ -79,7 +79,7 @@
 </view>
 
 <view name = "statSection">
-  <view class="cu-card dynamic">
+  <view class="cu-card dynamic" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right4}}">
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
@@ -128,6 +128,6 @@
   </view>
 </view>
 
-    <view class="padding flex flex-direction">
+    <view class="padding flex flex-direction" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right5}}">
                 <button class="cu-btn bg-yellow padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindtap='donation'>请我喝茶</button>
     </view>

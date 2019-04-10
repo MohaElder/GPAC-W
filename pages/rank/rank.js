@@ -123,6 +123,8 @@ Page({
       })
       .catch(console.error)
     console.log("Run Complete.")
+
+    
   },
 
   categorize: function() {
@@ -408,5 +410,37 @@ console.log(people);
   onPullDownRefresh: function () {
     console.log("Yay");
     this.onLoad()
+  },
+
+  onShow: function () {
+    app.sliderightshow(this, 'slide_right1', -110, 1);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right2', -110, 1);
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right3', -110, 1);
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right4', -110, 1);
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right5', -110, 1);
+    }.bind(this), 200);
+  },
+
+  onHide: function () {
+    app.sliderightshow(this, 'slide_right1', 110, 0);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right2', 110, 1)
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right3', 110, 1)
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right4', 110, 1)
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right5', 110, 1)
+    }.bind(this), 200);
   }
 })

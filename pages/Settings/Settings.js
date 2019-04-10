@@ -132,5 +132,25 @@ Page({
       path: '/pages/index/index?',
       //imageUrl: "/images/1.jpg"
     }
+  },
+
+  onShow: function () {
+    app.sliderightshow(this, 'slide_right1', -110, 1);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right2', -110, 1);
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right3', -110, 1);
+    }.bind(this), 200);
+  },
+
+  onHide: function () {
+    app.sliderightshow(this, 'slide_right1', 110, 0);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right2', 110, 1)
+    }.bind(this), 200);
+    setTimeout(function () {
+      app.sliderightshow(this, 'slide_right3', 110, 1)
+    }.bind(this), 200);
   }
 })
