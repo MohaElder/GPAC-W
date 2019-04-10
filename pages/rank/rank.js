@@ -236,8 +236,8 @@ console.log(people);
     var that = this;
     that.setData({
       mean: ecStat.statistics.mean(gpaList),
-      q1: ecStat.statistics.quantile(gpaList, 0.25),
-      q3: ecStat.statistics.quantile(gpaList, 0.75),
+      q1: ecStat.statistics.quantile(gpaList, 0.75),
+      q3: ecStat.statistics.quantile(gpaList, 0.25),
       sd: ecStat.statistics.deviation(gpaList)
     })
     
