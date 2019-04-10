@@ -76,7 +76,7 @@ Page({
         db.collection('UserGPA').doc(name).update({
           // data 传入需要局部更新的数据
           data: {
-            time: newList.time,
+            time:newList.time,
             GPA:newList.gpas
           }
         })

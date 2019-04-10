@@ -83,7 +83,7 @@
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
-         <image class='cu-avatar round lg' src='{{RankPic}}'/>
+         <!--<image class='cu-avatar round lg' src='{{RankPic}}'/>-->
           <view class='content flex-sub'>
             <view>Statistical Analysis</view>
             <view class='text-gray text-sm flex justify-between'>
