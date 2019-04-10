@@ -16,7 +16,6 @@ var elePeople = [];
 var people = [];
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -39,12 +38,60 @@ Page({
     mean: 0,
     sd: 0
   },
+  deleteWarn: function(e){
+    var that = this;
+    var index = e.currentTarget.dataset.index
+    wx.showModal({
+      title: 'Info',
+      content: ("So, you wanna delete this record?"),
+      confirmText: "Yes",
+      cancelText: "No",
+      success: function (res) {
+        if (res.confirm) {
+          that.deleteTime(index);
+        }
+        else if (res.cancel) {
+        }
+      }
+    });
+  },
+  deleteTime: function(index){
+    //console.log(index);
+    var that = this;
+    var newList = this.data.historyList;
+    newList.time.splice(index,1);
+    newList.gpas.splice(index, 1);
+    //console.log(newList);
+    that.setData({
+      historyList:newList
+    })
+    that.Upload(this.data.historyList.name);
+  },
+  Upload: function (name) {
+    const _ = db.command;
+    var that = this;
+    var newList = that.data.historyList
+    db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
+      success: function (res) {
+        db.collection('UserGPA').doc(name).update({
+          // data 传入需要局部更新的数据
+          data: {
+            time: newList.time,
+            GPA:newList.gpas
+          }
+        })
+        // res.data 包含该记录的数据
+      }
+    })
+  },
+
   donation: function(){
     wx.navigateToMiniProgram({
       appId: 'wx18a2ac992306a5a4',
       path:'pages/apps/largess/detail?id=McWzLEbvB78%3D'
     })
   },
+
   onReady: function() {
     // 获取组件
     this.ecComponent = this.selectComponent('#mychart-dom-move-bar');
@@ -70,11 +117,9 @@ Page({
               time: res.result.data[count].time
             });
         }
-        console.log(people);
-        that.sort();
+        //console.log(people);
         that.categorize();
         that.search();
-
       })
       .catch(console.error)
     console.log("Run Complete.")
@@ -84,7 +129,6 @@ Page({
     console.log("Running categorize...")
     var that = this;
     //console.log(rawGrade);
-
 
     for (var count = 0; count < people.length; count++) {
       if (people[count].grade == 8) {
@@ -107,36 +151,18 @@ Page({
     console.log("Running sort...")
     var that = this;
     var Max = 0;
-    var gpaTemp,gpasTemp = 0;
-    var nameTemp, gradeTemp,timeTemp = '';
-    //height = GPAList;
-
+    var peopleTemp = [];
     for (var i = 0; i < people.length-1; i++) {
       Max = i;
       for (var j = i; j < people.length; j++) {
-        if (people[j] > people[Max]) {
+        if ((Number(people[j].gpa)) > (Number(people[Max].gpa))) {
           Max = j;
         }
       }
-      gpasTemp = people[i].gpas;
-      gpaTemp = people[i].gpa;      
-      nameTemp = people[i].name;
-      gradeTemp = people[i].grade;
-      timeTemp= people[i].time;
-
-      people[i].gpas = people[Max].gpas;
-      people[i].gpa = people[Max].gpa;
-      people[i].name = people[Max].name;
-      people[i].grade = people[Max].grade;
-      people[i].time = people[Max].time;
-
-      people[Max].gpas = gpasTemp;
-      people[Max].gpa = gpaTemp;
-      people[Max].name = nameTemp;
-      people[Max].grade = gradeTemp;
-      people[Max].time = timeTemp;
+      peopleTemp = people[i];
+      people[i] = people[Max];
+      people[Max] = peopleTemp;
     }
-
     console.log("Run Complete.")
   },
 
@@ -144,7 +170,6 @@ Page({
     console.log("Running Search...")
     var that = this;
     var nickName = '';
-
     wx.getUserInfo({
       success: function(res) {
         var userInfo = res.userInfo;
@@ -153,7 +178,6 @@ Page({
         for (var count = 0; count < people.length; count++) {
           if (nickName == people[count].name) {
             that.syncAll(people[count].grade, nickName);
-
           }
         }
       }
@@ -178,6 +202,7 @@ Page({
     if (userGrade == 11) {
       people = elePeople;
     }
+    that.sort();
 console.log(people);
   var gpaList = [];
     for (var count = 0; count < people.length; count++) {
@@ -199,19 +224,22 @@ console.log(people);
           
         }
         that.initChart(gpaList);
-        //console.log(gpaList);
-        that.setData({
-          mean: ecStat.statistics.mean(gpaList),
-          q1: ecStat.statistics.quantile(gpaList, 0.25),
-          q3: ecStat.statistics.quantile(gpaList, 0.75),
-          sd: ecStat.statistics.deviation(gpaList)
-        })
+        that.stat(gpaList);
       }
     }
     console.log("Run Complete.")
   },
 
-
+  stat: function(gpaList) {
+    var that = this;
+    that.setData({
+      mean: ecStat.statistics.mean(gpaList),
+      q1: ecStat.statistics.quantile(gpaList, 0.25),
+      q3: ecStat.statistics.quantile(gpaList, 0.75),
+      sd: ecStat.statistics.deviation(gpaList)
+    })
+    
+  },
   rankPic: function(ranking) {
     console.log("Running rankPic...")
     var that = this;

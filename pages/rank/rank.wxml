@@ -67,7 +67,7 @@
         <view class="cu-item">
 <view class="cu-timeline" >
   <view class="cu-time">GPAs</view>
-  <view wx:for="{{historyList.gpas}}" class='cu-item text-blue' >
+  <view wx:for="{{historyList.gpas}}" class='cu-item text-blue' bindlongpress='deleteWarn' data-index="{{index}}">
     <view class="bg-blue content"  wx:key>
       Your got a GPA of {{item}} at {{historyList.time[index]}}.
     </view>
@@ -112,7 +112,7 @@
               <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Q1: {{q1}}</view>
+            <view class='text-grey'>25th Quantile: {{q1}}</view>
           </view>
         </view>
       </view>
@@ -120,19 +120,10 @@
                   <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Q3: {{q3}}</view>
+            <view class='text-grey'>75th Quantile: {{q3}}</view>
           </view>
         </view>
       </view>
-
-                        <view class="cu-list menu menu-avatar comment solids-top">
-        <view class="cu-item" wx:for="{{1}}" wx:key>
-          <view class='content'>
-            <view class='text-grey'>You GPA is {{q}}</view>
-          </view>
-        </view>
-      </view>
-
     </view>
   </view>
 </view>
