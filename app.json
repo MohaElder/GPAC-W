@@ -6,7 +6,8 @@
     "pages/index/index",
     "pages/rank/rank",
     "pages/Settings/Settings",
-    "pages/AboutUs/AboutUs"
+    "pages/AboutUs/AboutUs",
+    "pages/wxCanvas/wxCanvas"
   ],
   "window": {
     "navigationBarBackgroundColor": "#000000",

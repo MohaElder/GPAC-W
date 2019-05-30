@@ -62,7 +62,7 @@
   </view>
 </view>
 
-
+<button bindtap = "toCanvas">Go To Canvas</button>
 
 <!--
 <navigator url = "../AboutUs/AboutUs?">
