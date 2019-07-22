@@ -2,6 +2,10 @@
 
 [![codebeat badge](https://codebeat.co/badges/661732b9-57b0-490e-967b-f0927da6b282)](https://codebeat.co/projects/github-com-mohaelder-gpac-w-master)
 
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
+
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+
 ## 微信扫码体验
 ![微信扫码体验](https://wx2.sinaimg.cn/mw690/006tozhpgy1g12i374vj8j3076076aaw.jpg)
 ## 简介 Brief
@@ -11,8 +15,8 @@
 ## 特性 Features
   1.和市面上只支持Credit + 成绩的GPA计算器不同，GPAW支持计算分班制（S，H，etc）的GPA。
   2.GPACW是微信小程序，直接通过微信就可以访问，不需要通过浏览器访问甚至是下载app去使用。
-  3.GPACW支持统计分析，可以按照条件（按照年级，按照年龄）分析出GPA的分布情况。//50% Complete
-  4.GPACW支持用户自定义GPA计算器，支持线上保存预设，让用户轻松通过可视化控件实现制作自己的GPA计算器的功能。 //30% Complete
+  3.GPACW支持统计分析，可以按照条件（按照年级，按照年龄）分析出GPA的分布情况。
+  4.GPACW支持用户自定义GPA计算器，支持线上保存预设，让用户轻松通过可视化控件实现制作自己的GPA计算器的功能。
   5.GPACW拥有庞大的微信用户社群圈，并支持各种分享GPA到群里，分享GPA排名到群里或生成相关图片的操作。 //15% Complete
 
 ## 更新日志 Update Log:
@@ -46,3 +50,12 @@ GPAC-W v2.1.0更新日志：
 2.增加了数据库上传功能，同时尊重用户隐私可选不上传
 3.增加了历史GPA功能
 4.重构数据库结构
+
+2019/4/24
+
+GPAC-W v2.2.1更心日志：
+1.修复了ib算不了gpa的问题
+2.增加删除历史GPA功能
+3.增加统计功能（Histogram,Mean,Q1Q3)
+4.增加过渡动画，体验更妙流畅
+5.优化了年级选择按钮的设计

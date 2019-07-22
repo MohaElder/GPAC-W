@@ -1,0 +1,4 @@
+<!--pages/wxCanvas/wxCanvas.wxml-->
+<text>pages/wxCanvas/wxCanvas.wxml</text>
+<view class="container">    <canvas canvas-id="shareCanvas" style="width:{{widWidth}}px;height:{{widHeight}}px"></canvas>    <button bindtap='savetup' class="save">保存图片</button></view>
+<button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>

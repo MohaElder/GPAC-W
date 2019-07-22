@@ -33,7 +33,11 @@ Page({
     }
     ]
   },
-
+  toCanvas: function(){
+    wx.navigateTo({
+      url: '../../pages/wxCanvas/wxCanvas?'
+    })
+  },
   easterEgg: function(){
     if(easterEgg == 10){
       wx.showModal({
