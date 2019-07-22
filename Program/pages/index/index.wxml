@@ -11,6 +11,7 @@
   <view wx:for="1" wx:key class="cu-item shadow">
     <view class="cu-list menu menu-avatar">
       <view class="cu-item">
+      <view class="cu-avatar lg"><open-data type="userAvatarUrl"></open-data></view>
         <view class='content flex-sub'>
           <view class='solid-bottom text-xl padding'>
             <text class="text-black">Hi! </text>
@@ -23,15 +24,12 @@
     <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
       <view class="picker">
         <view class="cu-card case">
-          <view wx:for="{{1}}" wx:key class="cu-item shadow">
+          <view wx:for="{{1}}">
             <view class='image'>
             </view>
             <view class="cu-list menu menu-avatar  ">
-              <view class="bg-gradual-blue padding radius text-center shadow-blur">
-                <view class='content flex-sub'>
-                  <view class='text-bold '>
-                    In {{presetListname[presetIndex]}} way</view>
-                </view>
+              <view class="padding flex flex-direction">
+                <button class="cu-btn bg-gradual-blue padding radius text-center shadow-blur margin-tb-sm lg" type="primary">In {{presetListname[presetIndex]}} Way</button>
               </view>
             </view>
           </view>
@@ -42,7 +40,7 @@
 </view>
 
 <view name="gpaSection">
-  <view class="cu-card case" animation="{{slide_right2}}" style = "margin-left:200rpx; width:100%;">
+  <view class="cu-card case" animation="{{slide_right2}}" style="margin-left:200rpx; width:100%;">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image'>
         <view class="cu-form-group margin-top" wx:for="{{subjects}}">

@@ -3,7 +3,6 @@ import { Unit, Result } from '../../utils/GPAC';
 const util = require('../../utils/util.js');
 const app = getApp();
 const db = wx.cloud.database();
-const userSearcher = db.collection('UserGPA');
 var grade = app.globalData.gradeList;
 var GPACs = [];
 var Presets, presetListname = []
@@ -56,15 +55,16 @@ Page({
 
   changePreset: function(e){
     selectedGrade = grade[e.detail.value];
-    this.setData({
+    var that = this;
+    that.setData({
       subjects: defaultPresets[e.detail.value],
       presetIndex: e.detail.value//显示前端level 
     })
     GPACs = [];
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
-
-      GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type));
+      GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type, defaultPresets[e.detail.value][i].level[0]));
     }
+    console.log(GPACs);
   },
 
   getSubScore: function (e) {
@@ -155,14 +155,17 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //console.log("AAAAA" + this.data.subjects);
     var that = this;
-    this.setData({
+    that.setData({
       subjects: defaultPresets[0]
     })
     for (var i = 0; i < this.data.subjects.length; i++) {
       //var TempList = settingList[i].split("@");//Decode CreditList
-      GPACs.push(new Unit(this.data.subjects[i].subjectName, this.data.subjects[i].credit, this.data.subjects[i].type));
+      GPACs.push(new Unit(this.data.subjects[i].subjectName, this.data.subjects[i].credit, this.data.subjects[i].type, this.data.subjects[i].level[0]));
     }
+    console.log(this.data.subjects);
+    console.log(GPACs);
 
     
     wx.cloud.callFunction({

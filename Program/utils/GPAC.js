@@ -32,13 +32,13 @@ export class Result{
 
 export class Unit{
   
-  constructor(name,credit,type) {
+  constructor(name,credit,type,level) {
     this.rawName = name;
     this.rawCredit = credit;
     this.rawIdentifier = type;
     this.rawScore = 0;
     this.convertType(this.rawIdentifier);
-    this.rawLevel = "S";
+    this.rawLevel = level;
     this.NLIBList = [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5];
     this.NLAPList = [0, 2.6, 3.0, 3.3, 3.6, 3.9, 4.2, 4.5]; //Credits for Language AP IN ORDER
     this.NLHPLUSList = [0, 2.25, 2.65, 2.95, 3.25, 3.55, 3.85, 4.15]; //Credits for Language S+ IN ORDER
@@ -108,6 +108,9 @@ export class Unit{
    //Subject Categorization Function
    getNL() {
     //console.log(Level);
+     if (this.rawLevel == "IB") {
+       return this.calGPA(this.NLIBList)
+     }
       if (this.rawLevel == "AP") {
       return this.calGPA(this.NLAPList)
     }

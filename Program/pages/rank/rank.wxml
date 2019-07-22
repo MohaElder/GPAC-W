@@ -104,7 +104,7 @@
           <view class="cu-list menu menu-avatar comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Mean: {{mean}}</view>
+            <view class='text-grey'>50th Quantile: {{mean}}</view>
           </view>
         </view>
       </view>

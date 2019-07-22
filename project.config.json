@@ -13,12 +13,15 @@
 		"autoAudits": true,
 		"uglifyFileName": false
 	},
+	"miniprogramRoot": "Program/",
 	"compileType": "miniprogram",
 	"libVersion": "2.6.1",
 	"appid": "wxe5a716b55329bacf",
 	"projectname": "G-PACW",
 	"isGameTourist": false,
 	"cloudfunctionRoot": "cloud-functions/",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

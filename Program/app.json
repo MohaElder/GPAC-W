@@ -39,5 +39,6 @@
         "selectedIconPath": "/Assets/Rank_Selected.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
