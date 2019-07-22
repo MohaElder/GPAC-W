@@ -68,7 +68,6 @@ Page({
     for (var i = 0; i < defaultPresets[e.detail.value].length; i++) {
       GPACs.push(new Unit(defaultPresets[e.detail.value][i].subjectName, defaultPresets[e.detail.value][i].credit, defaultPresets[e.detail.value][i].type, defaultPresets[e.detail.value][i].level[0]));
     }
-    console.log(GPACs);
   },
 
   getSubScore: function (e) {
@@ -168,8 +167,6 @@ Page({
       //var TempList = settingList[i].split("@");//Decode CreditList
       GPACs.push(new Unit(this.data.subjects[i].subjectName, this.data.subjects[i].credit, this.data.subjects[i].type, this.data.subjects[i].level[0]));
     }
-    console.log(this.data.subjects);
-    console.log(GPACs);
 
     
     wx.cloud.callFunction({
