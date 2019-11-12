@@ -15,7 +15,7 @@
 	},
 	"miniprogramRoot": "Program/",
 	"compileType": "miniprogram",
-	"libVersion": "2.6.1",
+	"libVersion": "2.9.3",
 	"appid": "wxe5a716b55329bacf",
 	"projectname": "G-PACW",
 	"isGameTourist": false,

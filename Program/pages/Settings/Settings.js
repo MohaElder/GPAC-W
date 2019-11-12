@@ -7,79 +7,69 @@ Page({
    * 页面的初始数据
    */
   data: {
-    courseSteps: [1,2],
-    courseStep: 0, 
-    presetName:"defaultPreset",
-    presetGrade: 0,
-    subjects: [
-      {
-        subjectName: 'Loading......',
-        level: ['S', 'S+', 'H', 'H+', 'AP'],//open the right to change this in the future
-        credit: 0,
-        type: 0, //1 = Language, 0 = NonLanguage
-        selectedValue: 0
-      }
-    ],
-    typeList: ["Is Not Language","Is Language"],
-    //levels:[],
-    //level: ['S', 'S+', 'H', 'H+', 'AP'],
-    //levelNum: 1,
-    //subNum: [],
+    presetName: "defaultPreset",
+    subjects: [{
+      subjectName: 'Loading......',
+      level: ['S', 'S+', 'H', 'H+', 'AP'], //open the right to change this in the future
+      credit: 0,
+      type: 0, //1 = Language, 0 = NonLanguage
+      selectedValue: 0
+    }],
+    typeList: ["Is Not Language", "Is Language"],
   },
 
-  generateSubject: function(e){
+  generateSubject: function(e) {
     var rawSubject = []
-
-    for(var i = 0; i < e.detail.value; i++){
+    for (var i = 0; i < e.detail.value; i++) {
       rawSubject.push({
         subjectName: 'Loading......',
-        level: ['S', 'S+', 'H', 'H+', 'AP'],//open the right to change this in the future
+        level: ['S', 'S+', 'H', 'H+', 'AP'], //open the right to change this in the future
         credit: 0,
-        type: 0,  //1 = Language, 0 = NonLanguage
+        type: 0, //1 = Language, 0 = NonLanguage
         selectedValue: 0
       });
     }
 
     this.setData({
-      subjects:rawSubject
+      subjects: rawSubject
     })
 
   },
 
-  getPresetname: function (e) {
+  getPresetname: function(e) {
     this.setData({
-      presetName: e.detail.value,//显示前端level 
+      presetName: e.detail.value, //显示前端level 
     })
   },
 
-  getSubname: function(e){
+  getSubname: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
     var formatter = "subjects[" + index + "].subjectName";
     that.setData({
-      [formatter]: e.detail.value,//显示前端level 
+      [formatter]: e.detail.value, //显示前端level 
     })
   },
 
-  getSubtype: function(e){
+  getSubtype: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
     var formatter = "subjects[" + index + "].type";
     that.setData({
-      [formatter]: e.detail.value,//显示前端level 
+      [formatter]: e.detail.value, //显示前端level 
     })
   },
 
-  getSubcredit: function (e) {
+  getSubcredit: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
     var formatter = "subjects[" + index + "].credit";
     that.setData({
-      [formatter]: e.detail.value,//显示前端level 
+      [formatter]: e.detail.value, //显示前端level 
     })
   },
 
-  userInfo: function (e) {
+  userInfo: function(e) {
     var that = this;
     var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
     that.upload(name);
@@ -89,20 +79,19 @@ Page({
   upload: function(name) {
     var message = '';
     var flag = false;
-    for(var i = 0; i < this.data.subjects.length;i++){
-      if (this.data.subjects[i].credit <= 0 ){
+    for (var i = 0; i < this.data.subjects.length; i++) {
+      if (this.data.subjects[i].credit <= 0) {
         message = "Missing Something, cannot upload!";
-      }
-      else{
+      } else {
         flag = true;
-        }
+      }
     }
 
-    if(flag == true){
+    if (flag == true) {
       message = "Uploaded!";
-        var uploadList = this.data.subjects;
-        var presetName = this.data.presetName;
-        var presetGrade = this.data.presetGrade;
+      var uploadList = this.data.subjects;
+      var presetName = this.data.presetName;
+      var presetGrade = this.data.presetGrade;
 
       db.collection('UserPreset').add({
         data: {
@@ -112,8 +101,8 @@ Page({
           subjects: uploadList
         }
       })
-      }
-    
+    }
+
 
     wx.showModal({
       title: 'Result',
@@ -126,7 +115,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: 'Wow! My GPA is ' + app.globalData.gpa,
       path: '/pages/index/index?',
@@ -134,23 +123,9 @@ Page({
     }
   },
 
-  onShow: function () {
-    app.sliderightshow(this, 'slide_right1', -110, 1);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right2', -110, 1);
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right3', -110, 1);
-    }.bind(this), 200);
+  onShow: function() {
   },
 
-  onHide: function () {
-    app.sliderightshow(this, 'slide_right1', 110, 0);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right2', 110, 1)
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right3', 110, 1)
-    }.bind(this), 200);
+  onHide: function() {
   }
 })

@@ -7,7 +7,7 @@
   </view>
 </view>
 
-<view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20rpx; margin-left:200rpx; width:100%;" animation="{{slide_right1}}">
+<view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20rpx; width:100%;">
   <view wx:for="1" wx:key class="cu-item shadow">
     <view class="cu-list menu menu-avatar">
       <view class="cu-item">
@@ -21,7 +21,7 @@
         </view>
       </view>
     </view>
-    <picker bindchange="changePreset" value="{{presetIndex}}" range="{{presetListname}}">
+    <picker bindchange="changePreset" value="{{presetIndex}}" range="{{defaultPresets}}" range-key="displayName">
       <view class="picker">
         <view class="cu-card case">
           <view wx:for="{{1}}">
@@ -29,7 +29,7 @@
             </view>
             <view class="cu-list menu menu-avatar  ">
               <view class="padding flex flex-direction">
-                <button class="cu-btn bg-gradual-blue padding radius text-center shadow-blur margin-tb-sm lg" type="primary">In {{presetListname[presetIndex]}} Way</button>
+                <button class="cu-btn bg-gradual-blue padding radius text-center shadow-blur margin-tb-sm lg" type="primary">In {{defaultPresets[presetIndex].displayName}} Way</button>
               </view>
             </view>
           </view>
@@ -40,10 +40,10 @@
 </view>
 
 <view name="gpaSection">
-  <view class="cu-card case" animation="{{slide_right2}}" style="margin-left:200rpx; width:100%;">
+  <view class="cu-card case" style="width:100%;">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image'>
-        <view class="cu-form-group margin-top" wx:for="{{subjects}}">
+        <view class="cu-form-group margin-top" wx:for="{{currentPreset.subjects}}">
           <view class="title">{{item.subjectName}}</view>
           <input type="number" placeholder="Score..." bindinput="getSubScore" data-index="{{index}}" />
           <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index="{{index}}" range="{{item.level}}">
@@ -53,16 +53,16 @@
           </picker>
         </view>
         <view class="padding flex flex-direction">
-          <button class="cu-btn bg-gradual-green padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='userInfo'>Go Ahead</button>
+          <button class="cu-btn bg-gradual-green padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Go Ahead</button>
         </view>
       </view>
     </view>
   </view>
 </view>
 
+<!--
 <button bindtap = "toCanvas">Go To Canvas</button>
 
-<!--
 <navigator url = "../AboutUs/AboutUs?">
 <view class="cu-card article {{isCard?'no-card':''}}">
   <view wx:for="1" wx:key class="cu-item shadow">
