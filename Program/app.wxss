@@ -1,6 +1,4 @@
-@import "/utils/icon.wxss";
 @import "/utils/colorui.wxss";
-@import "/utils/weui.wxss";
 
 page{
     background-color: #FFFFFF;

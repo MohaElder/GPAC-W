@@ -1,25 +1,43 @@
 /**index.wxss**/
-.horiScroller {
-  height: 40px;
-  line-height: 40px;
-  border-bottom: 1px solid #eee;
+
+/*横向导航*/
+
+.swiper-nav {
+  background-color: #fff;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   white-space: nowrap;
 }
 
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  color: transparent;
-}
-
-.horiScroller .scrollerItem {
-  width: 80px;
-  height: 40px;
-  text-align: center;
+.swiper-nav .item-nav {
+  position: relative;
+  padding: 30rpx 32rpx;
+  color: #999;
+  font-size: 30rpx;
+  cursor: pointer;
   display: inline-block;
-  border-right: 1px solid #eee;
 }
 
-.horiScroller .scrollerItem:last-child {
-  border: 0;
+.swiper-nav .active {
+  color: #ff2d56;
+}
+
+.swiper-nav .active::after {
+  content: '';
+  position: absolute;
+  left: 32rpx;
+  right: 32rpx;
+  height: 0;
+  border-bottom: 4rpx solid #ff2d56;
+  border-radius: 4rpx;
+  bottom: 18rpx;
+}
+
+.uiButton {
+  color: white;
+  font-size: 18px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  background-color: #ff2d56;
+  width: 85%;
 }

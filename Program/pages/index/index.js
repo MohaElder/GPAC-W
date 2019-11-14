@@ -16,8 +16,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    announcement: "",
-    presetIndex: 0,
+    swiperNav: {　　
+      i: 0,
+    },
     defaultPresets: [],
     currentPreset: [
       'Example', [{
@@ -28,23 +29,6 @@ Page({
         type: 1 //1 = Language, 0 = NonLanguage
       }]
     ]
-  },
-
-  easterEgg: function() {
-    if (easterEgg == 10) {
-      wx.showModal({
-        title: 'You Are Not Supposed To See This',
-        content: 'Hey! You have discovered an Easter Egg! Now I am going to tell you a secret.',
-        success: function(res) {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '../../pages/AboutUs/AboutUs?',
-            });
-          } else if (res.cancel) {}
-        }
-      });
-    }
-    easterEgg++;
   },
 
   /**
@@ -71,6 +55,7 @@ Page({
             that.search(res.result.data);
             that.initialize(defaultPresets[0]);
             that.setData({
+              "swiperNav.defaultPresets": defaultPresets,
               defaultPresets: defaultPresets,
               currentPreset: defaultPresets[0]
             })
@@ -90,11 +75,21 @@ Page({
   },
 
   changePreset: function(e) {
+    console.log(e);　 /*获取可视窗口宽度*/
+    var w = wx.getSystemInfoSync().windowWidth;
+    var len = this.data.swiperNav.defaultPresets.length;
+    var i = e.target.dataset.i;
+    var disX = (i - 2) * w / len;
+    if (i != this.data.swiperNav.i) {
+      this.setData({
+        'swiperNav.i': i
+      })
+    }
     this.setData({
-      currentPreset: this.data.defaultPresets[e.detail.value],
-      presetIndex: e.detail.value //显示前端level 
+      'swiperNav.x': disX,
+      currentPreset: this.data.defaultPresets[i]
     })
-    this.initialize(this.data.defaultPresets[e.detail.value]);
+    this.initialize(this.data.defaultPresets[i]);
   },
 
   getSubScore: function(e) {
@@ -189,6 +184,7 @@ Page({
             if (nickName == preset.Name) {
               userPresets.push(preset);
               that.setData({
+                "swiperNav.defaultPresets": that.data.defaultPresets,
                 defaultPresets: that.data.defaultPresets.concat(userPresets)
               })
             }

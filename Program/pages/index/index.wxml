@@ -1,48 +1,10 @@
 <!--index page-->
 
 <mohaTitle>Calculate</mohaTitle>
-
-<scroll-view class="horiScroller" scroll-x="true">
-  <view class="scrollItem">全部</view>
-  <view class="scrollItem">全部</view>
-  <view class="scrollItem">全部</view>
-  <view class="scrollItem">全部</view>
-  <view class="scrollItem">全部</view>
+<mohaBar>Hi, <open-data type="userNickName"></open-data>!</mohaBar>
+<scroll-view scroll-x class='swiper-nav' scroll-left='{{swiperNav.x}}' scroll-with-animation='true' bindtap='changePreset'>
+　<text wx:for='{{swiperNav.defaultPresets}}' wx:key='{{index}}' class='item-nav {{swiperNav.i==index ? "active" : ""}}' data-i='{{index}}'>{{item.displayName}}</text>
 </scroll-view>
-
-<view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20rpx; width:100%;">
-  <view wx:for="1" wx:key class="cu-item shadow">
-    <view class="cu-list menu menu-avatar">
-      <view class="cu-item">
-        <view class="cu-avatar lg">
-          <open-data type="userAvatarUrl"></open-data>
-        </view>
-        <view class='content flex-sub'>
-          <view class='solid-bottom text-xl padding'>
-            <text class="text-black">Hi! </text>
-            <open-data type="userNickName"></open-data>
-            <text class="text-black">, how would you like me to calculate your GPA?</text>
-          </view>
-        </view>
-      </view>
-    </view>
-    <picker bindchange="changePreset" value="{{presetIndex}}" range="{{defaultPresets}}" range-key="displayName">
-      <view class="picker">
-        <view class="cu-card case">
-          <view wx:for="{{1}}">
-            <view class='image'>
-            </view>
-            <view class="cu-list menu menu-avatar  ">
-              <view class="padding flex flex-direction">
-                <button class="cu-btn bg-gradual-blue padding radius text-center shadow-blur margin-tb-sm lg" type="primary">In {{defaultPresets[presetIndex].displayName}} Way</button>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </picker>
-  </view>
-</view>
 
 <view name="gpaSection">
   <view class="cu-card case" style="width:100%;">
@@ -58,29 +20,9 @@
           </picker>
         </view>
         <view class="padding flex flex-direction">
-          <button class="cu-btn bg-gradual-green padding radius text-center shadow-blur margin-tb-sm lg" type="primary" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Go Ahead</button>
+          <button class="uiButton" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Go Ahead</button>
         </view>
       </view>
     </view>
   </view>
 </view>
-
-<!--
-<button bindtap = "toCanvas">Go To Canvas</button>
-
-<navigator url = "../AboutUs/AboutUs?">
-<view class="cu-card article {{isCard?'no-card':''}}">
-  <view wx:for="1" wx:key class="cu-item shadow">
-    <view class="title">Proudly Presented By More Club</view>
-    <view class="content">
-      <image src="https://image.weilanwl.com/img/4x3-3.jpg" mode="aspectFill"></image>
-      <view class="desc">
-        <view class='text-content'> Learn More About Us</view>
-        <view>
-        </view>
-      </view>
-    </view>
-  </view>
-</view>
-</navigator>
--->
