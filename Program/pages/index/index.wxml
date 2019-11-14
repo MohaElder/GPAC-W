@@ -1,17 +1,22 @@
 <!--index page-->
 
-<view class="cu-bar bg-white">
-  <view class='action'>
-    <text class='icon-titles text-blue'></text>
-    <text class='text-xl text-bold' bindtap='easterEgg'>GPA</text>
-  </view>
-</view>
+<mohaTitle>Calculate</mohaTitle>
+
+<scroll-view class="horiScroller" scroll-x="true">
+  <view class="scrollItem">全部</view>
+  <view class="scrollItem">全部</view>
+  <view class="scrollItem">全部</view>
+  <view class="scrollItem">全部</view>
+  <view class="scrollItem">全部</view>
+</scroll-view>
 
 <view class="cu-card dynamic {{isCard?'no-card':''}}" style="marin-top:20rpx; width:100%;">
   <view wx:for="1" wx:key class="cu-item shadow">
     <view class="cu-list menu menu-avatar">
       <view class="cu-item">
-      <view class="cu-avatar lg"><open-data type="userAvatarUrl"></open-data></view>
+        <view class="cu-avatar lg">
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
         <view class='content flex-sub'>
           <view class='solid-bottom text-xl padding'>
             <text class="text-black">Hi! </text>

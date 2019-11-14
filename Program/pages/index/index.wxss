@@ -1,17 +1,25 @@
 /**index.wxss**/
-.enhanceView{
-  text-align: left;
-  margin-left: 15px;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-.enhanceButton{
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom:10px;
-  text-align: center;
+.horiScroller {
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
 }
 
-form-group .title {
-  min-width: calc(4em + 15px);
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.horiScroller .scrollerItem {
+  width: 80px;
+  height: 40px;
+  text-align: center;
+  display: inline-block;
+  border-right: 1px solid #eee;
+}
+
+.horiScroller .scrollerItem:last-child {
+  border: 0;
 }

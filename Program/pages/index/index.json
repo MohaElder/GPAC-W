@@ -1,4 +1,8 @@
 {
-"navigationBarTitleText": "GPA",
-"enablePullDownRefresh": true
+  "usingComponents": {
+    "mohaTitle": "../../components/mohaTitle/mohaTitle",
+    "mohaBar": "../../components/mohaBar/mohaBar"
+  },
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": true
 }
