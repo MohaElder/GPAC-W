@@ -2,15 +2,12 @@ import {
   Unit,
   Result
 } from '../../utils/GPAC';
-import {
-  defaultPresets
-} from '../../utils/defaultSubjects.js';
+
 const util = require('../../utils/util.js');
 const app = getApp();
 const db = wx.cloud.database();
 var GPACs = [];
 var easterEgg = 0;
-
 //Default Presets
 
 Page({
@@ -31,11 +28,6 @@ Page({
         type: 1 //1 = Language, 0 = NonLanguage
       }]
     ]
-  },
-  toCanvas: function() {
-    wx.navigateTo({
-      url: '../../pages/wxCanvas/wxCanvas?'
-    })
   },
 
   easterEgg: function() {
@@ -60,37 +52,49 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    this.initialize();
-
+    var defaultPresets = [];
     wx.cloud.callFunction({
-        name: 'presetCloud'
+        name: 'getDb',
+        data: {
+          dbName: "defaultPresets"
+        }
       })
       .then(res => {
-        that.search(res.result.data);
+        defaultPresets = res.result.data;
+        wx.cloud.callFunction({
+            name: 'getDb',
+            data: {
+              dbName: "UserPreset"
+            }
+          })
+          .then(res => {
+            that.search(res.result.data);
+            that.initialize(defaultPresets[0]);
+            that.setData({
+              defaultPresets: defaultPresets,
+              currentPreset: defaultPresets[0]
+            })
+          })
+          .catch(console.error);
       })
-      .catch(console.error)
-
-    this.setData({
-      defaultPresets: defaultPresets,
-      currentPreset: defaultPresets[0]
-    })
+      .catch(console.error);
   },
 
-  initialize: function() {
+  onShow: function() {},
+  
+  initialize: function(currentPreset) {
     GPACs = [];
-    for (let preset of defaultPresets) {
-      for (let subject of preset.subjects) {
-        GPACs.push(new Unit(subject.subjectName, subject.credit, subject.type, subject.level[0]));
-      }
+    for (let subject of currentPreset.subjects) {
+      GPACs.push(new Unit(subject.subjectName, subject.credit, subject.type, subject.level[0]));
     }
   },
 
   changePreset: function(e) {
     this.setData({
-      currentPreset: defaultPresets[e.detail.value],
+      currentPreset: this.data.defaultPresets[e.detail.value],
       presetIndex: e.detail.value //显示前端level 
     })
-    this.initialize();
+    this.initialize(this.data.defaultPresets[e.detail.value]);
   },
 
   getSubScore: function(e) {
@@ -107,6 +111,7 @@ Page({
     this.setData({
       [formatter]: e.detail.value, //显示前端level 
     })
+    console.log("A")
   },
 
   getUserInfo: function(e) {
@@ -119,6 +124,7 @@ Page({
     var total = 0;
     var that = this;
     var gpaResult = new Result(GPACs);
+    console.log(gpaResult);
     var gpaFinal = gpaResult.getGPA();
     app.globalData.gpa = gpaFinal;
     //Present GPA
@@ -174,22 +180,22 @@ Page({
 
   search: function(fetchedPresets) {
     var that = this;
-    var nickName = '';
-    wx.getUserInfo({
-      success: function(res) {
-        var userInfo = res.userInfo;
-        nickName = userInfo.nickName.replace(/\s*/g, "");
-        for (let preset of fetchedPresets) {
-          if (nickName == preset.Name) {
-            defaultPresets.push(preset);
-            that.setData({
-              defaultPresets: defaultPresets
-            })
+    var _ =
+      wx.getUserInfo({
+        success: function(res) {
+          var nickName = res.userInfo.nickName.replace(/\s*/g, "");
+          var userPresets = [];
+          for (let preset of fetchedPresets) {
+            if (nickName == preset.Name) {
+              userPresets.push(preset);
+              that.setData({
+                defaultPresets: that.data.defaultPresets.concat(userPresets)
+              })
+            }
           }
-        }
-      },
-      fail: function(res) {}
-    })
+        },
+        fail: function(res) {}
+      })
   },
 
   showShareMenu() {
@@ -208,10 +214,6 @@ Page({
     }
   },
 
-  onShow: function() {
-  },
-
-  onHide: function() {
-  }
+  onHide: function() {}
 
 })

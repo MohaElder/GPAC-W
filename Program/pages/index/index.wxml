@@ -45,7 +45,7 @@
       <view class='image'>
         <view class="cu-form-group margin-top" wx:for="{{currentPreset.subjects}}">
           <view class="title">{{item.subjectName}}</view>
-          <input type="number" placeholder="Score..." bindinput="getSubScore" data-index="{{index}}" />
+          <input type="number" placeholder="Score..." bindblur="getSubScore" data-index="{{index}}" />
           <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index="{{index}}" range="{{item.level}}">
             <view class="picker">
               Level = {{item.level[item.selectedValue]}}
