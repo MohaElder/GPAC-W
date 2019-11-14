@@ -18,6 +18,7 @@ Page({
   data: {
     swiperNav: {　　
       i: 0,
+      defaultPresets:[]　
     },
     defaultPresets: [],
     currentPreset: [
