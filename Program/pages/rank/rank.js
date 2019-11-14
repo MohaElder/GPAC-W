@@ -1,7 +1,7 @@
 // rank.js
-import * as echarts from '../../ec-canvas/echarts';
-import * as ecStat from '../../ec-canvas/ec-stat';
-import WxCanvas from '../../ec-canvas/wx-canvas';
+//import * as echarts from '../../ec-canvas/echarts';
+//import * as ecStat from '../../ec-canvas/ec-stat';
+//import WxCanvas from '../../ec-canvas/wx-canvas';
 
 //const util = require('../../utils/util.js');
 const db = wx.cloud.database();

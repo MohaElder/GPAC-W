@@ -1,5 +1,8 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "mohaTitle": "../../components/mohaTitle/mohaTitle",
+    "mohaBar": "../../components/mohaBar/mohaBar"
+  },
   "navigationBarTitleText": "Presets",
   "enablePullDownRefresh": true
 }
