@@ -9,9 +9,10 @@
     "pages/AboutUs/AboutUs"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTitleText": "GPACW",
-    "navigationStyle": "custom",
+    "backgroundColor": "#FFFFFFF",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "GPAC-W",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
