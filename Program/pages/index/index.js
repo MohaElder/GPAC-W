@@ -81,7 +81,7 @@ Page({
   },
 
   onShow: function() {},
-  
+
   initialize: function(currentPreset) {
     GPACs = [];
     for (let subject of currentPreset.subjects) {
