@@ -105,11 +105,6 @@ Page({
   },
 
   onShow: function() {
-    if(this.data.isNavLoaded && this.data.isPresetLoaded){
-      this.setData({
-        unLoaded: true
-      })
-    }
   },
 
   initialize: function(currentPreset) {
@@ -119,8 +114,24 @@ Page({
     }
   },
 
+  scrollNav: function(e){
+    /*获取可视窗口宽度*/
+    console.log(e);
+    var w = wx.getSystemInfoSync().windowWidth;
+    var len = this.data.swiperNav.defaultPresets.length;
+    var disX = (e.currentTarget.dataset.speed - 2) * w / len;
+    if (e.currentTarget.dataset.speed != this.data.swiperNav.i) {
+      this.setData({
+        'swiperNav.i': e.currentTarget.dataset.speed
+      })
+    }
+    this.setData({
+      'swiperNav.x': disX,
+    })
+  },
+
   changePreset: function(e) {
-    console.log(e);　 /*获取可视窗口宽度*/
+    /*获取可视窗口宽度*/
     var w = wx.getSystemInfoSync().windowWidth;
     var len = this.data.swiperNav.defaultPresets.length;
     var i = e.target.dataset.i;
@@ -235,9 +246,6 @@ Page({
   },
 
   onHide: function() {
-    this.setData({
-      unLoaded:true
-    })
   }
 
 })

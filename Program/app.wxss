@@ -5,7 +5,7 @@
 page{
     background-color: #FFFFFF;
     font-size: 16px;
-    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    font-family: Raleway;
 }
 
 @font-face {

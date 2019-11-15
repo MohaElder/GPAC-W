@@ -46,3 +46,23 @@
 .hidden {
   opacity: 0;
 }
+
+.arrowNext {
+  width: 40rpx;
+  height: 80rpx;
+  position: absolute;
+  top: 130rpx;
+  right: 0rpx;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.arrowPre {
+  width: 40rpx;
+  height: 80rpx;
+  position: absolute;
+  top: 130rpx;
+  left: 0rpx;
+  background-color: white;
+  border-radius: 5px;
+}

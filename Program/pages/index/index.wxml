@@ -5,6 +5,12 @@
 <scroll-view scroll-x class='swiper-nav' scroll-left='{{swiperNav.x}}' scroll-with-animation='true' bindtap='changePreset'>
 　<text wx:for='{{swiperNav.defaultPresets}}' wx:key='{{index}}' class='item-nav {{swiperNav.i==index ? "active" : ""}}' data-i='{{index}}'>{{item.displayName}}</text>
 </scroll-view>
+ <view class='arrowNext' bindtap='scrollNav' data-speed = '10'>
+      <text class="iconfont icon-right"></text>
+    </view>
+    <view class='arrowPre' bindtap='scrollNav' data-speed = '-10'>
+      <text class="iconfont icon-left"></text>
+    </view>
 </view>
 
 <view name="gpaSection">

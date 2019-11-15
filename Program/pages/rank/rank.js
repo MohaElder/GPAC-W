@@ -1,9 +1,10 @@
 // rank.js
-//import * as echarts from '../../ec-canvas/echarts';
-//import * as ecStat from '../../ec-canvas/ec-stat';
-//import WxCanvas from '../../ec-canvas/wx-canvas';
-
-//const util = require('../../utils/util.js');
+/*
+import * as echarts from '../../ec-canvas/echarts';
+import * as ecStat from '../../ec-canvas/ec-stat';
+import WxCanvas from '../../ec-canvas/wx-canvas';
+*/
+const util = require('../../utils/util.js');
 const db = wx.cloud.database();
 const userSearcher = db.collection('UserGPA');
 const app = getApp();
@@ -27,7 +28,7 @@ Page({
     Defeat: 0,
     Population: 0,
     Grade: 0,
-    RankPic: '',//need to change this pic in the future
+    RankPic: '', //need to change this pic in the future
     RankName: 'Please Wait',
     finalGPA: [],
     ec: {
@@ -38,7 +39,7 @@ Page({
     mean: 0,
     sd: 0
   },
-  deleteWarn: function(e){
+  deleteWarn: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index
     wx.showModal({
@@ -46,38 +47,36 @@ Page({
       content: ("So, you wanna delete this record?"),
       confirmText: "Yes",
       cancelText: "No",
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           that.deleteTime(index);
-        }
-        else if (res.cancel) {
-        }
+        } else if (res.cancel) {}
       }
     });
   },
-  deleteTime: function(index){
+  deleteTime: function(index) {
     //console.log(index);
     var that = this;
     var newList = this.data.historyList;
-    newList.time.splice(index,1);
+    newList.time.splice(index, 1);
     newList.gpas.splice(index, 1);
     //console.log(newList);
     that.setData({
-      historyList:newList
+      historyList: newList
     })
     that.Upload(this.data.historyList.name);
   },
-  Upload: function (name) {
+  Upload: function(name) {
     const _ = db.command;
     var that = this;
     var newList = that.data.historyList
-    db.collection('UserGPA').doc(name).get({//建立或者更新数据库信息
-      success: function (res) {
+    db.collection('UserGPA').doc(name).get({ //建立或者更新数据库信息
+      success: function(res) {
         db.collection('UserGPA').doc(name).update({
           // data 传入需要局部更新的数据
           data: {
-            time:newList.time,
-            GPA:newList.gpas
+            time: newList.time,
+            GPA: newList.gpas
           }
         })
         // res.data 包含该记录的数据
@@ -85,10 +84,10 @@ Page({
     })
   },
 
-  donation: function(){
+  donation: function() {
     wx.navigateToMiniProgram({
       appId: 'wx18a2ac992306a5a4',
-      path:'pages/apps/largess/detail?id=McWzLEbvB78%3D'
+      path: 'pages/apps/largess/detail?id=McWzLEbvB78%3D'
     })
   },
 
@@ -101,21 +100,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    /*
     console.log("Running OnLoad...")
     var that = this;
     wx.cloud.callFunction({
-        name: 'rankCloud'
+        name: 'getDb',
+        data: {
+          dbName: "UserGPA"
+        }
       })
       .then(res => {
-        for (var count = 0; count < res.result.data.length; count++) {
+        for (let person of res.result.data) {
           people.push({
-              name: res.result.data[count]._id,
-              gpas: res.result.data[count].GPA,
-              gpa: (Number)(res.result.data[count].GPA[0]).toFixed(2),
-              grade: res.result.data[count].grade,
-              time: res.result.data[count].time
-            });
+            name: res.result.data[count]._id,
+            gpas: res.result.data[count].GPA,
+            gpa: (Number)(res.result.data[count].GPA[0]).toFixed(2),
+            grade: res.result.data[count].grade,
+            time: res.result.data[count].time
+          });
         }
         //console.log(people);
         that.categorize();
@@ -123,8 +125,7 @@ Page({
       })
       .catch(console.error)
     console.log("Run Complete.")
-
-    
+*/
   },
 
   categorize: function() {
@@ -134,7 +135,7 @@ Page({
 
     for (var count = 0; count < people.length; count++) {
       if (people[count].grade == 8) {
-       ePeople.push(people[count]);
+        ePeople.push(people[count]);
       }
       if (people[count].grade == 9) {
         nPeople.push(people[count]);
@@ -154,7 +155,7 @@ Page({
     var that = this;
     var Max = 0;
     var peopleTemp = [];
-    for (var i = 0; i < people.length-1; i++) {
+    for (var i = 0; i < people.length - 1; i++) {
       Max = i;
       for (var j = i; j < people.length; j++) {
         if ((Number(people[j].gpa)) > (Number(people[Max].gpa))) {
@@ -205,8 +206,8 @@ Page({
       people = elePeople;
     }
     that.sort();
-console.log(people);
-  var gpaList = [];
+    console.log(people);
+    var gpaList = [];
     for (var count = 0; count < people.length; count++) {
       if (name == people[count].name) {
         that.setData({
@@ -220,10 +221,10 @@ console.log(people);
         })
         that.rankPic(Number.parseInt((count / people.length) * 100));
         for (var innerCount = 0; innerCount < people.length; innerCount++) {
-          if (people[innerCount].gpa != "NaN"){
+          if (people[innerCount].gpa != "NaN") {
             gpaList.push((Number((people[innerCount].gpa))));
           }
-          
+
         }
         that.initChart(gpaList);
         that.stat(gpaList);
@@ -240,7 +241,7 @@ console.log(people);
       q3: ecStat.statistics.quantile(gpaList, 0.25),
       sd: ecStat.statistics.deviation(gpaList)
     })
-    
+
   },
   rankPic: function(ranking) {
     console.log("Running rankPic...")
@@ -335,7 +336,7 @@ console.log(people);
         RankPic: 'https://6770-gpacw-069de7-1257702765.tcb.qcloud.la/ranks/copper3.png?sign=18e4b43015c4e3ae1534163f5c4677ff&t=1542199042',
         RankName: 'Copper II'
       });
-      
+
     console.log("Run Complete.")
   },
 
@@ -407,40 +408,9 @@ console.log(people);
       //imageUrl: "/images/1.jpg"
     }
   },
-  onPullDownRefresh: function () {
-    console.log("Yay");
-    this.onLoad()
-  },
+  onPullDownRefresh: function() {},
 
-  onShow: function () {
-    app.sliderightshow(this, 'slide_right1', -110, 1);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right2', -110, 1);
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right3', -110, 1);
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right4', -110, 1);
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right5', -110, 1);
-    }.bind(this), 200);
-  },
+  onShow: function() {},
 
-  onHide: function () {
-    app.sliderightshow(this, 'slide_right1', 110, 0);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right2', 110, 1)
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right3', 110, 1)
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right4', 110, 1)
-    }.bind(this), 200);
-    setTimeout(function () {
-      app.sliderightshow(this, 'slide_right5', 110, 1)
-    }.bind(this), 200);
-  }
+  onHide: function() {}
 })

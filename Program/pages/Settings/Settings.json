@@ -3,6 +3,6 @@
     "mohaTitle": "../../components/mohaTitle/mohaTitle",
     "mohaBar": "../../components/mohaBar/mohaBar"
   },
-  "navigationBarTitleText": "Presets",
+  "navigationBarTitleText": "",
   "enablePullDownRefresh": true
 }
