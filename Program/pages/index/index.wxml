@@ -1,15 +1,14 @@
 <!--index page-->
 
-<mohaTitle>Calculate</mohaTitle>
-<mohaBar>Hi, <open-data type="userNickName"></open-data>!</mohaBar>
+<view class='{{isNavLoaded? "animated fadeInDown delay-1s": "hidden" }}'>
+<mohaTitle>{{welcomeText}}!</mohaTitle>
 <scroll-view scroll-x class='swiper-nav' scroll-left='{{swiperNav.x}}' scroll-with-animation='true' bindtap='changePreset'>
 　<text wx:for='{{swiperNav.defaultPresets}}' wx:key='{{index}}' class='item-nav {{swiperNav.i==index ? "active" : ""}}' data-i='{{index}}'>{{item.displayName}}</text>
 </scroll-view>
-
-
+</view>
 
 <view name="gpaSection">
-  <view class="cu-card case animated fadeInUp" style="width:100%;">
+  <view class="cu-card case {{isPresetLoaded? 'animated fadeInUp delay-1s': 'hidden'}}" style="width:100%;">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image'>
         <view class="cu-form-group margin-top" wx:for="{{currentPreset.subjects}}">
@@ -17,12 +16,13 @@
           <input type="number" placeholder="Score..." bindblur="getSubScore" data-index="{{index}}" />
           <picker bindchange="getSubLevel" value="{{item.selectedValue}}" data-index="{{index}}" range="{{item.level}}">
             <view class="picker">
-              Level = {{item.level[item.selectedValue]}}
+              {{item.level[item.selectedValue]}} Level
             </view>
           </picker>
         </view>
       </view>
-    </view>
-                    <button class="uiButton" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Go Ahead</button>
+    </view>          
   </view>
 </view>
+
+   <button class="uiButton {{isPresetLoaded? 'animated fadeInUp' : 'hidden'}}" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Calculate</button>

@@ -16,6 +16,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    welcomeText:"Good day",
+    isPresetLoaded:false,
+    isNavLoaded:false,
     swiperNav: {　　
       i: 0,
       defaultPresets: []　
@@ -42,6 +45,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.showLoading({
+      title: '🏃‍♂🚴‍♀️',
+    })
     var that = this;
     var defaultPresets = [];
     wx.cloud.callFunction({
@@ -59,13 +65,26 @@ Page({
             }
           })
           .then(res => {
-            that.search(res.result.data);
-            that.initialize(defaultPresets[0]);
-            that.setData({
-              "swiperNav.defaultPresets": defaultPresets,
-              defaultPresets: defaultPresets,
-              currentPreset: defaultPresets[0]
+            var userPresets = res.result.data;
+            wx.cloud.callFunction({
+              name: 'getDb',
+              data: {
+                dbName: "welcomeTexts"
+              }
             })
+              .then(res => {
+                that.search(userPresets);
+                that.initialize(defaultPresets[0]);
+                that.setData({
+                  "swiperNav.defaultPresets": defaultPresets,
+                  defaultPresets: defaultPresets,
+                  currentPreset: defaultPresets[0],
+                  welcomeText: res.result.data[Math.floor((Math.random() * res.result.data.length))].text,
+                  isPresetLoaded: true,
+                  isNavLoaded: true
+                })
+                wx.hideLoading();
+              })
           })
           .catch(console.error);
       })

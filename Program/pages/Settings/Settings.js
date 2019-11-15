@@ -76,42 +76,40 @@ Page({
 
   },
 
-  upload: function(name) {
+  submit: function(name) {
     var message = '';
     var flag = false;
     for (var i = 0; i < this.data.subjects.length; i++) {
       if (this.data.subjects[i].credit <= 0) {
         message = "Missing Something, cannot upload!";
       } else {
-        flag = true;
+        this.upload(name);
       }
     }
+  },
 
-    if (flag == true) {
-      message = "Uploaded!";
-      var uploadList = this.data.subjects;
-      var presetName = this.data.presetName;
-      var presetGrade = this.data.presetGrade;
+  upload: function(name){
+    message = "Uploaded!";
+    var uploadList = this.data.subjects;
+    var presetName = this.data.presetName;
+    var presetGrade = this.data.presetGrade;
 
-      db.collection('UserPreset').add({
-        data: {
-          Name: name,
-          Presetname: presetName,
-          Presetgrade: presetGrade,
-          subjects: uploadList
-        }
-      })
-    }
-
-
+    db.collection('UserPreset').add({
+      data: {
+        Name: name,
+        Presetname: presetName,
+        Presetgrade: presetGrade,
+        subjects: uploadList
+      }
+    })
     wx.showModal({
       title: 'Result',
       content: (message),
       confirmText: "Confirm",
       cancelText: "OK"
     });
-
   },
+
   /**
    * 用户点击右上角分享
    */
