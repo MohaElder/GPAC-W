@@ -8,13 +8,7 @@ Page({
    */
   data: {
     presetName: "defaultPreset",
-    subjects: [{
-      subjectName: 'Loading......',
-      level: ['S', 'S+', 'H', 'H+', 'AP'], //open the right to change this in the future
-      credit: 0,
-      type: 0, //1 = Language, 0 = NonLanguage
-      selectedValue: 0
-    }],
+    subjects: [],
     typeList: ["Is Not Language", "Is Language"],
   },
 
@@ -77,11 +71,11 @@ Page({
   },
 
   submit: function(name) {
-    var message = '';
-    var flag = false;
     for (var i = 0; i < this.data.subjects.length; i++) {
       if (this.data.subjects[i].credit <= 0) {
-        message = "Missing Something, cannot upload!";
+        wx.showToast({
+          title: 'Missing parameters',
+        })
       } else {
         this.upload(name);
       }
@@ -89,22 +83,17 @@ Page({
   },
 
   upload: function(name){
-    message = "Uploaded!";
-    var uploadList = this.data.subjects;
-    var presetName = this.data.presetName;
-    var presetGrade = this.data.presetGrade;
-
     db.collection('UserPreset').add({
       data: {
         Name: name,
-        Presetname: presetName,
-        Presetgrade: presetGrade,
-        subjects: uploadList
+        presetName: this.data.presetName,
+        displayName: this.data.presetName,
+        subjects: this.data.subjects
       }
     })
     wx.showModal({
       title: 'Result',
-      content: (message),
+      content: "Preset Created!",
       confirmText: "Confirm",
       cancelText: "OK"
     });

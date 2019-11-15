@@ -16,9 +16,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    welcomeText:"Good day",
-    isPresetLoaded:false,
-    isNavLoaded:false,
+    welcomeText: "Good day",
+    unLoaded:false,
+    isPresetLoaded: false,
+    isNavLoaded: false,
     swiperNav: {　　
       i: 0,
       defaultPresets: []　
@@ -67,23 +68,35 @@ Page({
           .then(res => {
             var userPresets = res.result.data;
             wx.cloud.callFunction({
-              name: 'getDb',
-              data: {
-                dbName: "welcomeTexts"
-              }
-            })
+                name: 'getDb',
+                data: {
+                  dbName: "welcomeTexts"
+                }
+              })
               .then(res => {
-                that.search(userPresets);
-                that.initialize(defaultPresets[0]);
-                that.setData({
-                  "swiperNav.defaultPresets": defaultPresets,
-                  defaultPresets: defaultPresets,
-                  currentPreset: defaultPresets[0],
-                  welcomeText: res.result.data[Math.floor((Math.random() * res.result.data.length))].text,
-                  isPresetLoaded: true,
-                  isNavLoaded: true
+                var welcomeTexts = res.result.data;
+                var myPresets = [];
+                wx.getUserInfo({
+                  success: function(res) {
+                    var nickName = res.userInfo.nickName.replace(/\s*/g, "");
+                    for (let preset of userPresets) {
+                      if (nickName === preset.Name) {
+                        myPresets.push(preset);
+                      }
+                    }
+                    that.initialize(defaultPresets[0]);
+                    that.setData({
+                      "swiperNav.defaultPresets": defaultPresets.concat(myPresets),
+                      defaultPresets: defaultPresets.concat(myPresets),
+                      currentPreset: defaultPresets[0],
+                      welcomeText: welcomeTexts[Math.floor((Math.random() * welcomeTexts.length))].text,
+                      isPresetLoaded: true,
+                      isNavLoaded: true
+                    })
+                    wx.hideLoading();
+                  },
+                  fail: function(res) {}
                 })
-                wx.hideLoading();
               })
           })
           .catch(console.error);
@@ -91,7 +104,13 @@ Page({
       .catch(console.error);
   },
 
-  onShow: function() {},
+  onShow: function() {
+    if(this.data.isNavLoaded && this.data.isPresetLoaded){
+      this.setData({
+        unLoaded: true
+      })
+    }
+  },
 
   initialize: function(currentPreset) {
     GPACs = [];
@@ -199,27 +218,6 @@ Page({
     })
   },
 
-  search: function(fetchedPresets) {
-    var that = this;
-    var _ =
-      wx.getUserInfo({
-        success: function(res) {
-          var nickName = res.userInfo.nickName.replace(/\s*/g, "");
-          var userPresets = [];
-          for (let preset of fetchedPresets) {
-            if (nickName == preset.Name) {
-              userPresets.push(preset);
-              that.setData({
-                "swiperNav.defaultPresets": that.data.defaultPresets,
-                defaultPresets: that.data.defaultPresets.concat(userPresets)
-              })
-            }
-          }
-        },
-        fail: function(res) {}
-      })
-  },
-
   showShareMenu() {
     wx.showShareMenu();
   },
@@ -236,6 +234,10 @@ Page({
     }
   },
 
-  onHide: function() {}
+  onHide: function() {
+    this.setData({
+      unLoaded:true
+    })
+  }
 
 })

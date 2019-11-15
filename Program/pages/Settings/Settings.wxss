@@ -1,1 +1,11 @@
 /* pages/Settings/Settings.wxss */
+.uiButton {
+  color: white;
+  font-size: 18px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  background-color: #ff2d56;
+  width: 85%;
+  margin-bottom: 10px;
+}

@@ -1,6 +1,6 @@
 <!--index page-->
 
-<view class='{{isNavLoaded? "animated fadeInDown delay-1s": "hidden" }}'>
+<view class='{{isNavLoaded? "animated fadeInDown delay-1s": "hidden" }} {{unLoaded? "animated fadeOutRight": "animated fadeInDown" }}'>
 <mohaTitle>{{welcomeText}}!</mohaTitle>
 <scroll-view scroll-x class='swiper-nav' scroll-left='{{swiperNav.x}}' scroll-with-animation='true' bindtap='changePreset'>
 　<text wx:for='{{swiperNav.defaultPresets}}' wx:key='{{index}}' class='item-nav {{swiperNav.i==index ? "active" : ""}}' data-i='{{index}}'>{{item.displayName}}</text>
