@@ -40,4 +40,5 @@
   font-weight: 500;
   background-color: #ff2d56;
   width: 85%;
+  margin-bottom: 10px;
 }

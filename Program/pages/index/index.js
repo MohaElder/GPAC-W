@@ -18,9 +18,15 @@ Page({
   data: {
     swiperNav: {　　
       i: 0,
-      defaultPresets:[]　
+      defaultPresets: []　
     },
-    defaultPresets: [],
+    defaultPresets: [{
+      presetName: "Default Preset",
+      displayName: "Default Loading...",
+      subjects: [{
+        name: "Loading..."
+      }]
+    }],
     currentPreset: [
       'Example', [{
         subjectName: 'Loading......',

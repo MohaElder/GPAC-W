@@ -6,8 +6,10 @@
 　<text wx:for='{{swiperNav.defaultPresets}}' wx:key='{{index}}' class='item-nav {{swiperNav.i==index ? "active" : ""}}' data-i='{{index}}'>{{item.displayName}}</text>
 </scroll-view>
 
+
+
 <view name="gpaSection">
-  <view class="cu-card case" style="width:100%;">
+  <view class="cu-card case animated fadeInUp" style="width:100%;">
     <view wx:for="{{1}}" wx:key class="cu-item shadow">
       <view class='image'>
         <view class="cu-form-group margin-top" wx:for="{{currentPreset.subjects}}">
@@ -19,10 +21,8 @@
             </view>
           </picker>
         </view>
-        <view class="padding flex flex-direction">
-          <button class="uiButton" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Go Ahead</button>
-        </view>
       </view>
     </view>
+                    <button class="uiButton" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Go Ahead</button>
   </view>
 </view>
