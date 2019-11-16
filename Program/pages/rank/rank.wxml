@@ -2,120 +2,103 @@
 
 <mohaTitle>Profile</mohaTitle>
 
-<view name = "profileSection">
-  <view class="cu-card dynamic" style="marin-top:20rpx; width:100%;">
+<view name="profileSection">
+  <view class="cu-card dynamic {{isLoaded? 'animated fadeInDown delay-1s' : 'hidden'}}" style="marin-top:20rpx; width:100%;">
     <view wx:for="1" wx:key class="cu-item shadow">
       <view class="cu-list menu menu-avatar">
         <view class="cu-item">
-         <image class='cu-avatar round lg' src='{{RankPic}}'/>
+          <image class='cu-avatar round lg' src='{{rankPic}}' />
           <view class='content flex-sub'>
-            <view>{{Name}}</view>
-            <view class='text-gray text-sm flex justify-between'>
-              {{brief}}
-            </view>
+            <view>{{user.name}}</view>
           </view>
         </view>
       </view>
-
-      <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-list menu menu comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Defeated {{Defeat}}% of the users.</view>
+            <view class='text-grey'>Defeated {{user.defeated}}% of the users.</view>
           </view>
         </view>
       </view>
-
-          <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-list menu menu comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Grade: {{Grade}}</view>
+            <view class='text-grey'>Grade: {{user.grade}}</view>
           </view>
         </view>
       </view>
-
-              <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-list menu menu comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Current GPA: {{GPA}}</view>
+            <view class='text-grey'>Current GPA: {{user.gpa}}</view>
           </view>
         </view>
       </view>
-
-                  <view class="cu-list menu menu-avatar comment solids-top">
+      <view class="cu-list menu menu comment solids-top">
         <view class="cu-item" wx:for="{{1}}" wx:key>
           <view class='content'>
-            <view class='text-grey'>Rank: {{RankName}}</view>
+            <view class='text-grey'>Rank: {{rankName}}</view>
           </view>
         </view>
       </view>
-
     </view>
   </view>
 </view>
 
-  <ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}" style="marin-top:20rpx; width:100%;"></ec-canvas>
+<ec-canvas wx:if="{{!isDisposed}}" id="mychart-dom-move-bar" canvas-id="mychart-move-bar" ec="{{ ec }}" style="marin-top:20rpx; width:100%;"></ec-canvas>
 
-
-<view name = "TimelineSection">
-  <view class="cu-card dynamic" style="marin-top:20rpx; width:100%;">
+<view name="statSection">
+  <view class="cu-card dynamic {{isLoaded? 'animated fadeInUp delay-1s' : 'hidden'}}" style="marin-top:20rpx; width:100%;">
     <view wx:for="1" wx:key class="cu-item shadow">
+      <view class="cu-list menu">
         <view class="cu-item">
-<view class="cu-timeline" >
-  <view class="cu-time">GPAs</view>
-  <view wx:for="{{historyList.gpas}}" class='cu-item text-blue' bindlongpress='deleteWarn' data-index="{{index}}">
-    <view class="bg-blue content"  wx:key>
-      Your got a GPA of {{item}} at {{historyList.time[index]}}.
-    </view>
-  </view>
-</view>
-        </view>
-      </view>
-</view>
-</view>
-
-<view name = "statSection">
-  <view class="cu-card dynamic" style="marin-top:20rpx; width:100%;">
-    <view wx:for="1" wx:key class="cu-item shadow">
-      <view class="cu-list menu menu-avatar">
-        <view class="cu-item">
-         <!--<image class='cu-avatar round lg' src='{{RankPic}}'/>-->
           <view class='content flex-sub'>
             <view>Statistical Analysis</view>
-            <view class='text-gray text-sm flex justify-between'>
-              {{brief}}
+          </view>
+        </view>
+      </view>
+      <view class="cu-list menu menu comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>Standard Deviation: {{statInfo.sd}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="cu-list menu menu comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>50th Quantile: {{statInfo.mean}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="cu-list menu menu comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>25th Quantile: {{statInfo.q1}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="cu-list menu menu comment solids-top">
+        <view class="cu-item" wx:for="{{1}}" wx:key>
+          <view class='content'>
+            <view class='text-grey'>75th Quantile: {{statInfo.q3}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view name="TimelineSection">
+  <view class="cu-card dynamic {{isLoaded? 'animated fadeInUp delay-1s' : 'hidden'}}" style="marin-top:20rpx; width:100%;">
+    <view wx:for="1" wx:key class="cu-item shadow">
+      <view class="cu-item">
+        <view class="cu-timeline">
+          <view class="cu-time"><view style="color:black;">GPAs</view></view>
+          <view wx:for="{{historyList.gpas}}" class='cu-item' style="color: #ff2d56;" bindlongpress='deleteWarn' data-index="{{index}}">
+            <view class="content" style="color: white; background-color: #ff2d56;" wx:key>
+              Your got a GPA of {{item}} at {{historyList.time[index]}}.
             </view>
-          </view>
-        </view>
-      </view>
-
-      <view class="cu-list menu menu-avatar comment solids-top">
-        <view class="cu-item" wx:for="{{1}}" wx:key>
-          <view class='content'>
-            <view class='text-grey'>Standard Deviation: {{sd}}</view>
-          </view>
-        </view>
-      </view>
-
-          <view class="cu-list menu menu-avatar comment solids-top">
-        <view class="cu-item" wx:for="{{1}}" wx:key>
-          <view class='content'>
-            <view class='text-grey'>50th Quantile: {{mean}}</view>
-          </view>
-        </view>
-      </view>
-
-              <view class="cu-list menu menu-avatar comment solids-top">
-        <view class="cu-item" wx:for="{{1}}" wx:key>
-          <view class='content'>
-            <view class='text-grey'>25th Quantile: {{q1}}</view>
-          </view>
-        </view>
-      </view>
-
-                  <view class="cu-list menu menu-avatar comment solids-top">
-        <view class="cu-item" wx:for="{{1}}" wx:key>
-          <view class='content'>
-            <view class='text-grey'>75th Quantile: {{q3}}</view>
           </view>
         </view>
       </view>

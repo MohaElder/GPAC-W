@@ -47,7 +47,7 @@ Page({
    */
   onLoad: function(options) {
     wx.showLoading({
-      title: '🏃‍♂🚴‍♀️',
+      title: 'Loading...',
     })
     var that = this;
     var defaultPresets = [];

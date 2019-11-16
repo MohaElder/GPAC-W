@@ -1,7 +1,8 @@
 {
     "usingComponents": {
       "mohaTitle": "../../components/mohaTitle/mohaTitle",
-      "mohaBar": "../../components/mohaBar/mohaBar"
+      "mohaBar": "../../components/mohaBar/mohaBar",
+      "ec-canvas": "../../utils/ec-canvas"
     },
     "navigationBarTitleText": "",
     "enablePullDownRefresh": true
