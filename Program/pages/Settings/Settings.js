@@ -82,7 +82,7 @@ Page({
     }
   },
 
-  upload: function(name){
+  upload: function(name) {
     db.collection('UserPreset').add({
       data: {
         Name: name,
@@ -91,12 +91,9 @@ Page({
         subjects: this.data.subjects
       }
     })
-    wx.showModal({
-      title: 'Result',
-      content: "Preset Created!",
-      confirmText: "Confirm",
-      cancelText: "OK"
-    });
+    wx.showToast({
+      title: 'Created~',
+    })
   },
 
   /**
@@ -110,9 +107,7 @@ Page({
     }
   },
 
-  onShow: function() {
-  },
+  onShow: function() {},
 
-  onHide: function() {
-  }
+  onHide: function() {}
 })

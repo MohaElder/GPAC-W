@@ -49,7 +49,7 @@
 
 .arrowNext {
   width: 40rpx;
-  height: 80rpx;
+  height: 100rpx;
   position: absolute;
   top: 130rpx;
   right: 0rpx;
@@ -59,7 +59,7 @@
 
 .arrowPre {
   width: 40rpx;
-  height: 80rpx;
+  height: 100rpx;
   position: absolute;
   top: 130rpx;
   left: 0rpx;

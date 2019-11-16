@@ -17,7 +17,7 @@ Page({
    */
   data: {
     welcomeText: "Good day",
-    unLoaded:false,
+    unLoaded: false,
     isPresetLoaded: false,
     isNavLoaded: false,
     swiperNav: {　　
@@ -104,8 +104,7 @@ Page({
       .catch(console.error);
   },
 
-  onShow: function() {
-  },
+  onShow: function() {},
 
   initialize: function(currentPreset) {
     GPACs = [];
@@ -114,7 +113,7 @@ Page({
     }
   },
 
-  scrollNav: function(e){
+  scrollNav: function(e) {
     /*获取可视窗口宽度*/
     console.log(e);
     var w = wx.getSystemInfoSync().windowWidth;
@@ -194,6 +193,7 @@ Page({
   },
 
   upload: function(gpa, name) {
+    var that = this;
     const _ = db.command;
     var time = util.formatTime(new Date());
     db.collection('UserGPA').doc(name).get({ //建立或者更新数据库信息
@@ -202,15 +202,14 @@ Page({
           // data 传入需要局部更新的数据
           data: {
             GPA: _.push(gpa),
-            grade: this.data.currentPreset.presetName,
+            grade: that.data.currentPreset.presetName,
             time: _.push(time)
           }
         })
         // res.data 包含该记录的数据
-        wx.showModal({
-          title: 'Status',
-          content: 'Your profile has been updated!',
-        });
+        wx.showToast({
+          title: 'Updated~',
+        })
       },
       fail: function() {
         db.collection('UserGPA').add({
@@ -221,10 +220,9 @@ Page({
             time: [time]
           }
         })
-        wx.showModal({
-          title: 'Status',
-          content: 'Your profile has been created!',
-        });
+        wx.showToast({
+          title: 'Created~',
+        })
       }
     })
   },
@@ -245,7 +243,6 @@ Page({
     }
   },
 
-  onHide: function() {
-  }
+  onHide: function() {}
 
 })
