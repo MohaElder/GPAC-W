@@ -22,13 +22,13 @@ Page({
     ec: {
       lazyLoad: true
     },
-    statInfo:{
+    statInfo: {
       q1: 0,
       q3: 0,
       mean: 0,
       sd: 0,
     },
-    isLoaded:true
+    isLoaded: true
   },
 
   onReady: function() {
@@ -55,7 +55,7 @@ Page({
           people.push({
             name: person._id,
             gpas: person.GPA,
-            gpa: (Number)(person.GPA[0]).toFixed(2),
+            gpa: (Number)(person.GPA[person.GPA.length - 1]).toFixed(2),
             grade: person.grade,
             time: person.time
           });
@@ -138,7 +138,7 @@ Page({
         that.setData({
           historyList: sameGraders[count],
           user: user,
-          isLoaded:true
+          isLoaded: true
         })
         that.findRank(Number.parseInt((count / people.length) * 100));
         for (let person of sameGraders) {
