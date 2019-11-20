@@ -31,4 +31,4 @@
   </view>
 </view>
 
-   <button class="uiButton {{isPresetLoaded? 'animated fadeInUp' : 'hidden'}}" open-type="getUserInfo" bindgetuserinfo='getUserInfo'>Calculate</button>
+   <button class="uiButton {{isPresetLoaded? 'animated fadeInUp' : 'hidden'}}" catchtap="submit">Calculate</button>

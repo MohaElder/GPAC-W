@@ -33,7 +33,7 @@
 
         <view class="cu-form-group margin-top">
           <view class='title'>Subject Name</view>
-          <input class="title" placeholder="Name..." bingblur="getSubname" data-index="{{index}}" />
+          <input class="title" placeholder="Name..." bindblur="getSubname" data-index="{{index}}" />
           <picker bindchange="getSubtype" value="{{item.type}}" data-index="{{index}}" range="{{typeList}}">
             <view class="picker enhanceView">
               {{typeList[item.type]}}
@@ -42,13 +42,13 @@
         </view>
         <view class="cu-form-group">
           <view class='title'>Subject Credit</view>
-          <input class="title" type="number" placeholder="Credit" bingblur="getSubcredit" data-index="{{index}}" />
+          <input class="title" type="number" placeholder="Credit" bindblur="getSubcredit" data-index="{{index}}" />
         </view>
       </view>
     </view>
 
     <view class="padding flex flex-direction" style="marin-top:20rpx; width:100%;">
-      <button class="uiButton animated fadeInLeft" open-type="getUserInfo" bindgetuserinfo='userInfo'>Create</button>
+      <button class="uiButton animated fadeInLeft" catchtap="submit">Create</button>
     </view>
   </view>
 </view>

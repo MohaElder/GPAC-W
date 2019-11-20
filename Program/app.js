@@ -7,40 +7,48 @@ App({
         this.globalData.CustomBar = e.platform == 'android' ? e.statusBarHeight + 50 : e.statusBarHeight + 45;
       }
     })
-    // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
     wx.cloud.init()
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
+    const db = wx.cloud.database()
 
-              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-              // 所以此处加入 callback 以防止这种情况
-              if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
-              }
+    //获取用户openid
+    wx.cloud.callFunction({
+      name: 'getOpenid',
+      data: {},
+      success: res => {
+        var that = this;
+        var openid = res.result.openid
+        db.collection('UserGPA').where({
+          _openid: res.result.openid
+        }).get({
+          success: res => {
+            if(res.data.length == 0){
+              wx.reLaunch({
+                url: '/pages/splash/splash?openid=' + openid
+              })
             }
-          })
-        }
+            else{
+              console.log(res);
+              that.globalData.user = res.data[0]
+            }
+          },
+          fail: err => {
+            wx.showToast({
+              icon: 'none',
+              title: '查询记录失败'
+            })
+            console.error('[数据库] [查询记录] 失败：', err)
+          }
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          title: '出大问题',
+        });
       }
-    })
+    });
   },
   globalData: {
-    gpa:0,
+    gpa: 0,
     ColorList: [{
         title: '嫣红',
         name: 'red',
@@ -118,32 +126,9 @@ App({
       },
     ],
     userInfo: null
-  }, 
-  onShow(){
-    //获取用户openid
-      wx.cloud.callFunction({
-        name: 'login',
-        data: {},
-        success: res => {
-          openid = res.result.openid;
-          app.globalData.openid = res.result.openid;
-          wx.cloud.callFunction({
-            name: 'getDB',
-            data: {
-              dbName: "UserGPA"
-            }
-          })
-            .then(res => {
-              wx.hideLoading()
-            })
-            .catch(console.error);
-        },
-        fail: err => {
-          wx.showToast({
-            title: '出大问题',
-          });
-        }
-      });
+  },
+  onShow() {
+
   }
 
 })

@@ -4,6 +4,5 @@
       "mohaBar": "../../components/mohaBar/mohaBar",
       "ec-canvas": "../../ec-canvas/ec-canvas"
     },
-    "navigationBarTitleText": "",
-    "enablePullDownRefresh": true
+    "navigationBarTitleText": ""
 }

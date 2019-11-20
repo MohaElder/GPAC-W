@@ -53,7 +53,7 @@ Page({
       .then(res => {
         for (let person of res.result.data) {
           people.push({
-            name: person._id,
+            _openid: person._id,
             gpas: person.GPA,
             gpa: (Number)(person.GPA[person.GPA.length - 1]).toFixed(2),
             grade: person.grade,
@@ -67,16 +67,11 @@ Page({
 
   search: function(people) {
     var that = this;
-    wx.getUserInfo({
-      success: function(res) {
-        var nickName = res.userInfo.nickName.replace(/\s*/g, "")
         for (let person of people) {
-          if (nickName == person.name) {
+          if (app.globalData.user._openid == person._openid) {
             that.sync(person, people)
           }
         }
-      }
-    })
   },
 
   sort: function(people) {
@@ -127,9 +122,9 @@ Page({
     sameGraders = that.sort(sameGraders);
     var gpaList = [];
     for (var count = 0; count < sameGraders.length; count++) {
-      if (user.name === sameGraders[count].name) {
+      if (user._openid === sameGraders[count]._openid) {
         let user = {
-          name: sameGraders[count].name,
+          _openid: sameGraders[count]._openid,
           grade: sameGraders[count].grade,
           rank: count,
           gpa: sameGraders[count].gpa,
@@ -146,11 +141,11 @@ Page({
             gpaList.push((Number((person.gpa))));
           }
         }
+        wx.hideLoading();
         that.initChart(gpaList);
         that.stat(gpaList);
       }
     }
-    wx.hideLoading();
   },
 
   stat: function(gpaList) {
@@ -193,22 +188,17 @@ Page({
     that.Upload(this.data.historyList.name);
   },
 
-  Upload: function(name) {
+  Upload: function() {
     const _ = db.command;
     var that = this;
     var newList = that.data.historyList
-    db.collection('UserGPA').doc(name).get({ //建立或者更新数据库信息
-      success: function(res) {
-        db.collection('UserGPA').doc(name).update({
+        db.collection('UserGPA').doc(app.globalData.user._openid).update({
           // data 传入需要局部更新的数据
           data: {
             time: newList.time,
             GPA: newList.gpas
           }
         })
-        // res.data 包含该记录的数据
-      }
-    })
   },
 
   initChart: function(finalGPA) {
@@ -270,14 +260,13 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
-      title: 'Wow! My GPA is ' + app.globalData.gpa,
+      title: 'Check out your GPA',
       path: '/pages/index/index?',
-      //imageUrl: "/images/1.jpg"
+      imageUrl: "/utils/logoBak.png"
     }
   },
-  onPullDownRefresh: function() {},
 
   onShow: function() {},
 

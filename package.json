@@ -4,7 +4,8 @@
   "description": "GPAC-W",
   "main": "index.js",
   "dependencies": {
-    "lottie-miniapp": "^1.8.10"
+    "lottie-miniapp": "^1.8.10",
+    "lottie-miniprogram": "^1.0.7"
   },
   "devDependencies": {},
   "scripts": {

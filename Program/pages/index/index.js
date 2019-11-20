@@ -76,11 +76,9 @@ Page({
               .then(res => {
                 var welcomeTexts = res.result.data;
                 var myPresets = [];
-                wx.getUserInfo({
-                  success: function(res) {
-                    var nickName = res.userInfo.nickName.replace(/\s*/g, "");
+                    var openid = app.globalData.user._openid
                     for (let preset of userPresets) {
-                      if (nickName === preset.Name) {
+                      if (openid === preset._openid) {
                         myPresets.push(preset);
                       }
                     }
@@ -94,9 +92,6 @@ Page({
                       isNavLoaded: true
                     })
                     wx.hideLoading();
-                  },
-                  fail: function(res) {}
-                })
               })
           })
           .catch(console.error);
@@ -164,13 +159,8 @@ Page({
     console.log("A")
   },
 
-  getUserInfo: function(e) {
-    var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
-    this.submit(name);
-  },
-
   //StartUp Function 
-  submit: function(name) {
+  submit: function() {
     var total = 0;
     var that = this;
     var gpaResult = new Result(GPACs);
@@ -185,46 +175,34 @@ Page({
       cancelText: "No",
       success: function(res) {
         if (res.confirm) {
-          that.upload(gpaFinal, name);
+          that.upload(gpaFinal);
         } else if (res.cancel) {}
       }
     });
 
   },
 
-  upload: function(gpa, name) {
+  upload: function(gpa) {
     var that = this;
     const _ = db.command;
     var time = util.formatTime(new Date());
-    db.collection('UserGPA').doc(name).get({ //建立或者更新数据库信息
-      success: function(res) {
-        db.collection('UserGPA').doc(name).update({
+        db.collection('UserGPA').doc(app.globalData.user._openid).update({
           // data 传入需要局部更新的数据
           data: {
             GPA: _.push(gpa),
             grade: that.data.currentPreset.presetName,
             time: _.push(time)
+          },
+          success: res => {
+            console.log(res);
+            wx.showToast({
+              title: 'Updated~',
+            }) 
+          },
+          fail: err => {
+              console.error('[数据库] [更新记录] 失败：', err)
           }
         })
-        // res.data 包含该记录的数据
-        wx.showToast({
-          title: 'Updated~',
-        })
-      },
-      fail: function() {
-        db.collection('UserGPA').add({
-          data: {
-            _id: name,
-            GPA: [gpa],
-            grade: this.data.currentPreset.presetName,
-            time: [time]
-          }
-        })
-        wx.showToast({
-          title: 'Created~',
-        })
-      }
-    })
   },
 
   showShareMenu() {
@@ -232,14 +210,13 @@ Page({
   },
 
   onPullDownRefresh: function() {
-    this.onLoad()
   },
 
   onShareAppMessage: function() {
     return {
-      title: 'Wow! My GPA is ' + finalGPA,
+      title: 'Check out your GPA',
       path: '/pages/index/index?',
-      //imageUrl: "/images/1.jpg"
+      imageUrl: "/utils/logoBak.png"
     }
   },
 

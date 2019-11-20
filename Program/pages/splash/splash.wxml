@@ -1,7 +1,7 @@
 <!--Program/pages/splash/splash.wxml-->
 
 <view class="container">
-  <image class="flex-item" mode="aspectFit" src="../../utils/registration.gif"></image>
+  <canvas id="canvas" style="display: inline-block; width: 300px; height: 300px;" type="2d"></canvas>
 </view>
-<view class="uiText">Experience the brand new G-PAC W</view>
+<view class="uiText">Welcome to the brand new <text class = "uiBold">G-PAC W</text></view>
 <button bindgetuserinfo="register" open-type="getUserInfo" class="uiButton animated fadeInUp">Enter</button>

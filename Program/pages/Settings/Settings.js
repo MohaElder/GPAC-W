@@ -63,17 +63,11 @@ Page({
     })
   },
 
-  userInfo: function(e) {
-    var that = this;
-    var name = e.detail.userInfo.nickName.replace(/\s*/g, "");
-    that.upload(name);
-
-  },
-
   submit: function(name) {
     for (var i = 0; i < this.data.subjects.length; i++) {
       if (this.data.subjects[i].credit <= 0) {
         wx.showToast({
+          icon:'none',
           title: 'Missing parameters',
         })
       } else {
@@ -82,10 +76,9 @@ Page({
     }
   },
 
-  upload: function(name) {
+  upload: function() {
     db.collection('UserPreset').add({
       data: {
-        Name: name,
         presetName: this.data.presetName,
         displayName: this.data.presetName,
         subjects: this.data.subjects
@@ -99,11 +92,11 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
-      title: 'Wow! My GPA is ' + app.globalData.gpa,
+      title: 'Check out your GPA',
       path: '/pages/index/index?',
-      //imageUrl: "/images/1.jpg"
+      imageUrl: "/utils/logoBak.png"
     }
   },
 
