@@ -1,7 +1,9 @@
 {
-  "usingComponents": {
-    "ec-canvas": "../../ec-canvas/ec-canvas"
-  },
-    "navigationBarTitleText": "Rank",
+    "usingComponents": {
+      "mohaTitle": "../../components/mohaTitle/mohaTitle",
+      "mohaBar": "../../components/mohaBar/mohaBar",
+      "ec-canvas": "../../ec-canvas/ec-canvas"
+    },
+    "navigationBarTitleText": "",
     "enablePullDownRefresh": true
 }

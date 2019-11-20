@@ -17,7 +17,7 @@ Page({
    */
   data: {
     welcomeText: "Good day",
-    unLoaded:false,
+    unLoaded: false,
     isPresetLoaded: false,
     isNavLoaded: false,
     swiperNav: {　　
@@ -47,7 +47,7 @@ Page({
    */
   onLoad: function(options) {
     wx.showLoading({
-      title: '🏃‍♂🚴‍♀️',
+      title: 'Loading...',
     })
     var that = this;
     var defaultPresets = [];
@@ -104,13 +104,7 @@ Page({
       .catch(console.error);
   },
 
-  onShow: function() {
-    if(this.data.isNavLoaded && this.data.isPresetLoaded){
-      this.setData({
-        unLoaded: true
-      })
-    }
-  },
+  onShow: function() {},
 
   initialize: function(currentPreset) {
     GPACs = [];
@@ -119,8 +113,24 @@ Page({
     }
   },
 
+  scrollNav: function(e) {
+    /*获取可视窗口宽度*/
+    console.log(e);
+    var w = wx.getSystemInfoSync().windowWidth;
+    var len = this.data.swiperNav.defaultPresets.length;
+    var disX = (e.currentTarget.dataset.speed - 2) * w / len;
+    if (e.currentTarget.dataset.speed != this.data.swiperNav.i) {
+      this.setData({
+        'swiperNav.i': e.currentTarget.dataset.speed
+      })
+    }
+    this.setData({
+      'swiperNav.x': disX,
+    })
+  },
+
   changePreset: function(e) {
-    console.log(e);　 /*获取可视窗口宽度*/
+    /*获取可视窗口宽度*/
     var w = wx.getSystemInfoSync().windowWidth;
     var len = this.data.swiperNav.defaultPresets.length;
     var i = e.target.dataset.i;
@@ -183,6 +193,7 @@ Page({
   },
 
   upload: function(gpa, name) {
+    var that = this;
     const _ = db.command;
     var time = util.formatTime(new Date());
     db.collection('UserGPA').doc(name).get({ //建立或者更新数据库信息
@@ -191,15 +202,14 @@ Page({
           // data 传入需要局部更新的数据
           data: {
             GPA: _.push(gpa),
-            grade: this.data.currentPreset.presetName,
+            grade: that.data.currentPreset.presetName,
             time: _.push(time)
           }
         })
         // res.data 包含该记录的数据
-        wx.showModal({
-          title: 'Status',
-          content: 'Your profile has been updated!',
-        });
+        wx.showToast({
+          title: 'Updated~',
+        })
       },
       fail: function() {
         db.collection('UserGPA').add({
@@ -210,10 +220,9 @@ Page({
             time: [time]
           }
         })
-        wx.showModal({
-          title: 'Status',
-          content: 'Your profile has been created!',
-        });
+        wx.showToast({
+          title: 'Created~',
+        })
       }
     })
   },
@@ -234,10 +243,6 @@ Page({
     }
   },
 
-  onHide: function() {
-    this.setData({
-      unLoaded:true
-    })
-  }
+  onHide: function() {}
 
 })

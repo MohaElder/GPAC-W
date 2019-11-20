@@ -51,3 +51,7 @@ ec-canvas {
   position: relative;
   box-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.1);
 }
+
+.hidden{
+  opacity: 0;
+}

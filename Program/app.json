@@ -6,8 +6,7 @@
     "pages/splash/splash",
     "pages/index/index",
     "pages/rank/rank",
-    "pages/Settings/Settings",
-    "pages/AboutUs/AboutUs"
+    "pages/Settings/Settings"
   ],
   "window": {
     "backgroundColor": "#FFFFFFF",
