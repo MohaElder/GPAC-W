@@ -11,7 +11,15 @@
 		"newFeature": true,
 		"nodeModules": true,
 		"autoAudits": true,
-		"uglifyFileName": false
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"miniprogramRoot": "Program/",
 	"compileType": "miniprogram",

@@ -41,14 +41,6 @@ App({
   },
   globalData: {
     gpa:0,
-    imageList: ["https://connect.shs.cn/images/b/b4/b45141edd63b272b.jpg",
-      "https://connect.shs.cn/images/6/67/679b5bfbf1cbd7ef.jpg",
-      "https://connect.shs.cn/images/c/c4/c4b4fc3612738a2a.jpg",
-      "https://connect.shs.cn/images/2/23/2335cadc333ced44.jpg",
-      "https://wx2.sinaimg.cn/mw690/006tozhpgy1fz9nlk3sanj30u00jg0t5.jpg"
-    ],
-    
-
     ColorList: [{
         title: '嫣红',
         name: 'red',
@@ -126,6 +118,32 @@ App({
       },
     ],
     userInfo: null
+  }, 
+  onShow(){
+    //获取用户openid
+      wx.cloud.callFunction({
+        name: 'login',
+        data: {},
+        success: res => {
+          openid = res.result.openid;
+          app.globalData.openid = res.result.openid;
+          wx.cloud.callFunction({
+            name: 'getDB',
+            data: {
+              dbName: "UserGPA"
+            }
+          })
+            .then(res => {
+              wx.hideLoading()
+            })
+            .catch(console.error);
+        },
+        fail: err => {
+          wx.showToast({
+            title: '出大问题',
+          });
+        }
+      });
   }
 
 })

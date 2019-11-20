@@ -1,0 +1,33 @@
+/* Program/pages/splash/splash.wxss */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  margin-top: 30px;
+}
+
+.flex-item {
+}
+
+.uiText {
+  margin-top: 30px;
+  font-size: 20px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  text-align: center;
+}
+
+.uiButton {
+  color: white;
+  font-size: 18px;
+  font-family: "RaleWay";
+  font-style: "normal";
+  font-weight: 500;
+  background-color: #ff2d56;
+  width: 85%;
+  margin-bottom: 10px;
+  margin-top: 75px;
+}

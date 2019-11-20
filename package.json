@@ -1,0 +1,23 @@
+{
+  "name": "g-pac_miniprogram",
+  "version": "1.0.0",
+  "description": "GPAC-W",
+  "main": "index.js",
+  "dependencies": {
+    "lottie-miniapp": "^1.8.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohaElder/G-PAC_Miniprogram.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MohaElder/G-PAC_Miniprogram/issues"
+  },
+  "homepage": "https://github.com/MohaElder/G-PAC_Miniprogram#readme"
+}

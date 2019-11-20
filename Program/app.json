@@ -3,6 +3,7 @@
     "wx18a2ac992306a5a4"
   ],
   "pages": [
+    "pages/splash/splash",
     "pages/index/index",
     "pages/rank/rank",
     "pages/Settings/Settings",
